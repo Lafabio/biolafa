@@ -6,7 +6,7 @@ const BIO_DATA = {
     title: 'O Mistério do Rio das Palmeiras',
     subtitle: 'Microplásticos, Fontes de Contaminação e Teias Alimentares',
     subject: 'Biologia & Ciências da Natureza',
-    level: 'Ensino Médio / Anos Finais',
+    level: '1ª Série do Ensino Médio • Biologia & Ciências da Natureza (BNCC)',
     methodology: 'PBL – Aprendizagem Baseada em Problemas',
     totalLessons: 9,
     lessonDuration: '45 minutos cada',
@@ -665,14 +665,15 @@ const BIO_DATA = {
 
   // Guia Pedagógico Completo para o Professor
   teacherGuide: {
-    title: 'Orientações Pedagógicas para o Docente',
-    warning: 'Este conteúdo contém diretrizes didáticas e o gabarito orientador. Mantenha em modo restrito aos estudantes.',
+    title: 'Orientações Pedagógicas para o Docente • 1ª Série do Ensino Médio',
+    warning: 'Este conteúdo contém diretrizes didáticas e o gabarito orientador calibrado para estudantes da 1ª Série do Ensino Médio. Mantenha em modo restrito aos alunos.',
     pedagogicalGoals: [
-      'Desenvolver o letramento científico e o pensamento crítico na leitura de mídias e relatórios.',
-      'Diferenciar empiricamente os conceitos de correlação, proximidade e causalidade.',
-      'Capacitar os alunos a lidar com incertezas e limitações dos dados (ex: ausência de FTIR).',
-      'Compreender os mecanismos de bioacumulação e a dinâmica de contaminantes em teias alimentares.',
-      'Estimular a argumentação baseada em evidências (evitar juízos morais prévios sobre os agentes sociais).'
+      'Alinhamento com a BNCC da 1ª Série do Ensino Médio: Habilidades EM13CNT206, EM13CNT301 e EM13CNT303 (Área de Ciências da Natureza).',
+      'Desenvolver o letramento científico e o pensamento crítico na leitura de mídias, gráficos e relatórios técnicos.',
+      'Diferenciar empiricamente os conceitos de correlação, proximidade espacial e causalidade física.',
+      'Capacitar os alunos a lidar com incertezas e limitações dos dados (ex: ausência de espectroscopia FTIR).',
+      'Compreender os mecanismos de bioacumulação e a dinâmica de poluentes em cadeias e teias alimentares aquáticas.',
+      'Estimular a argumentação científica fundamentada em evidências em vez de pré-julgamentos intuitivos.'
     ],
     timelinePacing: [
       { week: 'Aulas 1-2', focus: 'Abertura do caso, leitura crítica das notícias 1 a 4 e quebra do viés de culpar apenas a fábrica.' },

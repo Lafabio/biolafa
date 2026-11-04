@@ -20,7 +20,7 @@ class BioLabApp {
     // Dados da Equipe de Pesquisadores Ativa
     this.team = {
       name: 'BioInvestigadores Alpha',
-      turma: '2º Ano B - Ensino Médio',
+      turma: '1ª Série A - Ensino Médio',
       date: new Date().toLocaleDateString('pt-BR'),
       avatar: '🔬',
       pin: '',
@@ -1347,7 +1347,7 @@ class BioLabApp {
       const defaultTeam = {
         id: 'team_alpha',
         name: (legacyTeam && legacyTeam.name) || 'BioInvestigadores Alpha',
-        turma: (legacyTeam && legacyTeam.turma) || '2º Ano B - Ensino Médio',
+        turma: (legacyTeam && legacyTeam.turma) || '1ª Série A - Ensino Médio',
         avatar: '🔬',
         pin: '',
         date: new Date().toLocaleDateString('pt-BR'),
