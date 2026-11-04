@@ -243,10 +243,10 @@ class MicrofilmReader {
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
             ${this.frames.map((fr, idx) => `
-              <button class="text-left p-2 rounded border text-[11px] transition-all ${idx === this.currentFrameIdx ? 'bg-cyan-950/60 border-cyan-500 text-cyan-200' : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'}"
+              <button class="microfilm-frame-btn ${idx === this.currentFrameIdx ? 'active-frame' : ''}"
                 onclick="window.microfilmReader.goToFrame(${idx})">
-                <strong class="block text-white truncate">${idx + 1}. ${fr.newspaper}</strong>
-                <span class="text-[10px] text-slate-500 block truncate">${fr.date.split('•')[0]}</span>
+                <strong class="truncate">${idx + 1}. ${fr.newspaper}</strong>
+                <span class="truncate">${fr.date.split('•')[0]}</span>
               </button>
             `).join('')}
           </div>
