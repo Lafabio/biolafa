@@ -206,8 +206,8 @@ const BIO_DATA = {
       tag: 'Jornal Ciência Local • 2023',
       title: 'LAUDO DE NECROPSIA & CONTEÚDO GASTROINTESTINAL DE ICTIOFAUNA',
       type: 'Estudo Ecotoxicológico Ictiológico',
-      imageSrc: 'assets/slides/doente.jfif',
-      imageCaption: 'Corte histológico das vilosidades intestinais de espécime com sinais de atrito mecânico por micropartículas.',
+      imageSrc: 'assets/slides/histopatologia_peixe.jpg',
+      imageCaption: 'Corte histológico das vilosidades intestinais de espécime com sinais de atrito mecânico por micropartículas sintéticas (H&E, 200x).',
       fullText: `Durante projeto de biomonitoramento ictiológico, pesquisadores analisaram o conteúdo gastrointestinal de duas espécies de peixes coletados no Rio das Palmeiras: o lambari (espécie onívora de pequeno porte) e a traíra (predadora de topo da cadeia local).
       Pequenas partículas filamentosas e grânulos foram detectados no trato de aproximadamente 38% dos lambaris e 62% das traíras dissecadas. Os pesquisadores salientam que a ingestão acidental demonstra a biodisponibilidade ambiental dos resíduos, mas a mera presença estomacal não comprova toxicidade crônica, translocação para o tecido muscular comestível ou biomagnificação trófica sistemática, requerendo análises histológicas aprofundadas.`,
       sourceHint: 'Comprova ingestão por organismos aquáticos, diferenciando presença física de prova de biomagnificação.'
