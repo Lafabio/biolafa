@@ -1,7 +1,7 @@
 {
-  "name": "biolab-explorer",
+  "name": "biolafa",
   "version": "1.0.0",
-  "description": "BioLab Explorer - Estação de Investigação Científica Escolar (PBL Biologia)",
+  "description": "BioLafa - Estação de Investigação Científica Escolar (PBL Biologia)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,6 +9,7 @@
     "test": "node test_integrity.js"
   },
   "keywords": [
+    "biolafa",
     "biologia",
     "pbl",
     "ensino-medio",
@@ -17,6 +18,6 @@
     "educacao",
     "microplasticos"
   ],
-  "author": "Equipe BioLab Explorer",
+  "author": "Lafabio",
   "license": "MIT"
 }

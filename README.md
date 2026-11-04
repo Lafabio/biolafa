@@ -1,4 +1,4 @@
-# 🔬 BioLab Explorer — Estação de Investigação Científica Escolar
+# 🔬 BioLafa — Estação de Investigação Científica Escolar
 
 > **Ambiente Interativo de Aprendizagem Baseada em Problemas (PBL)** desenvolvido para simular a atuação de uma equipe de pesquisadores e cientistas ambientais do Ensino Médio.
 
