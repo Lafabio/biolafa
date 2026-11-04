@@ -34,13 +34,19 @@
 
       <!-- Botões de Ação Rápida -->
       <div class="flex items-center gap-2">
-        <button class="btn-secondary text-xs py-1.5 px-3" onclick="window.app.openReportModal()" title="Exportar Caderno em PDF / Imprimir">
-          📄 Relatório Oficial
+        <button class="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5" onclick="window.app.openTeamAccessModal()" title="Trocar ou Cadastrar Equipe">
+          <span>👥</span> Trocar Equipe
         </button>
-        <button class="btn-secondary text-xs py-1.5 px-3 border-amber-500/30 text-amber-300 hover:bg-amber-950/40" 
-          onclick="window.app.teacherMode = !window.app.teacherMode; window.app.switchTab(window.app.currentTab);" 
-          title="Alternar Modo Professor com Gabarito">
-          🎓 Modo Professor
+        <button class="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5" onclick="window.app.exportCurrentTeamFile()" title="Baixar Backup da Equipe em arquivo .json">
+          <span>💾</span> Salvar Arquivo
+        </button>
+        <button class="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5" onclick="window.app.openReportModal()" title="Exportar Caderno em PDF / Imprimir">
+          <span>📄</span> Relatório Oficial
+        </button>
+        <button id="btn-teacher-toggle" class="btn-secondary text-xs py-1.5 px-3 border-amber-500/40 text-amber-300 hover:bg-amber-950/40 flex items-center gap-1.5" 
+          onclick="window.app.toggleTeacherMode()" 
+          title="Acesso Exclusivo do Professor (Login Requerido)">
+          <span>🔒</span> Modo Professor
         </button>
       </div>
     </div>
@@ -440,6 +446,164 @@
     </div>
   </div>
 
+
+  <!-- ==========================================
+       MODAL 3: LOGIN / GESTÃO DE ACESSO DAS EQUIPES (MULTI-TENANT)
+       ========================================== -->
+  <div id="team-access-modal" class="modal-overlay hidden" style="display: none;">
+    <div class="modal-box max-w-2xl">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <span>👥</span> Estação de Acesso das Equipes
+        </h3>
+        <button class="modal-close-btn" onclick="window.app.closeModal('team-access-modal')">✕</button>
+      </div>
+
+      <!-- Abas do Modal de Equipes -->
+      <div class="flex border-b border-slate-800 mb-4 gap-2">
+        <button id="tab-team-select-btn" class="nav-tab-btn active-nav-tab text-xs py-2 px-3" onclick="window.app.switchTeamModalTab('select')">
+          <span>📋</span> Equipes Registradas
+        </button>
+        <button id="tab-team-create-btn" class="nav-tab-btn text-xs py-2 px-3" onclick="window.app.switchTeamModalTab('create')">
+          <span>➕</span> Nova Equipe
+        </button>
+        <button id="tab-team-import-btn" class="nav-tab-btn text-xs py-2 px-3" onclick="window.app.switchTeamModalTab('import')">
+          <span>📥</span> Importar Arquivo (.json)
+        </button>
+      </div>
+
+      <!-- ABA 1: SELECIONAR EQUIPE EXISTENTE -->
+      <div id="team-modal-tab-select" class="space-y-3">
+        <p class="text-xs text-slate-400">
+          Selecione a sua equipe de pesquisa para carregar seu caderno, respostas e lâminas de forma isolada:
+        </p>
+        <div id="teams-registry-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1"></div>
+      </div>
+
+      <!-- ABA 2: CRIAR NOVA EQUIPE -->
+      <div id="team-modal-tab-create" class="space-y-4 hidden text-xs">
+        <div>
+          <label class="font-bold text-slate-300 block mb-1">Ícone / Mascote da Equipe:</label>
+          <div class="avatar-picker-grid" id="new-team-avatar-grid"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-300 block mb-1">Nome da Equipe Científica:</label>
+            <input type="text" id="new-team-name" class="lab-input" placeholder="Ex: BioInvestigadores Beta">
+          </div>
+          <div>
+            <label class="font-bold text-slate-300 block mb-1">Turma / Série / Turno:</label>
+            <input type="text" id="new-team-turma" class="lab-input" placeholder="Ex: 2º Ano A - Matutino">
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-300 block mb-1">
+            PIN de Segurança (Opcional - 4 Dígitos):
+            <span class="text-slate-400 font-normal ml-1">Protege seu caderno contra edições de outros grupos neste computador</span>
+          </label>
+          <input type="password" maxlength="4" id="new-team-pin" class="lab-input font-mono tracking-widest text-center max-w-[140px]" placeholder="••••">
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="font-bold text-slate-300">Integrantes da Equipe & Papéis:</label>
+            <button type="button" class="text-cyan-400 hover:text-cyan-300 text-[11px]" onclick="window.app.addNewMemberField()">+ Adicionar Integrante</button>
+          </div>
+          <div id="new-team-members-container" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex justify-end gap-2">
+          <button class="btn-secondary text-xs" onclick="window.app.switchTeamModalTab('select')">Voltar</button>
+          <button class="btn-primary text-xs" onclick="window.app.createAndLoginNewTeam()">Criar e Iniciar Investigação</button>
+        </div>
+      </div>
+
+      <!-- ABA 3: IMPORTAR ARQUIVO DE EQUIPE -->
+      <div id="team-modal-tab-import" class="space-y-4 hidden text-xs">
+        <p class="text-slate-300 leading-relaxed">
+          Ideal para computadores compartilhados ou continuidade em casa: selecione o arquivo <strong>.json</strong> exportado anteriormente por sua equipe para restaurar todo o progresso (respostas, matriz e fotos do microscópio).
+        </p>
+
+        <div class="dropzone-box" id="team-import-dropzone" onclick="document.getElementById('team-file-input').click()">
+          <div class="text-3xl mb-2">📁</div>
+          <div class="font-bold text-slate-200">Clique para selecionar o arquivo .json da sua equipe</div>
+          <div class="text-slate-400 text-[11px] mt-1">ou arraste e solte o arquivo aqui</div>
+          <input type="file" id="team-file-input" accept=".json" class="hidden" onchange="window.app.handleTeamFileSelected(event)">
+        </div>
+
+        <div id="team-import-preview" class="p-3 bg-slate-900 rounded-lg border border-slate-800 hidden"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       MODAL 4: PIN DE SEGURANÇA DA EQUIPE
+       ========================================== -->
+  <div id="team-pin-modal" class="modal-overlay hidden" style="display: none;">
+    <div class="modal-box max-w-sm text-center">
+      <div class="w-12 h-12 rounded-full bg-cyan-950/60 border border-cyan-500/40 mx-auto flex items-center justify-center text-2xl mb-3">
+        🔒
+      </div>
+      <h3 class="text-base font-bold text-white mb-1" id="pin-prompt-team-name">Equipe Protegida</h3>
+      <p class="text-xs text-slate-400 mb-4">Digite o PIN de 4 dígitos da sua equipe para acessar:</p>
+
+      <input type="password" maxlength="4" id="team-pin-input" class="pin-display-input mb-3" placeholder="••••" autofocus onkeydown="if(event.key==='Enter') window.app.confirmTeamPin()">
+
+      <div id="team-pin-error" class="text-rose-400 text-xs mb-3 hidden">PIN incorreto. Tente novamente.</div>
+
+      <div class="flex justify-center gap-2">
+        <button class="btn-secondary text-xs" onclick="window.app.closeModal('team-pin-modal')">Cancelar</button>
+        <button class="btn-primary text-xs" onclick="window.app.confirmTeamPin()">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       MODAL 5: LOGIN EXCLUSIVO DO PROFESSOR (biolafa / lilica10)
+       ========================================== -->
+  <div id="teacher-login-modal" class="modal-overlay hidden" style="display: none;">
+    <div class="modal-box max-w-md">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-amber-300 flex items-center gap-2">
+          <span>🎓</span> Acesso Restrito ao Professor
+        </h3>
+        <button class="modal-close-btn" onclick="window.app.closeModal('teacher-login-modal')">✕</button>
+      </div>
+
+      <div class="p-3 bg-amber-950/20 border border-amber-500/30 rounded-lg text-amber-200 text-xs mb-4">
+        🔒 Esta área é exclusiva para a moderação docente: gabaritos didáticos, orientações metodológicas e monitoramento de todas as equipes da turma.
+      </div>
+
+      <form onsubmit="event.preventDefault(); window.app.authenticateTeacher();" class="space-y-3 text-xs">
+        <div>
+          <label class="font-bold text-slate-300 block mb-1">Usuário do Professor:</label>
+          <input type="text" id="teacher-user-input" class="lab-input" placeholder="biolafa" autocomplete="username">
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-300 block mb-1">Senha:</label>
+          <input type="password" id="teacher-pass-input" class="lab-input" placeholder="••••••••" autocomplete="current-password">
+        </div>
+
+        <div id="teacher-auth-error" class="text-rose-400 text-xs font-bold hidden">
+          ⚠️ Credenciais inválidas. Verifique o usuário e a senha informados.
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex justify-end gap-2">
+          <button type="button" class="btn-secondary text-xs" onclick="window.app.closeModal('teacher-login-modal')">
+            Cancelar
+          </button>
+          <button type="submit" class="btn-primary text-xs border-amber-500/50 bg-amber-600 hover:bg-amber-500 text-white font-bold">
+            Entrar como Professor
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Scripts da Aplicação -->
   <script src="js/data.js"></script>

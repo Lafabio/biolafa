@@ -3,13 +3,27 @@ class BioLabApp {
   constructor() {
     this.currentTab = 'desafios'; // 'desafios', 'investigacao', 'microscopio', 'mapa', 'simulador', 'professor'
     this.currentPhaseIndex = 0; // 0 a 8 (9 fases)
-    this.teacherMode = false;
     
-    // Dados da Equipe de Pesquisadores
+    // Autenticação Exclusiva do Professor (login: biolafa / senha: lilica10)
+    this.teacherAuth = (localStorage.getItem('biolafa_teacher_auth') === 'true');
+    this.teacherMode = this.teacherAuth;
+    
+    // Lista de Avatares disponíveis para as Equipes
+    this.avatarsList = ['🔬', '🧬', '🌿', '🧪', '🐟', '🌊', '🧫', '🔍', '🦅', '🐢', '🍃', '⚡'];
+    this.selectedNewAvatar = '🔬';
+
+    // Sistema de Equipes Multi-Tenant
+    this.teamsRegistry = [];
+    this.activeTeamId = null;
+    this.pendingPinTeamId = null;
+
+    // Dados da Equipe de Pesquisadores Ativa
     this.team = {
       name: 'BioInvestigadores Alpha',
       turma: '2º Ano B - Ensino Médio',
       date: new Date().toLocaleDateString('pt-BR'),
+      avatar: '🔬',
+      pin: '',
       members: [
         { name: 'Ana Beatriz', role: 'Investigadora Principal' },
         { name: 'Carlos Eduardo', role: 'Especialista em Microscopia' },
@@ -18,17 +32,17 @@ class BioLabApp {
       ]
     };
 
-    // Respostas dos estudantes às Fichas (armazenadas em objeto chave-valor)
+    // Respostas dos estudantes às Fichas (isoladas por equipe)
     this.studentAnswers = {};
 
-    // Matriz de Evidências (12 docs x 6 hipóteses)
+    // Matriz de Evidências (isolada por equipe)
     this.evidenceMatrix = {};
 
-    // Autoavaliação da Ficha 11
+    // Autoavaliação da Ficha 11 (isolada por equipe)
     this.selfAssessment = {};
 
-    // Carregar do LocalStorage se existir
-    this.loadFromStorage();
+    // Inicializar Sistema de Equipes e Carregar Dados Isolados
+    this.initTeamsSystem();
 
     // Inicializar sub-módulos
     this.initAudio();
@@ -132,6 +146,12 @@ class BioLabApp {
   }
 
   switchTab(tabId, playFx = true) {
+    // Proteger acesso ao Painel do Professor: exclusivo para login "biolafa"
+    if (tabId === 'professor' && !this.teacherAuth) {
+      this.openTeacherLoginModal();
+      return;
+    }
+
     if (playFx) this.playSound('tab');
     this.currentTab = tabId;
 
@@ -181,8 +201,8 @@ class BioLabApp {
     const teamBadge = document.getElementById('header-team-badge');
     if (teamBadge) {
       teamBadge.innerHTML = `
-        <div class="team-badge-pill" onclick="window.app.openTeamModal()">
-          <span class="icon-avatar">🔬</span>
+        <div class="team-badge-pill" onclick="window.app.openTeamModal()" title="Ver e Editar Integrantes da Equipe">
+          <span class="icon-avatar">${this.team.avatar || '🔬'}</span>
           <div class="text-left">
             <div class="team-badge-name">${this.team.name}</div>
             <div class="team-badge-sub">${this.team.turma} • ${this.team.members.length} Pesquisadores</div>
@@ -191,6 +211,20 @@ class BioLabApp {
         </div>
       `;
     }
+
+    const teacherBtn = document.getElementById('btn-teacher-toggle');
+    if (teacherBtn) {
+      if (this.teacherAuth) {
+        teacherBtn.innerHTML = '<span>🎓</span> Professor (biolafa) • <span class="underline text-amber-200">Sair</span>';
+        teacherBtn.className = 'btn-secondary text-xs py-1.5 px-3 border-amber-500 bg-amber-950/70 text-amber-200 hover:bg-amber-900/60 flex items-center gap-1.5 font-bold';
+        teacherBtn.title = 'Sessão de Professor Ativa. Clique para encerrar a sessão.';
+      } else {
+        teacherBtn.innerHTML = '<span>🔒</span> Modo Professor';
+        teacherBtn.className = 'btn-secondary text-xs py-1.5 px-3 border-amber-500/40 text-amber-300 hover:bg-amber-950/40 flex items-center gap-1.5';
+        teacherBtn.title = 'Acesso Exclusivo do Professor (Login: biolafa)';
+      }
+    }
+
     this.updateGlobalProgress();
   }
 
@@ -906,6 +940,7 @@ class BioLabApp {
     const note = prompt('Digite uma anotação de campo para esta fotomicrografia:', 'Partículas identificadas sob microscopia.');
     const snap = window.microscope.takeSnapshot(note);
     if (snap) {
+      this.saveToStorage();
       this.renderSnapshotsGallery();
       alert('Fotomicrografia registrada com sucesso no Caderno de Investigação!');
     }
@@ -1114,7 +1149,7 @@ class BioLabApp {
   }
 
   // ==========================================
-  // SEÇÃO DO PROFESSOR / ORIENTAÇÕES PBL
+  // SEÇÃO DO PROFESSOR / ORIENTAÇÕES PBL & MONITORAMENTO
   // ==========================================
   renderTeacherSection() {
     const sec = document.getElementById('teacher-guide-container');
@@ -1124,12 +1159,22 @@ class BioLabApp {
 
     sec.innerHTML = `
       <div class="teacher-dashboard space-y-6">
+        <!-- Barra de Status do Professor -->
         <div class="p-6 rounded-2xl bg-amber-950/40 border border-amber-500/40">
-          <div class="flex justify-between items-center mb-3">
-            <span class="badge-tag-amber">🎓 Painel Exclusivo do Orientador Pedagógico</span>
-            <span class="text-xs text-amber-300 font-mono">Metodologia: PBL Biologia</span>
+          <div class="flex flex-wrap justify-between items-center gap-3 mb-3">
+            <span class="badge-tag-amber">🎓 Painel Docente Autenticado (biolafa)</span>
+            <div class="flex items-center gap-2">
+              <button class="btn-secondary text-xs py-1 px-3 border-amber-500/50 text-amber-200 hover:bg-amber-900/60" 
+                onclick="window.app.exportAllTeams()">
+                📦 Exportar Todas as Equipes (.json)
+              </button>
+              <button class="btn-secondary text-xs py-1 px-3 border-rose-500/50 text-rose-300 hover:bg-rose-950/60" 
+                onclick="window.app.logoutTeacher()">
+                🚪 Encerrar Sessão
+              </button>
+            </div>
           </div>
-          <h2 class="text-xl font-bold text-white mb-2">${g.title}</h2>
+          <h2 class="text-xl font-bold text-white mb-1">${g.title}</h2>
           <p class="text-xs text-amber-200/90 leading-relaxed mb-4">${g.warning}</p>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1148,6 +1193,94 @@ class BioLabApp {
                 `).join('')}
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- PAINEL DE MONITORAMENTO DAS EQUIPES DA TURMA -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-700">
+          <div class="flex flex-wrap justify-between items-center gap-3 mb-4 border-b border-slate-800 pb-3">
+            <div>
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <span>👥</span> Monitoramento das Equipes da Turma (${this.teamsRegistry.length} cadastradas)
+              </h3>
+              <p class="text-xs text-slate-400">Acompanhe o avanço de cada grupo, inspecione cadernos ou recupere PINs esquecidos.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="btn-primary text-xs py-1.5 px-3" onclick="window.app.openTeamAccessModal('create')">
+                + Cadastrar Nova Equipe
+              </button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="table-lab">
+              <thead>
+                <tr>
+                  <th>Equipe</th>
+                  <th>Turma</th>
+                  <th>Integrantes</th>
+                  <th>Progresso</th>
+                  <th>PIN</th>
+                  <th>Último Acesso</th>
+                  <th class="text-right">Ações Docentes</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${this.teamsRegistry.map(t => {
+                  const progress = this.calculateTeamProgress(t.id);
+                  const isCurrent = (t.id === this.activeTeamId);
+                  const lastFormatted = t.lastActive ? new Date(t.lastActive).toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '-';
+
+                  return `
+                    <tr class="${isCurrent ? 'bg-cyan-950/20' : ''}">
+                      <td>
+                        <div class="flex items-center gap-2">
+                          <span class="text-xl">${t.avatar || '🔬'}</span>
+                          <div>
+                            <strong class="text-white block">${t.name}</strong>
+                            ${isCurrent ? '<span class="text-[10px] text-emerald-400 font-bold">● Ativa Agora</span>' : ''}
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-slate-300">${t.turma}</td>
+                      <td class="text-slate-400 text-[11px] max-w-[200px]">
+                        ${t.members.map(m => m.name).join(', ')}
+                      </td>
+                      <td>
+                        <div class="flex items-center gap-2">
+                          <div class="w-16 bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                            <div class="bg-cyan-500 h-full rounded-full" style="width: ${progress}%"></div>
+                          </div>
+                          <span class="font-mono text-cyan-400 font-bold">${progress}%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="font-mono text-amber-300 font-bold bg-slate-800 px-1.5 py-0.5 rounded text-[11px]">
+                          ${t.pin && t.pin.trim().length > 0 ? t.pin : 'Livre (Sem PIN)'}
+                        </span>
+                      </td>
+                      <td class="text-slate-400 text-[11px]">${lastFormatted}</td>
+                      <td class="text-right whitespace-nowrap">
+                        <button class="btn-secondary text-[11px] py-1 px-2 text-cyan-300 border-cyan-500/30 mr-1" 
+                          onclick="window.app.loginTeam('${t.id}')" title="Alternar e Ver Caderno desta Equipe">
+                          👁️ Inspecionar
+                        </button>
+                        <button class="btn-secondary text-[11px] py-1 px-2 mr-1" 
+                          onclick="window.app.exportTeamById('${t.id}')" title="Baixar JSON desta Equipe">
+                          📥 Backup
+                        </button>
+                        ${this.teamsRegistry.length > 1 ? `
+                          <button class="btn-secondary text-[11px] py-1 px-2 text-rose-400 border-rose-500/30 hover:bg-rose-950/40" 
+                            onclick="window.app.deleteTeam('${t.id}')" title="Excluir Equipe">
+                            🗑️
+                          </button>
+                        ` : ''}
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -1179,6 +1312,603 @@ class BioLabApp {
   }
 
   // ==========================================
+  // SISTEMA DE GESTÃO DE EQUIPES (MULTI-TENANT)
+  // ==========================================
+  initTeamsSystem() {
+    try {
+      const regRaw = localStorage.getItem('biolafa_teams_registry');
+      if (regRaw) {
+        this.teamsRegistry = JSON.parse(regRaw);
+      }
+    } catch (e) {
+      this.teamsRegistry = [];
+    }
+
+    // Se o registro estiver vazio, migrar dados legados ou criar equipe padrão
+    if (!this.teamsRegistry || this.teamsRegistry.length === 0) {
+      let legacyAnswers = {};
+      let legacyMatrix = {};
+      let legacyAssessment = {};
+      let legacyPhase = 0;
+      let legacyTeam = null;
+
+      try {
+        const oldRaw = localStorage.getItem('biolab_plano_sc_data');
+        if (oldRaw) {
+          const old = JSON.parse(oldRaw);
+          if (old.answers) legacyAnswers = old.answers;
+          if (old.evidenceMatrix) legacyMatrix = old.evidenceMatrix;
+          if (old.selfAssessment) legacyAssessment = old.selfAssessment;
+          if (typeof old.currentPhase === 'number') legacyPhase = old.currentPhase;
+          if (old.team) legacyTeam = old.team;
+        }
+      } catch (e) {}
+
+      const defaultTeam = {
+        id: 'team_alpha',
+        name: (legacyTeam && legacyTeam.name) || 'BioInvestigadores Alpha',
+        turma: (legacyTeam && legacyTeam.turma) || '2º Ano B - Ensino Médio',
+        avatar: '🔬',
+        pin: '',
+        date: new Date().toLocaleDateString('pt-BR'),
+        members: (legacyTeam && legacyTeam.members) || [
+          { name: 'Ana Beatriz', role: 'Investigadora Principal' },
+          { name: 'Carlos Eduardo', role: 'Especialista em Microscopia' },
+          { name: 'Juliana Lima', role: 'Analista de Dados & Gráficos' },
+          { name: 'Lucas Gabriel', role: 'Relator & Redator Científico' }
+        ],
+        createdAt: new Date().toISOString(),
+        lastActive: new Date().toISOString()
+      };
+
+      this.teamsRegistry = [defaultTeam];
+      localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
+
+      const initialPayload = {
+        team: defaultTeam,
+        answers: legacyAnswers,
+        evidenceMatrix: legacyMatrix,
+        selfAssessment: legacyAssessment,
+        currentPhase: legacyPhase,
+        snapshots: [],
+        lastSaved: new Date().toISOString()
+      };
+      localStorage.setItem('biolafa_team_team_alpha_data', JSON.stringify(initialPayload));
+    }
+
+    // Identificar e carregar a equipe ativa
+    const savedActiveId = localStorage.getItem('biolafa_active_team_id');
+    const targetTeam = this.teamsRegistry.find(t => t.id === savedActiveId) || this.teamsRegistry[0];
+    this.activeTeamId = targetTeam.id;
+    this.loadTeamData(this.activeTeamId, false);
+  }
+
+  loadTeamData(teamId, reRender = true) {
+    const teamMeta = this.teamsRegistry.find(t => t.id === teamId);
+    if (!teamMeta) return;
+
+    this.activeTeamId = teamId;
+    this.team = Object.assign({}, teamMeta);
+    localStorage.setItem('biolafa_active_team_id', teamId);
+
+    // Carregar os dados isolados da equipe
+    try {
+      const raw = localStorage.getItem(`biolafa_team_${teamId}_data`);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        this.studentAnswers = parsed.answers || {};
+        this.evidenceMatrix = parsed.evidenceMatrix || {};
+        this.selfAssessment = parsed.selfAssessment || {};
+        this.currentPhaseIndex = (typeof parsed.currentPhase === 'number') ? parsed.currentPhase : 0;
+        
+        if (window.microscope) {
+          window.microscope.snapshots = parsed.snapshots || [];
+        }
+      } else {
+        this.studentAnswers = {};
+        this.evidenceMatrix = {};
+        this.selfAssessment = {};
+        this.currentPhaseIndex = 0;
+        if (window.microscope) {
+          window.microscope.snapshots = [];
+        }
+      }
+    } catch (e) {
+      console.warn('Erro ao carregar dados isolados da equipe:', e);
+    }
+
+    // Atualizar último acesso da equipe
+    teamMeta.lastActive = new Date().toISOString();
+    try {
+      localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
+    } catch (e) {}
+
+    if (reRender) {
+      this.renderHeader();
+      this.updateGlobalProgress();
+      this.switchTab(this.currentTab, false);
+    }
+  }
+
+  saveToStorage() {
+    if (!this.activeTeamId) return;
+
+    const payload = {
+      team: this.team,
+      answers: this.studentAnswers,
+      evidenceMatrix: this.evidenceMatrix,
+      selfAssessment: this.selfAssessment,
+      currentPhase: this.currentPhaseIndex,
+      snapshots: (window.microscope && window.microscope.snapshots) || [],
+      lastSaved: new Date().toISOString()
+    };
+
+    try {
+      localStorage.setItem(`biolafa_team_${this.activeTeamId}_data`, JSON.stringify(payload));
+      
+      const idx = this.teamsRegistry.findIndex(t => t.id === this.activeTeamId);
+      if (idx !== -1) {
+        this.teamsRegistry[idx].name = this.team.name;
+        this.teamsRegistry[idx].turma = this.team.turma;
+        this.teamsRegistry[idx].avatar = this.team.avatar || '🔬';
+        this.teamsRegistry[idx].members = this.team.members;
+        this.teamsRegistry[idx].pin = this.team.pin || '';
+        this.teamsRegistry[idx].lastActive = new Date().toISOString();
+        localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
+      }
+    } catch (e) {
+      console.warn('LocalStorage limit:', e);
+    }
+  }
+
+  calculateTeamProgress(teamId) {
+    try {
+      const raw = localStorage.getItem(`biolafa_team_${teamId}_data`);
+      if (!raw) return 0;
+      const parsed = JSON.parse(raw);
+      const answers = parsed.answers || {};
+      const totalQuestions = BIO_DATA.phases.reduce((acc, p) => acc + p.questions.length, 0);
+      const answeredCount = Object.keys(answers).filter(k => {
+        const v = answers[k];
+        return v && (typeof v === 'string' ? v.trim().length > 0 : Object.keys(v).length > 0);
+      }).length;
+      return Math.min(100, Math.round((answeredCount / totalQuestions) * 100));
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  // ==========================================
+  // MODAL DE SELEÇÃO & CRIAÇÃO DE EQUIPES
+  // ==========================================
+  openTeamAccessModal(defaultTab = 'select') {
+    const modal = document.getElementById('team-access-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+    this.switchTeamModalTab(defaultTab);
+  }
+
+  switchTeamModalTab(tab) {
+    const tabs = ['select', 'create', 'import'];
+    tabs.forEach(t => {
+      const btn = document.getElementById(`tab-team-${t}-btn`);
+      const pane = document.getElementById(`team-modal-tab-${t}`);
+      if (t === tab) {
+        if (btn) btn.classList.add('active-nav-tab');
+        if (pane) pane.classList.remove('hidden');
+      } else {
+        if (btn) btn.classList.remove('active-nav-tab');
+        if (pane) pane.classList.add('hidden');
+      }
+    });
+
+    if (tab === 'select') {
+      this.renderTeamsRegistryList();
+    } else if (tab === 'create') {
+      this.renderNewTeamForm();
+    }
+  }
+
+  renderTeamsRegistryList() {
+    const container = document.getElementById('teams-registry-list');
+    if (!container) return;
+
+    if (this.teamsRegistry.length === 0) {
+      container.innerHTML = `
+        <div class="col-span-2 text-center py-6 text-slate-400">
+          Nenhuma equipe cadastrada ainda. Clique em "Nova Equipe" para criar a primeira!
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = this.teamsRegistry.map(t => {
+      const isActive = (t.id === this.activeTeamId);
+      const progress = this.calculateTeamProgress(t.id);
+      const hasPin = (t.pin && t.pin.trim().length > 0);
+      const lastActiveFormatted = t.lastActive ? new Date(t.lastActive).toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : 'Recente';
+
+      return `
+        <div class="team-card ${isActive ? 'active-team' : ''}" onclick="window.app.trySelectTeam('${t.id}')">
+          <div class="flex items-start gap-3">
+            <div class="team-avatar-badge">${t.avatar || '🔬'}</div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-1 mb-0.5">
+                <h4 class="font-bold text-white text-sm truncate">${t.name}</h4>
+                ${hasPin ? '<span class="text-xs" title="Protegida por PIN">🔒</span>' : ''}
+              </div>
+              <div class="text-[11px] text-slate-400 truncate">${t.turma} • ${t.members.length} alunos</div>
+              
+              <div class="mt-2 flex items-center gap-2">
+                <div class="flex-1 bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                  <div class="bg-cyan-500 h-full rounded-full" style="width: ${progress}%"></div>
+                </div>
+                <span class="text-[10px] font-mono text-cyan-400 font-bold">${progress}%</span>
+              </div>
+
+              <div class="mt-2 flex items-center justify-between text-[10px] text-slate-500">
+                <span>Ativo: ${lastActiveFormatted}</span>
+                ${isActive ? '<span class="text-emerald-400 font-bold">● Equipe Ativa</span>' : '<span class="text-cyan-400 font-bold hover:underline">Entrar →</span>'}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  trySelectTeam(teamId) {
+    if (teamId === this.activeTeamId) {
+      this.closeModal('team-access-modal');
+      return;
+    }
+
+    const team = this.teamsRegistry.find(t => t.id === teamId);
+    if (!team) return;
+
+    if (team.pin && team.pin.trim().length > 0) {
+      this.pendingPinTeamId = teamId;
+      document.getElementById('pin-prompt-team-name').textContent = `${team.avatar || '🔬'} ${team.name}`;
+      const pinInput = document.getElementById('team-pin-input');
+      pinInput.value = '';
+      document.getElementById('team-pin-error').classList.add('hidden');
+      
+      const pinModal = document.getElementById('team-pin-modal');
+      pinModal.classList.remove('hidden');
+      pinModal.style.display = 'flex';
+      setTimeout(() => pinInput.focus(), 100);
+    } else {
+      this.loginTeam(teamId);
+    }
+  }
+
+  confirmTeamPin() {
+    if (!this.pendingPinTeamId) return;
+    const team = this.teamsRegistry.find(t => t.id === this.pendingPinTeamId);
+    if (!team) return;
+
+    const enteredPin = document.getElementById('team-pin-input').value.trim();
+    if (enteredPin === team.pin.trim() || (this.teacherAuth && enteredPin === 'biolafa')) {
+      const targetId = this.pendingPinTeamId;
+      this.pendingPinTeamId = null;
+      this.closeModal('team-pin-modal');
+      this.loginTeam(targetId);
+    } else {
+      document.getElementById('team-pin-error').classList.remove('hidden');
+      this.playSound('click');
+    }
+  }
+
+  loginTeam(teamId) {
+    this.playSound('tab');
+    this.saveToStorage(); // Preserva dados da equipe anterior antes de alternar
+    this.loadTeamData(teamId, true);
+    this.closeModal('team-access-modal');
+  }
+
+  renderNewTeamForm() {
+    const grid = document.getElementById('new-team-avatar-grid');
+    if (grid) {
+      grid.innerHTML = this.avatarsList.map(av => `
+        <button type="button" class="avatar-picker-btn ${av === this.selectedNewAvatar ? 'selected' : ''}" 
+          onclick="window.app.selectNewAvatar('${av}')">
+          ${av}
+        </button>
+      `).join('');
+    }
+
+    const membersCont = document.getElementById('new-team-members-container');
+    if (membersCont && membersCont.children.length === 0) {
+      membersCont.innerHTML = `
+        <div class="flex gap-2 mb-2">
+          <input type="text" class="lab-input flex-1 new-member-name" placeholder="Nome do Aluno 1" value="Pesquisador 1">
+          <input type="text" class="lab-input flex-1 text-slate-400 new-member-role" placeholder="Função" value="Investigador Principal">
+        </div>
+        <div class="flex gap-2 mb-2">
+          <input type="text" class="lab-input flex-1 new-member-name" placeholder="Nome do Aluno 2" value="Pesquisador 2">
+          <input type="text" class="lab-input flex-1 text-slate-400 new-member-role" placeholder="Função" value="Especialista em Microscopia">
+        </div>
+      `;
+    }
+  }
+
+  selectNewAvatar(av) {
+    this.selectedNewAvatar = av;
+    document.querySelectorAll('.avatar-picker-btn').forEach(btn => {
+      if (btn.textContent.trim() === av) {
+        btn.classList.add('selected');
+      } else {
+        btn.classList.remove('selected');
+      }
+    });
+  }
+
+  addNewMemberField(name = '', role = '') {
+    const cont = document.getElementById('new-team-members-container');
+    if (!cont) return;
+    const div = document.createElement('div');
+    div.className = 'flex gap-2 mb-2';
+    div.innerHTML = `
+      <input type="text" class="lab-input flex-1 new-member-name" placeholder="Nome do Integrante" value="${name}">
+      <input type="text" class="lab-input flex-1 text-slate-400 new-member-role" placeholder="Papel na Pesquisa" value="${role}">
+    `;
+    cont.appendChild(div);
+  }
+
+  createAndLoginNewTeam() {
+    const nameInput = document.getElementById('new-team-name');
+    const turmaInput = document.getElementById('new-team-turma');
+    const pinInput = document.getElementById('new-team-pin');
+
+    const name = (nameInput && nameInput.value.trim()) || `Equipe Investigadora ${this.teamsRegistry.length + 1}`;
+    const turma = (turmaInput && turmaInput.value.trim()) || 'Turma de Biologia';
+    const pin = (pinInput && pinInput.value.trim()) || '';
+
+    const nameEls = document.querySelectorAll('.new-member-name');
+    const roleEls = document.querySelectorAll('.new-member-role');
+    const members = [];
+    nameEls.forEach((el, idx) => {
+      const val = el.value.trim();
+      if (val) {
+        members.push({
+          name: val,
+          role: (roleEls[idx] && roleEls[idx].value.trim()) || 'Pesquisador'
+        });
+      }
+    });
+
+    if (members.length === 0) {
+      members.push({ name: 'Pesquisador Responsável', role: 'Investigador Principal' });
+    }
+
+    const newTeam = {
+      id: `team_${Date.now()}`,
+      name: name,
+      turma: turma,
+      avatar: this.selectedNewAvatar || '🔬',
+      pin: pin,
+      date: new Date().toLocaleDateString('pt-BR'),
+      members: members,
+      createdAt: new Date().toISOString(),
+      lastActive: new Date().toISOString()
+    };
+
+    this.teamsRegistry.push(newTeam);
+    localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
+
+    const initialPayload = {
+      team: newTeam,
+      answers: {},
+      evidenceMatrix: {},
+      selfAssessment: {},
+      currentPhase: 0,
+      snapshots: [],
+      lastSaved: new Date().toISOString()
+    };
+    localStorage.setItem(`biolafa_team_${newTeam.id}_data`, JSON.stringify(initialPayload));
+
+    this.loginTeam(newTeam.id);
+  }
+
+  deleteTeam(teamId) {
+    if (this.teamsRegistry.length <= 1) {
+      alert('Não é possível excluir a única equipe cadastrada.');
+      return;
+    }
+
+    const team = this.teamsRegistry.find(t => t.id === teamId);
+    const confirmMsg = `Tem certeza que deseja excluir a equipe "${team.name}" e todas as suas respostas salvas? Esta ação não pode ser desfeita.`;
+    if (!confirm(confirmMsg)) return;
+
+    this.teamsRegistry = this.teamsRegistry.filter(t => t.id !== teamId);
+    localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
+    localStorage.removeItem(`biolafa_team_${teamId}_data`);
+
+    if (this.activeTeamId === teamId) {
+      this.loginTeam(this.teamsRegistry[0].id);
+    } else {
+      if (this.currentTab === 'professor') {
+        this.renderTeacherSection();
+      }
+      this.renderTeamsRegistryList();
+    }
+  }
+
+  // ==========================================
+  // EXPORTAÇÃO & IMPORTAÇÃO DE BACKUPS (.JSON)
+  // ==========================================
+  exportCurrentTeamFile() {
+    this.exportTeamById(this.activeTeamId);
+  }
+
+  exportTeamById(teamId) {
+    const team = this.teamsRegistry.find(t => t.id === teamId);
+    if (!team) return;
+
+    let payload = null;
+    try {
+      const raw = localStorage.getItem(`biolafa_team_${teamId}_data`);
+      if (raw) payload = JSON.parse(raw);
+    } catch (e) {}
+
+    if (!payload) {
+      payload = {
+        team: team,
+        answers: {},
+        evidenceMatrix: {},
+        selfAssessment: {},
+        currentPhase: 0,
+        snapshots: []
+      };
+    }
+
+    payload.system = 'BioLafa - Estação de Investigação Científica';
+    payload.exportTimestamp = new Date().toISOString();
+
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const safeName = team.name.replace(/[^a-z0-9_-]/gi, '_').toLowerCase();
+    a.href = url;
+    a.download = `biolafa_equipe_${safeName}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    this.playSound('click');
+  }
+
+  exportAllTeams() {
+    const allData = {
+      system: 'BioLafa - Relatório Consolidado de Todas as Equipes',
+      exportTimestamp: new Date().toISOString(),
+      teams: this.teamsRegistry.map(t => {
+        let teamData = {};
+        try {
+          const raw = localStorage.getItem(`biolafa_team_${t.id}_data`);
+          if (raw) teamData = JSON.parse(raw);
+        } catch (e) {}
+        return {
+          meta: t,
+          progress: this.calculateTeamProgress(t.id),
+          data: teamData
+        };
+      })
+    };
+
+    const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `biolafa_turma_completa_${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  handleTeamFileSelected(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const parsed = JSON.parse(e.target.result);
+        if (!parsed.team || !parsed.team.name) {
+          alert('Arquivo inválido: o formato do arquivo não corresponde a um backup do BioLafa.');
+          return;
+        }
+
+        const importedTeam = Object.assign({}, parsed.team, {
+          id: `team_imported_${Date.now()}`,
+          lastActive: new Date().toISOString()
+        });
+
+        this.teamsRegistry.push(importedTeam);
+        localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
+
+        const payload = {
+          team: importedTeam,
+          answers: parsed.answers || {},
+          evidenceMatrix: parsed.evidenceMatrix || {},
+          selfAssessment: parsed.selfAssessment || {},
+          currentPhase: (typeof parsed.currentPhase === 'number') ? parsed.currentPhase : 0,
+          snapshots: parsed.snapshots || [],
+          lastSaved: new Date().toISOString()
+        };
+        localStorage.setItem(`biolafa_team_${importedTeam.id}_data`, JSON.stringify(payload));
+
+        alert(`Equipe "${importedTeam.name}" importada com sucesso!`);
+        this.loginTeam(importedTeam.id);
+      } catch (err) {
+        alert('Erro ao processar arquivo: certifique-se de selecionar um arquivo .json válido.');
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  // ==========================================
+  // AUTENTICAÇÃO DO PROFESSOR (biolafa / lilica10)
+  // ==========================================
+  openTeacherLoginModal() {
+    const modal = document.getElementById('teacher-login-modal');
+    if (!modal) return;
+    document.getElementById('teacher-user-input').value = 'biolafa';
+    document.getElementById('teacher-pass-input').value = '';
+    document.getElementById('teacher-auth-error').classList.add('hidden');
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+    setTimeout(() => {
+      const pass = document.getElementById('teacher-pass-input');
+      if (pass) pass.focus();
+    }, 100);
+  }
+
+  authenticateTeacher() {
+    const userEl = document.getElementById('teacher-user-input');
+    const passEl = document.getElementById('teacher-pass-input');
+    const user = (userEl && userEl.value.trim().toLowerCase()) || '';
+    const pass = (passEl && passEl.value) || '';
+
+    if (user === 'biolafa' && pass === 'lilica10') {
+      this.teacherAuth = true;
+      this.teacherMode = true;
+      localStorage.setItem('biolafa_teacher_auth', 'true');
+      this.closeModal('teacher-login-modal');
+      this.renderHeader();
+      this.switchTab('professor');
+      this.playSound('tab');
+    } else {
+      document.getElementById('teacher-auth-error').classList.remove('hidden');
+      this.playSound('click');
+    }
+  }
+
+  logoutTeacher() {
+    this.teacherAuth = false;
+    this.teacherMode = false;
+    localStorage.removeItem('biolafa_teacher_auth');
+    this.renderHeader();
+    if (this.currentTab === 'professor') {
+      this.switchTab('desafios');
+    } else {
+      this.switchTab(this.currentTab, false);
+    }
+  }
+
+  toggleTeacherMode() {
+    if (!this.teacherAuth) {
+      this.openTeacherLoginModal();
+    } else {
+      if (confirm('Deseja encerrar a sessão de Professor e retornar ao Modo Estudante?')) {
+        this.logoutTeacher();
+      }
+    }
+  }
+
+  // ==========================================
   // PERSISTÊNCIA DE DADOS (LOCALSTORAGE)
   // ==========================================
   saveAnswer(id, val) {
@@ -1194,37 +1924,6 @@ class BioLabApp {
     this.studentAnswers[id][subKey] = val;
     this.saveToStorage();
     this.updateGlobalProgress();
-  }
-
-  saveToStorage() {
-    const payload = {
-      team: this.team,
-      answers: this.studentAnswers,
-      evidenceMatrix: this.evidenceMatrix,
-      selfAssessment: this.selfAssessment,
-      currentPhase: this.currentPhaseIndex
-    };
-    try {
-      localStorage.setItem('biolab_plano_sc_data', JSON.stringify(payload));
-    } catch (e) {
-      console.warn('LocalStorage limit:', e);
-    }
-  }
-
-  loadFromStorage() {
-    try {
-      const raw = localStorage.getItem('biolab_plano_sc_data');
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed.team) this.team = parsed.team;
-        if (parsed.answers) this.studentAnswers = parsed.answers;
-        if (parsed.evidenceMatrix) this.evidenceMatrix = parsed.evidenceMatrix;
-        if (parsed.selfAssessment) this.selfAssessment = parsed.selfAssessment;
-        if (typeof parsed.currentPhase === 'number') this.currentPhaseIndex = parsed.currentPhase;
-      }
-    } catch (e) {
-      console.warn('Erro ao carregar do storage:', e);
-    }
   }
 
   // ==========================================

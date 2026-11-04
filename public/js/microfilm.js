@@ -13,17 +13,6 @@ class MicrofilmReader {
     // Rolos de Microfilme do Arquivo Histórico de Vale Verde
     this.frames = [
       {
-        id: 'frame-1',
-        reel: 'ROLO 01 • BOBINA A-2018',
-        newspaper: 'JORNAL DO VALE',
-        date: '12 de Março de 2018 • Edição Regional',
-        headline: 'Moradores encontram resíduos nas margens do Rio das Palmeiras',
-        img: 'assets/slides/doc_titulo_1.jpg',
-        archiveRef: 'Biblioteca Pública Municipal • Gaveta 04 • Microficha 18-03-A',
-        synopsis: 'Primeiro registro público documentando resíduos acumulados na calha do rio após fortes enxurradas.',
-        docId: 'doc-1'
-      },
-      {
         id: 'frame-2',
         reel: 'ROLO 01 • BOBINA A-2018',
         newspaper: 'GAZETA REGIONAL',
