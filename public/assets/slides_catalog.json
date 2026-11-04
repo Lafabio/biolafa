@@ -1,0 +1,195 @@
+[
+  {
+    "id": "slide_ponto_a",
+    "title": "Ponto A - Montante (Água Limpa / Controle)",
+    "category": "Água Fluvial",
+    "filename": "Gemini_Generated_Image_38gdz338gdz338gd.jfif",
+    "description": "Amostra coletada antes da área urbana. Baixíssima densidade de detritos, presença de microalgas naturais e diatomáceas.",
+    "particlesCount": "6 part/L",
+    "magnifications": [
+      "4x",
+      "10x",
+      "40x"
+    ]
+  },
+  {
+    "id": "slide_ponto_b",
+    "title": "Ponto B - Próximo à Área Residencial",
+    "category": "Efluente Urbano",
+    "filename": "Gemini_Generated_Image_3v7oin3v7oin3v7o.jfif",
+    "description": "Amostra coletada próximo ao afluente com ligação de esgoto. Presença visível de microfibras finas alongadas compatíveis com lavagem de roupas sintéticas.",
+    "particlesCount": "18 part/L",
+    "magnifications": [
+      "4x",
+      "10x",
+      "40x",
+      "100x"
+    ]
+  },
+  {
+    "id": "slide_ponto_c",
+    "title": "Ponto C - Após a Região Industrial (Fábrica Aurora)",
+    "category": "Efluente Industrial",
+    "filename": "Gemini_Generated_Image_5b7ta65b7ta65b7t.jfif",
+    "description": "Amostra com alta concentração de feixes de fibras sintéticas coloridas (poliéster/nylon) e partículas poliméricas.",
+    "particlesCount": "47 part/L",
+    "magnifications": [
+      "4x",
+      "10x",
+      "40x",
+      "100x"
+    ]
+  },
+  {
+    "id": "slide_ponto_d",
+    "title": "Ponto D - Próximo à Rodovia / Canal de Drenagem",
+    "category": "Drenagem Pluvial Urbana",
+    "filename": "Gemini_Generated_Image_7zo9hs7zo9hs7zo9.jfif",
+    "description": "Presença acentuada de fragmentos pretos angulares opacos, característicos de micropartículas de desgaste de pneus (borracha sintética/betume).",
+    "particlesCount": "39 part/L",
+    "magnifications": [
+      "4x",
+      "10x",
+      "40x"
+    ]
+  },
+  {
+    "id": "slide_ponto_e",
+    "title": "Ponto E - Entrada do Lago Azul",
+    "category": "Lago e Sedimentos",
+    "filename": "Gemini_Generated_Image_9gnx1r9gnx1r9gnx.jfif",
+    "description": "Amostra com partículas em processo de sedimentação e agregação com biofilmes orgânicos.",
+    "particlesCount": "28 part/L",
+    "magnifications": [
+      "4x",
+      "10x",
+      "40x"
+    ]
+  },
+  {
+    "id": "slide_peixe_estomago",
+    "title": "Conteúdo Gastrointestinal de Peixe Herbívoro",
+    "category": "Organismo Aquático",
+    "filename": "Gemini_Generated_Image_atl2c3atl2c3atl2.jfif",
+    "description": "Amostra do estômago de peixe coletado no Rio das Palmeiras. Observam-se filamentos sintéticos emaranhados em meio à matéria orgânica.",
+    "particlesCount": "Presente em 35% dos indivíduos",
+    "magnifications": [
+      "4x",
+      "10x",
+      "40x"
+    ]
+  },
+  {
+    "id": "slide_peixe_predador",
+    "title": "Conteúdo Gastrointestinal de Peixe Predador (Topo)",
+    "category": "Organismo Aquático",
+    "filename": "Gemini_Generated_Image_bk2ce8bk2ce8bk2c.jfif",
+    "description": "Trato digestório de espécie carnívora de grande porte. Fragmentos plásticos rígidos e fibras acumuladas.",
+    "particlesCount": "Presente em 60% dos indivíduos analisados",
+    "magnifications": [
+      "4x",
+      "10x",
+      "40x"
+    ]
+  },
+  {
+    "id": "slide_daphnia",
+    "title": "Zooplâncton (Microcrustáceos) com Ingestão",
+    "category": "Cadeia Trófica",
+    "filename": "Gemini_Generated_Image_cwe890cwe890cwe8.jfif",
+    "description": "Indivíduo do zooplâncton sob microscópio óptico. No intestino do microcrustáceo é possível identificar microesferas e fragmentos ingeridos.",
+    "particlesCount": "Índice Trófico Médio",
+    "magnifications": [
+      "10x",
+      "40x",
+      "100x"
+    ]
+  },
+  {
+    "id": "slide_algas",
+    "title": "Biofilme de Microalgas e Partículas Aderidas",
+    "category": "Produtores Primários",
+    "filename": "Gemini_Generated_Image_d84jsrd84jsrd84j.jfif",
+    "description": "Colônias de algas filamentosas fluviais com microplásticos presos por adsorção à matriz gelatinosa extracelular.",
+    "particlesCount": "Índice de Adsorção: 10",
+    "magnifications": [
+      "10x",
+      "40x"
+    ]
+  },
+  {
+    "id": "slide_agricultura",
+    "title": "Solo Agrícola com Resíduos de Filme Plástico",
+    "category": "Agricultura",
+    "filename": "Gemini_Generated_Image_djayl3djayl3djay.jfif",
+    "description": "Microfragmentos de plástico de cobertura agrícola (mulching) em degradação fototérmica no solo.",
+    "particlesCount": "Fragmentos Irregulares",
+    "magnifications": [
+      "4x",
+      "10x",
+      "40x"
+    ]
+  },
+  {
+    "id": "slide_pesca",
+    "title": "Rede de Pesca Antiga em Decomposição Mecânica",
+    "category": "Pesca Artesanal",
+    "filename": "Gemini_Generated_Image_hqqy4lhqqy4lhqqy.jfif",
+    "description": "Fragmentos e fios de monofilamento de poliamida (nylon) desfiados por atrito com rochas e galhos.",
+    "particlesCount": "Microfibras Rígidas",
+    "magnifications": [
+      "10x",
+      "40x"
+    ]
+  },
+  {
+    "id": "slide_pos_filtro",
+    "title": "Ponto C - Após Instalação do Filtro Industrial",
+    "category": "Efluente Industrial Pós-Tratamento",
+    "filename": "Gemini_Generated_Image_ke1ouvke1ouvke1o.jfif",
+    "description": "Amostra coletada 6 meses após a implementação dos filtros de retenção na Têxtil Aurora. Redução de 47 para 22 part/L.",
+    "particlesCount": "22 part/L (Redução de 53,2%)",
+    "magnifications": [
+      "4x",
+      "10x",
+      "40x"
+    ]
+  },
+  {
+    "id": "slide_histopatologia",
+    "title": "Lâmina Histológica - Tecido Intestinal de Peixe",
+    "category": "Patologia Aquática",
+    "filename": "doente.jfif",
+    "description": "Corte histológico das vilosidades intestinais. Pesquisadores investigam sinais de inflamação e obstrução mecânica por microdetritos.",
+    "particlesCount": "Avaliação de Tecido",
+    "magnifications": [
+      "10x",
+      "40x",
+      "100x"
+    ]
+  },
+  {
+    "id": "slide_comparativo_1",
+    "title": "Painel Comparativo de Lâminas Microscópicas I",
+    "category": "Arquivo Científico",
+    "filename": "laminas_slide1.bmp",
+    "description": "Lâmina do dossiê científico original de análise de campo.",
+    "particlesCount": "Painel Geral",
+    "magnifications": [
+      "4x",
+      "10x"
+    ]
+  },
+  {
+    "id": "slide_comparativo_2",
+    "title": "Painel Comparativo de Lâminas Microscópicas II",
+    "category": "Arquivo Científico",
+    "filename": "laminas_slide2.bmp",
+    "description": "Painel morfológico de partículas: fibras vs fragmentos vs filmes.",
+    "particlesCount": "Painel Geral",
+    "magnifications": [
+      "4x",
+      "10x"
+    ]
+  }
+]

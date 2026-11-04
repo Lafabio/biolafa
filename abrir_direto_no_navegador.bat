@@ -1,0 +1,3 @@
+@echo off
+echo Abrindo o BioLab Explorer diretamente no navegador padrao...
+start "" "%~dp0public\index.html"

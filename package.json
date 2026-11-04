@@ -1,0 +1,22 @@
+{
+  "name": "biolab-explorer",
+  "version": "1.0.0",
+  "description": "BioLab Explorer - Estação de Investigação Científica Escolar (PBL Biologia)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo 'Build concluído com sucesso para deploy estático na Vercel'",
+    "test": "node test_integrity.js"
+  },
+  "keywords": [
+    "biologia",
+    "pbl",
+    "ensino-medio",
+    "microscopio-virtual",
+    "ciencia",
+    "educacao",
+    "microplasticos"
+  ],
+  "author": "Equipe BioLab Explorer",
+  "license": "MIT"
+}

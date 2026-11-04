@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BioLab Explorer • Estação de Investigação Científica Escolar</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+
+  <!-- ==========================================
+       HEADER PRINCIPAL & BARRA DE NAVEGAÇÃO
+       ========================================== -->
+  <header class="app-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-4">
+      
+      <!-- Logotipo & Título -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="window.app.switchTab('desafios')">
+        <div class="w-10 h-10 rounded-xl bg-cyan-600/30 border border-cyan-400/40 flex items-center justify-center text-xl shadow-lg shadow-cyan-500/20">
+          🔬
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-black tracking-wide text-white">BIOLAB EXPLORER</h1>
+            <span class="badge-tag-cyan">PBL Ciências</span>
+          </div>
+          <p class="text-[11px] text-slate-400">Estação de Investigação Científica & Aprendizagem por Problemas</p>
+        </div>
+      </div>
+
+      <!-- Badge de Equipe Ativa -->
+      <div id="header-team-badge"></div>
+
+      <!-- Botões de Ação Rápida -->
+      <div class="flex items-center gap-2">
+        <button class="btn-secondary text-xs py-1.5 px-3" onclick="window.app.openReportModal()" title="Exportar Caderno em PDF / Imprimir">
+          📄 Relatório Oficial
+        </button>
+        <button class="btn-secondary text-xs py-1.5 px-3 border-amber-500/30 text-amber-300 hover:bg-amber-950/40" 
+          onclick="window.app.teacherMode = !window.app.teacherMode; window.app.switchTab(window.app.currentTab);" 
+          title="Alternar Modo Professor com Gabarito">
+          🎓 Modo Professor
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra de Abas de Navegação -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex overflow-x-auto gap-2 border-t border-slate-800">
+      <button class="nav-tab-btn active-nav-tab" data-tab="desafios" onclick="window.app.switchTab('desafios')">
+        <span>🎯</span> Centro de Missões
+      </button>
+      <button class="nav-tab-btn" data-tab="investigacao" onclick="window.app.switchTab('investigacao')">
+        <span>📖</span> Caderno de Campo (9 Aulas)
+      </button>
+      <button class="nav-tab-btn" data-tab="microscopio" onclick="window.app.switchTab('microscopio')">
+        <span>🔬</span> Microscópio Virtual (Lâminas)
+      </button>
+      <button class="nav-tab-btn" data-tab="microfilme" onclick="window.app.switchTab('microfilme')">
+        <span>🎞️</span> Hemeroteca (Microfilmes)
+      </button>
+      <button class="nav-tab-btn" data-tab="mapa" onclick="window.app.switchTab('mapa')">
+        <span>🗺️</span> Bacia Hidrográfica
+      </button>
+      <button class="nav-tab-btn" data-tab="simulador" onclick="window.app.switchTab('simulador')">
+        <span>📊</span> Simulador Trófico
+      </button>
+      <button class="nav-tab-btn" data-tab="professor" onclick="window.app.switchTab('professor')">
+        <span>🎓</span> Orientações Docentes
+      </button>
+    </div>
+  </header>
+
+  <!-- Barra de Progresso Global do Desafio -->
+  <div class="w-full bg-slate-900 border-b border-slate-800 py-1.5 px-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between text-[11px] text-slate-400">
+      <span class="flex items-center gap-2">
+        <span class="status-led status-green"></span>
+        <strong>Desafio 1 Ativo:</strong> O Mistério do Rio das Palmeiras (Microplásticos & Teias Alimentares)
+      </span>
+      <div class="flex items-center gap-3">
+        <div class="w-32 bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-700">
+          <div id="global-progress-bar" class="bg-cyan-500 h-full rounded-full transition-all duration-300" style="width: 15%"></div>
+        </div>
+        <span id="global-progress-text" class="font-mono text-cyan-400 font-bold">15% Concluído</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       CONTEÚDO PRINCIPAL (SEÇÕES DAS ABAS)
+       ========================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
+
+    <!-- 1. SEÇÃO: CENTRO DE MISSÕES (HUB DE DESAFIOS) -->
+    <section id="section-desafios" class="app-section">
+      <div class="mb-8">
+        <div class="flex flex-wrap justify-between items-end gap-4">
+          <div>
+            <h2 class="text-2xl font-black text-white mb-1">Central de Missões Científicas</h2>
+            <p class="text-slate-400 text-sm">
+              Selecione um desafio de investigação ambiental para simular uma equipe profissional de cientistas.
+            </p>
+          </div>
+          <button class="btn-secondary text-xs" onclick="alert('Funcionalidade de importação de novos desafios em desenvolvimento para a próxima versão!')">
+            + Adicionar Novo Desafio (JSON)
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid de Desafios -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Desafio 1 (Ativo e Principal) -->
+        <div class="challenge-card challenge-card-active flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="badge-tag-cyan">DESAFIO 01 • ATIVO</span>
+              <span class="text-xs text-emerald-400 font-mono font-bold">9 Aulas • PBL</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">O Mistério do Rio das Palmeiras</h3>
+            <p class="text-xs text-cyan-300 font-semibold mb-3">Microplásticos, Fontes de Contaminação e Teias Alimentares</p>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Uma comunidade identifica pequenos resíduos na água. Uma fábrica têxtil, ligações irregulares de esgoto, uma rodovia movimentada e resíduos de pesca estão na região. Analise notícias, lâminas microscópicas e dados de monitoramento para formular uma explicação científica baseada em evidências.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
+              <span class="px-2 py-0.5 rounded bg-slate-800">12 Notícias</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800">12 Lâminas</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800">Simulador Trófico</span>
+            </div>
+          </div>
+          <button class="btn-primary w-full justify-center py-2.5 mt-2" onclick="window.app.switchTab('investigacao')">
+            🔬 Entrar na Missão de Investigação →
+          </button>
+        </div>
+
+        <!-- Desafio 2 (Expansão Futura) -->
+        <div class="challenge-card challenge-card-locked flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">DESAFIO 02 • BLOQUEADO</span>
+              <span class="text-xs text-slate-500 font-mono">Em Breve</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-300 mb-2">Floração Vermelha em Vale Verde</h3>
+            <p class="text-xs text-amber-400 font-semibold mb-3">Eutrofização & Cianobactérias Tóxicas</p>
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              O Lago Azul amanhece com uma camada verde-azulada e odor característico. Mortandade de alevinos é observada. Os alunos investigarão descarte de fósforo, nitrogênio e toxinas bacterianas.
+            </p>
+          </div>
+          <button class="btn-secondary w-full justify-center opacity-50 cursor-not-allowed">
+            🔒 Desafio Bloqueado
+          </button>
+        </div>
+
+        <!-- Desafio 3 (Expansão Futura) -->
+        <div class="challenge-card challenge-card-locked flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">DESAFIO 03 • BLOQUEADO</span>
+              <span class="text-xs text-slate-500 font-mono">Em Breve</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-300 mb-2">Ameaça Invisível no Efluente</h3>
+            <p class="text-xs text-rose-400 font-semibold mb-3">Superbactérias & Resistência Genômica</p>
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              Rastreamento de plasmídeos de resistência antimicrobiana em corpos hídricos que recebem resíduos de hospitais e granjas avícolas.
+            </p>
+          </div>
+          <button class="btn-secondary w-full justify-center opacity-50 cursor-not-allowed">
+            🔒 Desafio Bloqueado
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Banner Metodológico do PBL -->
+      <div class="mt-8 p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950/40 border border-slate-800">
+        <h4 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+          <span>💡</span> Como Funciona a Investigação Científica Escolar?
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs text-slate-300 mt-3">
+          <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+            <strong class="text-cyan-400 block mb-1">1. Fatos vs Hipóteses</strong>
+            Diferencie o que é relato empírico do que é suposição prévia.
+          </div>
+          <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+            <strong class="text-cyan-400 block mb-1">2. Não Culpar por Proximidade</strong>
+            Estar perto de um rio poluído não prova responsabilidade causal.
+          </div>
+          <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+            <strong class="text-cyan-400 block mb-1">3. Microscopia & Dados</strong>
+            Inspecione lâminas e construa gráficos com dados reais.
+          </div>
+          <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+            <strong class="text-cyan-400 block mb-1">4. Proposta Cidadã</strong>
+            Apresente conclusões sólidas e soluções ecológicas para a comunidade.
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 2. SEÇÃO: CADERNO DE INVESTIGAÇÃO (AULAS 1 A 9) -->
+    <section id="section-investigacao" class="app-section hidden">
+      <!-- Régua de Aulas (Timeline) -->
+      <div id="phases-timeline" class="phases-timeline-bar"></div>
+
+      <!-- Conteúdo da Fase Ativa -->
+      <div id="phase-content-container"></div>
+    </section>
+
+
+    <!-- 3. SEÇÃO: MICROSCÓPIO VIRTUAL -->
+    <section id="section-microscopio" class="app-section hidden">
+      <div class="mb-6 flex flex-wrap justify-between items-center gap-4">
+        <div>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            <span>🔬</span> Laboratório de Microscopia Óptica Virtual (Lâminas Preparadas)
+          </h2>
+          <p class="text-slate-400 text-xs">
+            Bancada exclusiva para lâminas citológicas, histológicas e amostras de água coletadas no Rio das Palmeiras.
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="micro-focus-status" class="status-badge badge-warning">
+            <span class="status-led status-yellow"></span> Ajuste o Foco
+          </span>
+          <button class="btn-primary text-xs py-1.5 px-3" onclick="window.app.captureMicroscopeSnapshot()">
+            📸 Fotografar para o Caderno
+          </button>
+        </div>
+      </div>
+
+      <div class="microscope-container">
+        <!-- Coluna da Esquerda: Ocular e Controles Ópticos -->
+        <div class="micro-viewport-box">
+          <div class="relative flex items-center justify-center">
+            <canvas id="micro-canvas" width="460" height="460"></canvas>
+          </div>
+
+          <!-- Barra de Objetivas com Cores Padrão de Microscopia -->
+          <div class="objective-lens-bar">
+            <button class="obj-btn" data-obj="4x" onclick="window.microscope.setObjective('4x')">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span> 4x Varredura
+            </button>
+            <button class="obj-btn active-obj" data-obj="10x" onclick="window.microscope.setObjective('10x')">
+              <span class="w-2.5 h-2.5 rounded-full bg-yellow-400 inline-block"></span> 10x Médio
+            </button>
+            <button class="obj-btn" data-obj="40x" onclick="window.microscope.setObjective('40x')">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span> 40x Grande
+            </button>
+            <button class="obj-btn" data-obj="100x" onclick="window.microscope.setObjective('100x')">
+              <span class="w-2.5 h-2.5 rounded-full bg-white inline-block"></span> 100x Imersão
+            </button>
+          </div>
+
+          <!-- Controles Físicos do Microscópio (Foco, Luz e Ferramentas) -->
+          <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t border-slate-800 text-xs">
+            
+            <!-- Controle Macrométrico & Micrométrico -->
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+              <div class="font-bold text-slate-200 mb-2 flex justify-between">
+                <span>Foco Macrométrico</span>
+                <span class="text-cyan-400 font-mono">Grosso</span>
+              </div>
+              <input type="range" min="0" max="100" value="45" class="sim-range-slider mb-3"
+                oninput="window.microscope.setMacroFocus(this.value)">
+
+              <div class="font-bold text-slate-200 mb-2 flex justify-between">
+                <span>Foco Micrométrico</span>
+                <span class="text-cyan-400 font-mono">Fino</span>
+              </div>
+              <input type="range" min="0" max="100" value="50" class="sim-range-slider"
+                oninput="window.microscope.setMicroFocus(this.value)">
+            </div>
+
+            <!-- Iluminação e Condensador -->
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+              <div class="font-bold text-slate-200 mb-2 flex justify-between">
+                <span>Intensidade da Luz</span>
+                <span class="text-amber-400 font-mono">Lâmpada LED</span>
+              </div>
+              <input type="range" min="20" max="140" value="85" class="sim-range-slider mb-3"
+                oninput="window.microscope.setLight(this.value)">
+
+              <div class="font-bold text-slate-200 mb-1.5">Filtro Óptico:</div>
+              <div class="flex gap-1.5">
+                <button class="btn-secondary text-[11px] py-1 px-2 flex-1" onclick="window.microscope.setFilter('brightfield')">
+                  Claro
+                </button>
+                <button class="btn-secondary text-[11px] py-1 px-2 flex-1" onclick="window.microscope.setFilter('phase')">
+                  Fase
+                </button>
+                <button class="btn-secondary text-[11px] py-1 px-2 flex-1 border-cyan-500/40 text-cyan-300" onclick="window.microscope.setFilter('uv')">
+                  UV Fluoresc.
+                </button>
+              </div>
+            </div>
+
+            <!-- Ferramentas de Retículo & Coordenadas -->
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 flex flex-col justify-between">
+              <div>
+                <div class="font-bold text-slate-200 mb-2">Auxiliares de Bancada:</div>
+                <div class="flex gap-2 mb-2">
+                  <button class="btn-secondary text-[11px] py-1 px-2 flex-1" onclick="window.microscope.toggleReticle()">
+                    Mudar Retículo
+                  </button>
+                  <button class="btn-secondary text-[11px] py-1 px-2 flex-1 border-rose-500/40 text-rose-300" onclick="window.microscope.toggleMeasureTool()">
+                    📏 Medir em µm
+                  </button>
+                </div>
+              </div>
+              <div id="micro-coords" class="text-[10px] text-slate-400 font-mono text-center bg-slate-950 p-1.5 rounded border border-slate-800">
+                X: 0 µm | Y: 0 µm
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Coluna da Direita: Prateleira de Lâminas & Dossiê -->
+        <div class="space-y-4">
+          <!-- Dossiê da Lâmina Selecionada -->
+          <div id="current-slide-dossier"></div>
+
+          <!-- Caixa de Lâminas da Bancada -->
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-2xl">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center justify-between">
+              <span>🗃️ Caixa de Lâminas Preparadas</span>
+              <span class="text-cyan-400 font-mono text-[10px]">Apenas Lâminas Citológicas & Fluviais</span>
+            </h3>
+            <div id="micro-slides-shelf" class="slides-shelf-grid"></div>
+          </div>
+
+          <!-- Galeria de Fotomicrografias Capturadas -->
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-2xl">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center justify-between">
+              <span>📷 Registros Fotográficos</span>
+            </h3>
+            <div id="micro-snapshots-container" class="snapshots-grid">
+              <div class="text-xs text-slate-500 italic">Nenhuma foto capturada ainda.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 4. SEÇÃO: LEITOR DE MICROFILMES DA HEMEROTECA HISTÓRICA -->
+    <section id="section-microfilme" class="app-section hidden">
+      <div class="mb-6 flex flex-wrap justify-between items-center gap-4">
+        <div>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            <span>🎞️</span> Arquivo Público & Hemeroteca Municipal: Leitor de Microfilmes
+          </h2>
+          <p class="text-slate-400 text-xs">
+            Consulte os rolos de microfilme de periódicos antigos da imprensa de Vale Verde (1918 a 2023) na máquina de projeção óptica.
+          </p>
+        </div>
+      </div>
+      <div id="microfilm-container"></div>
+    </section>
+
+
+    <!-- 5. SEÇÃO: MAPA CARTOGRÁFICO DA BACIA -->
+    <section id="section-mapa" class="app-section hidden">
+      <div id="interactive-map-container"></div>
+    </section>
+
+
+    <!-- 6. SEÇÃO: SIMULADOR TRÓFICO -->
+    <section id="section-simulador" class="app-section hidden">
+      <div id="trophic-sim-container"></div>
+    </section>
+
+
+    <!-- 7. SEÇÃO: ORIENTAÇÕES PARA O PROFESSOR -->
+    <section id="section-professor" class="app-section hidden">
+      <div id="teacher-guide-container"></div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       MODAL 1: EDIÇÃO DA EQUIPE DE PESQUISADORES
+       ========================================== -->
+  <div id="team-modal" class="modal-overlay hidden" style="display: none;">
+    <div class="modal-box">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <span>👥</span> Credenciais da Equipe de Investigação
+        </h3>
+        <button class="modal-close-btn" onclick="window.app.closeModal('team-modal'); document.getElementById('team-modal').style.display='none';">✕</button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="font-bold text-slate-300 block mb-1">Nome da Equipe Científica:</label>
+          <input type="text" id="input-team-name" class="lab-input" placeholder="Ex: BioInvestigadores 2B">
+        </div>
+        <div>
+          <label class="font-bold text-slate-300 block mb-1">Turma / Série / Ano Letivo:</label>
+          <input type="text" id="input-team-turma" class="lab-input" placeholder="Ex: 2º Ano B - Ensino Médio">
+        </div>
+        <div>
+          <label class="font-bold text-slate-300 block mb-2">Pesquisadores Integrantes & Funções:</label>
+          <div id="team-members-inputs"></div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end gap-2">
+        <button class="btn-secondary text-xs" onclick="window.app.closeModal('team-modal'); document.getElementById('team-modal').style.display='none';">
+          Cancelar
+        </button>
+        <button class="btn-primary text-xs" onclick="window.app.saveTeamModal()">
+          Salvar Dados da Equipe
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       MODAL 2: RELATÓRIO CIENTÍFICO FINAL (IMPRESSÃO/PDF)
+       ========================================== -->
+  <div id="report-modal" class="modal-overlay hidden" style="display: none;">
+    <div class="modal-box max-w-4xl max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3 modal-actions">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <span>📄</span> Dossiê Final de Investigação Científica
+        </h3>
+        <div class="flex items-center gap-2">
+          <button class="btn-primary text-xs" onclick="window.app.printReport()">
+            🖨️ Imprimir / Salvar PDF
+          </button>
+          <button class="modal-close-btn" onclick="window.app.closeModal('report-modal'); document.getElementById('report-modal').style.display='none';">✕</button>
+        </div>
+      </div>
+
+      <div id="printable-report-content"></div>
+    </div>
+  </div>
+
+
+  <!-- Scripts da Aplicação -->
+  <script src="js/data.js"></script>
+  <script src="js/microscope.js"></script>
+  <script src="js/microfilm.js"></script>
+  <script src="js/trophic-sim.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

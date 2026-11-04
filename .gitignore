@@ -1,0 +1,15 @@
+# Dependências
+node_modules/
+package-lock.json
+
+# Logs e arquivos do sistema
+.system_generated/
+*.log
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Arquivos temporários e scratch
+*.raw
+preview_gallery.html
+extracted_doc_sem_titulo.jpg

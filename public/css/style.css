@@ -1,0 +1,1286 @@
+/* BioLab Explorer - Design System & Estilos Científicos */
+:root {
+  --bg-dark: #070b14;
+  --bg-card: #0f172a;
+  --bg-card-hover: #1e293b;
+  --border-color: #334155;
+  --cyan-primary: #38bdf8;
+  --cyan-glow: rgba(56, 189, 248, 0.25);
+  --emerald-accent: #10b981;
+  --amber-accent: #f59e0b;
+  --rose-accent: #f43f5e;
+}
+
+/* Regra essencial de visibilidade */
+.hidden {
+  display: none !important;
+}
+
+/* Utilitários essenciais de layout */
+.max-w-7xl { max-width: 80rem; margin-left: auto; margin-right: auto; }
+.max-w-4xl { max-width: 56rem; margin-left: auto; margin-right: auto; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1 1 0%; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (min-width: 768px) {
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-8 { margin-top: 2rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.p-8 { padding: 2rem; }
+.rounded { border-radius: 0.375rem; }
+.rounded-lg { border-radius: 0.5rem; }
+.rounded-xl { border-radius: 0.75rem; }
+.rounded-2xl { border-radius: 1rem; }
+.rounded-full { border-radius: 9999px; }
+.border { border-width: 1px; border-style: solid; }
+.font-bold { font-weight: 700; }
+.font-black { font-weight: 900; }
+.font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-white { color: #ffffff; }
+.text-slate-100 { color: #f1f5f9; }
+.text-slate-200 { color: #e2e8f0; }
+.text-slate-300 { color: #cbd5e1; }
+.text-slate-400 { color: #94a3b8; }
+.text-slate-500 { color: #64748b; }
+.text-cyan-400 { color: #38bdf8; }
+.text-cyan-300 { color: #7dd3fc; }
+.text-amber-400 { color: #fbbf24; }
+.text-amber-300 { color: #fcd34d; }
+.text-emerald-400 { color: #34d399; }
+.text-rose-400 { color: #fb7185; }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-dark);
+  color: #f1f5f9;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* =======================================================
+   HEADER & NAVEGAÇÃO
+   ======================================================= */
+.app-header {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #1e293b;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.team-badge-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1e293b;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  border: 1px solid #334155;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.team-badge-pill:hover {
+  border-color: var(--cyan-primary);
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+.team-badge-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: #ffffff;
+}
+.team-badge-sub {
+  font-size: 11px;
+  color: #94a3b8;
+}
+.badge-edit-hint {
+  font-size: 10px;
+  color: var(--cyan-primary);
+  margin-left: 4px;
+}
+
+.nav-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #94a3b8;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  cursor: pointer;
+}
+.nav-tab-btn:hover {
+  color: #ffffff;
+}
+.active-nav-tab {
+  color: var(--cyan-primary) !important;
+  border-bottom-color: var(--cyan-primary) !important;
+}
+
+/* Badges e Tags */
+.badge-tag-cyan {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--cyan-primary);
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+.badge-tag-amber {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--amber-accent);
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Botões */
+.btn-primary {
+  background: #0284c7;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  background: #0369a1;
+  box-shadow: 0 0 14px rgba(2, 132, 199, 0.4);
+}
+
+.btn-secondary {
+  background: #1e293b;
+  color: #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid #334155;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  background: #334155;
+  color: #ffffff;
+}
+
+/* =======================================================
+   CENTRO DE MISSÕES (DESAFIOS)
+   ======================================================= */
+.challenge-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.challenge-card-active {
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+.challenge-card-active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #38bdf8, #10b981);
+}
+.challenge-card-locked {
+  opacity: 0.6;
+  filter: grayscale(0.5);
+}
+
+/* =======================================================
+   MICROSCÓPIO VIRTUAL
+   ======================================================= */
+.microscope-container {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 1024px) {
+  .microscope-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.micro-viewport-box {
+  background: #090e1a;
+  border: 1px solid #1e293b;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+#micro-canvas {
+  border-radius: 50%;
+  cursor: grab;
+  background: #000000;
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(0,0,0,0.8);
+}
+
+.objective-lens-bar {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  background: #0f172a;
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+}
+
+.obj-btn {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #1e293b;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.obj-btn:hover {
+  background: #334155;
+}
+.active-obj {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+/* Status Led */
+.status-led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-green { background: #10b981; box-shadow: 0 0 8px #10b981; }
+.status-yellow { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+.status-red { background: #f43f5e; box-shadow: 0 0 8px #f43f5e; }
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.badge-success { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-danger { background: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
+
+/* Prateleira de Lâminas */
+.slides-shelf-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.slide-item-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.slide-item-card:hover {
+  background: #1e293b;
+  border-color: #475569;
+}
+.active-slide {
+  border-color: var(--cyan-primary) !important;
+  background: rgba(56, 189, 248, 0.08) !important;
+}
+
+.slide-thumb-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #000;
+}
+.slide-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.slide-badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: rgba(0, 0, 0, 0.8);
+  font-size: 8px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-family: monospace;
+  color: var(--cyan-primary);
+}
+
+.slide-title-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+.slide-cat-text {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+/* Snapshots polaroid */
+.snapshots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+}
+.snapshot-polaroid {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+.snapshot-polaroid img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+/* =======================================================
+   CADERNO DE INVESTIGAÇÃO (AULAS & FICHAS)
+   ======================================================= */
+.phases-timeline-bar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1e293b;
+  margin-bottom: 24px;
+}
+.phase-step-btn {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.phase-step-btn:hover {
+  background: #1e293b;
+  color: #ffffff;
+}
+.phase-step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+}
+.active-phase {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #38bdf8 !important;
+}
+.active-phase .phase-step-num {
+  background: #ffffff;
+  color: #0284c7;
+}
+.done-phase .phase-step-num {
+  background: #10b981;
+  color: #ffffff;
+}
+
+/* Dossiê de Documentos */
+.doc-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 18px;
+}
+.doc-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.doc-number-badge {
+  font-size: 10px;
+  font-family: monospace;
+  font-weight: 700;
+  padding: 2px 6px;
+  background: #334155;
+  border-radius: 4px;
+  color: #f8fafc;
+}
+.doc-tag {
+  font-size: 10px;
+  color: var(--cyan-primary);
+  font-family: monospace;
+}
+.doc-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+.doc-hint-box {
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 3px solid var(--cyan-primary);
+  padding: 6px 10px;
+  border-radius: 0 6px 6px 0;
+  font-size: 11px;
+  color: #bae6fd;
+}
+
+/* Formulário de Respostas */
+.question-block {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 18px;
+}
+.question-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 8px;
+}
+.lab-textarea {
+  width: 100%;
+  background: #090e1a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 10px;
+  color: #f1f5f9;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.2s;
+}
+.lab-textarea:focus {
+  outline: none;
+  border-color: var(--cyan-primary);
+  box-shadow: 0 0 8px var(--cyan-glow);
+}
+
+.lab-input {
+  width: 100%;
+  background: #090e1a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #f1f5f9;
+  font-size: 12px;
+}
+.lab-input:focus {
+  outline: none;
+  border-color: var(--cyan-primary);
+}
+
+/* Matriz de Evidências */
+.matrix-cell-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+.cell-F { background: #065f46; color: #34d399; }
+.cell-F:hover { background: #047857; }
+.cell-E { background: #881337; color: #fb7185; }
+.cell-E:hover { background: #9f1239; }
+.cell-I { background: #78350f; color: #fde68a; }
+.cell-I:hover { background: #92400e; }
+
+/* Rubrica de Autoavaliação */
+.rubric-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.rubric-selected {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: var(--cyan-primary) !important;
+}
+
+/* =======================================================
+   SIMULADOR TRÓFICO
+   ======================================================= */
+.trophic-sim-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 24px;
+}
+.trophic-bars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: end;
+  min-height: 260px;
+  margin: 24px 0 16px 0;
+  padding: 16px;
+  background: #090e1a;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+}
+.trophic-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+.bar-track {
+  width: 48px;
+  height: 180px;
+  background: #1e293b;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  border: 1px solid #334155;
+}
+.bar-fill {
+  width: 100%;
+  border-radius: 7px;
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bar-watermark {
+  font-size: 16px;
+  opacity: 0.9;
+}
+.bar-value-badge {
+  font-size: 14px;
+  font-weight: 800;
+  font-family: monospace;
+  margin-bottom: 6px;
+}
+
+.sim-range-slider {
+  width: 100%;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 4px;
+  outline: none;
+  -webkit-appearance: none;
+}
+.sim-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--cyan-primary);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--cyan-primary);
+}
+
+.scenario-buttons {
+  display: flex;
+  gap: 8px;
+}
+.btn-scen {
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  cursor: pointer;
+}
+.btn-scen.active {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #38bdf8;
+}
+
+/* Modais */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.hidden {
+  display: none !important;
+}
+
+.modal-close-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.modal-close-btn:hover {
+  background: #e11d48;
+  color: #ffffff;
+  border-color: #f43f5e;
+}
+.modal-box {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+}
+
+/* =======================================================
+   ESTILIZAÇÃO REALISTA: RECORTES DE JORNAL & LAUDOS
+   ======================================================= */
+
+/* 1. Recorte de Jornal Antigo / Histórico */
+.newspaper-clipping {
+  background: #f7f4ea linear-gradient(180deg, #f7f4ea 0%, #ede7d5 100%);
+  color: #1a1a1a;
+  border: 1px solid #d3cbb7;
+  border-radius: 4px;
+  padding: 20px 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  font-family: "Georgia", "Times New Roman", Times, serif;
+  transform: rotate(-0.3deg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.newspaper-clipping:hover {
+  transform: rotate(0deg) scale(1.01);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+.newspaper-masthead {
+  text-align: center;
+  border-bottom: 3px double #2b2b2b;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+.newspaper-top-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #555555;
+  font-family: sans-serif;
+  margin-bottom: 4px;
+}
+.newspaper-name {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #111111;
+  margin: 0;
+  font-family: "Times New Roman", Times, serif;
+  line-height: 1.1;
+}
+.newspaper-edition-bar {
+  border-top: 1px solid #333333;
+  margin-top: 6px;
+  padding-top: 4px;
+  font-size: 10px;
+  font-style: italic;
+  color: #444444;
+}
+
+.newspaper-headline {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #0f0f0f;
+  margin: 10px 0 12px 0;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.newspaper-figure {
+  margin: 12px 0;
+  background: #ebe5d3;
+  padding: 6px;
+  border: 1px solid #cfc6b0;
+  border-radius: 3px;
+}
+.newspaper-img-frame {
+  max-height: 240px;
+  overflow: hidden;
+  border: 1px solid #1a1a1a;
+  background: #000000;
+}
+.newspaper-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  filter: contrast(1.15) saturate(0.9);
+  display: block;
+}
+.newspaper-caption {
+  font-size: 10.5px;
+  color: #444444;
+  margin-top: 5px;
+  line-height: 1.35;
+  font-style: italic;
+}
+
+.newspaper-body {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #222222;
+  text-align: justify;
+  margin-bottom: 14px;
+}
+
+.newspaper-footer-hint {
+  background: #e4dcbe;
+  border-left: 3px solid #854d0e;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: #593902;
+  font-family: sans-serif;
+  border-radius: 0 4px 4px 0;
+}
+
+
+/* 2. Laudo Pericial de Laboratório Técnico */
+.lab-report-sheet {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-top: 6px solid #1e3a8a;
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.lab-report-header {
+  border-bottom: 2px solid #1e3a8a;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+.lab-report-gov-band {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  text-transform: uppercase;
+  color: #475569;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.lab-report-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lab-logo-emblem {
+  width: 36px;
+  height: 36px;
+  background: #1e3a8a;
+  color: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.lab-report-institution {
+  font-size: 14px;
+  font-weight: 900;
+  color: #1e3a8a;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+.lab-report-protocol {
+  font-size: 10px;
+  color: #64748b;
+  font-family: monospace;
+}
+
+/* Carimbo oficial inclinado */
+.lab-stamp-seal {
+  position: absolute;
+  top: 60px;
+  right: 24px;
+  border: 2px dashed #dc2626;
+  color: #dc2626;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+  transform: rotate(8deg);
+  font-weight: 900;
+  font-size: 10px;
+  letter-spacing: 1px;
+  opacity: 0.85;
+  pointer-events: none;
+}
+.lab-stamp-seal span {
+  display: block;
+}
+.lab-stamp-seal small {
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.lab-report-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 12px 0 10px 0;
+  border-left: 4px solid #1e3a8a;
+  padding-left: 8px;
+}
+
+.lab-report-figure-box {
+  margin: 12px 0;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px;
+}
+.lab-report-img-wrapper {
+  position: relative;
+  max-height: 230px;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  background: #000;
+}
+.lab-report-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+.lab-magnification-stamp {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #38bdf8;
+  font-size: 9px;
+  font-family: monospace;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.lab-report-caption {
+  font-size: 10.5px;
+  color: #475569;
+  margin-top: 6px;
+  line-height: 1.35;
+}
+
+.lab-report-text {
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: #334155;
+  font-family: monospace;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 14px;
+}
+
+.lab-report-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 10px;
+  font-size: 10px;
+}
+.lab-footer-meta {
+  color: #64748b;
+  max-width: 60%;
+}
+.lab-signature-box {
+  text-align: center;
+}
+.lab-sign-line {
+  width: 120px;
+  border-bottom: 1px solid #0f172a;
+  margin-bottom: 4px;
+}
+
+/* =======================================================
+   LEITOR DE MICROFILMES DA HEMEROTECA / BIBLIOTECA
+   ======================================================= */
+.microfilm-device-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.microfilm-cabinet {
+  background: #0f172a linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid #334155;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  overflow: hidden;
+}
+
+.microfilm-spools-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #090e1a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+}
+
+.spool-wheel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.spool-core {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 3px dashed #64748b;
+  background: #1e293b;
+  position: relative;
+  transition: transform 0.5s ease;
+}
+.spool-spinning .spool-core {
+  animation: spin 3s linear infinite;
+}
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+.spool-label {
+  font-size: 9px;
+  font-family: monospace;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+}
+
+.microfilm-model-badge {
+  text-align: center;
+}
+.badge-brand {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #38bdf8;
+  font-family: monospace;
+}
+.badge-system {
+  font-size: 9px;
+  color: #64748b;
+  letter-spacing: 1px;
+}
+
+.microfilm-hood-visor {
+  background: #020617;
+  border: 4px solid #1e293b;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.95);
+  position: relative;
+  overflow: hidden;
+}
+
+.microfilm-glass-screen {
+  background: #04101e linear-gradient(135deg, rgba(8, 28, 48, 0.9) 0%, rgba(2, 6, 23, 0.95) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 8px;
+  min-height: 480px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.screen-negative {
+  filter: invert(1) hue-rotate(180deg) contrast(1.3) !important;
+}
+
+/* Perfurações de filme 35mm */
+.film-edge-perforations-top,
+.film-edge-perforations-bottom {
+  display: flex;
+  justify-content: space-around;
+  padding: 4px 0;
+  opacity: 0.6;
+}
+.perf-hole {
+  width: 14px;
+  height: 9px;
+  background: #020617;
+  border: 1px solid #334155;
+  border-radius: 2px;
+}
+
+.film-grain-overlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.06), rgba(0,0,0,0.06) 1px, transparent 1px, transparent 2px);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.microfilm-frame-projection {
+  margin: 12px auto;
+  max-width: 650px;
+  transition: transform 0.2s ease;
+  transform-origin: center center;
+}
+
+.microfilm-clipping-card {
+  background: #ffffff;
+  color: #111111;
+  padding: 18px 22px;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  font-family: "Georgia", serif;
+}
+
+.film-header-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  font-family: monospace;
+  color: #555555;
+  border-bottom: 1px solid #444;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.film-masthead {
+  text-align: center;
+  border-bottom: 2px double #111;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+.film-newspaper-title {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.film-date-line {
+  font-size: 10px;
+  font-style: italic;
+  color: #555;
+  margin-top: 2px;
+}
+
+.film-headline {
+  font-size: 15px;
+  font-weight: 800;
+  color: #000000;
+  line-height: 1.25;
+  margin: 8px 0;
+}
+
+.film-image-container {
+  max-height: 240px;
+  overflow: hidden;
+  border: 1px solid #333;
+  margin-bottom: 8px;
+}
+.film-scanned-photo {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  filter: grayscale(0.8) contrast(1.1);
+  display: block;
+}
+
+.film-summary-box {
+  background: #f1f5f9;
+  border-left: 3px solid #0284c7;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: #334155;
+  font-family: sans-serif;
+  line-height: 1.4;
+}
+
+.microfilm-control-deck {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #090e1a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 16px;
+}
+
+/* Impressão / Exportação de Relatório */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .app-header, .phases-timeline-bar, .modal-actions, .phase-nav-footer, button {
+    display: none !important;
+  }
+  .modal-overlay {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+  .report-paper {
+    box-shadow: none !important;
+    padding: 0 !important;
+    color: #000000 !important;
+  }
+}
