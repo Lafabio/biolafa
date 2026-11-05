@@ -794,6 +794,82 @@ body {
 }
 
 /* =======================================================
+   CONTAINER DIMENSIONADO PARA O RELATÓRIO OFICIAL
+   ======================================================= */
+.report-modal-container {
+  max-width: 980px !important;
+  width: 95vw !important;
+  max-height: 94vh !important;
+  height: 94vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 18px 24px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.report-scroll-area {
+  flex: 1 1 auto;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 16px 20px 40px 20px;
+  background: #090e1a;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+}
+
+.report-paper {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-radius: 8px;
+  padding: 40px 48px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Georgia, serif;
+  line-height: 1.6;
+  width: 100% !important;
+  max-width: 860px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+/* =======================================================
+   CONTAINER DE INSPEÇÃO PEDAGÓGICA DAS EQUIPES (PROFESSOR)
+   ======================================================= */
+.teacher-inspect-container {
+  max-width: 1080px !important;
+  width: 96vw !important;
+  max-height: 93vh !important;
+  height: 93vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 18px 24px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.teacher-inspect-body {
+  flex: 1 1 auto;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 12px 8px 30px 8px;
+}
+
+@media (max-width: 768px) {
+  .report-modal-container, .teacher-inspect-container {
+    width: 98vw !important;
+    max-height: 96vh !important;
+    height: 96vh !important;
+    padding: 12px 10px !important;
+  }
+  .report-scroll-area {
+    padding: 8px 4px;
+  }
+  .report-paper {
+    padding: 24px 16px !important;
+  }
+}
+
+/* =======================================================
    ESTILIZAÇÃO REALISTA: RECORTES DE JORNAL & LAUDOS
    ======================================================= */
 
@@ -1473,17 +1549,36 @@ body {
     background: #ffffff !important;
     color: #000000 !important;
   }
-  .app-header, .phases-timeline-bar, .modal-actions, .phase-nav-footer, button {
+  .app-header, .phases-timeline-bar, .modal-actions, .phase-nav-footer, button, #btn-teacher-toggle {
     display: none !important;
   }
   .modal-overlay {
     position: static !important;
     background: transparent !important;
     padding: 0 !important;
+    inset: auto !important;
+  }
+  .modal-box, .report-modal-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+  .report-scroll-area {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    overflow: visible !important;
   }
   .report-paper {
     box-shadow: none !important;
     padding: 0 !important;
     color: #000000 !important;
+    max-width: 100% !important;
   }
 }

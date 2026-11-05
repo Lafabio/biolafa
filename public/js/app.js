@@ -1500,6 +1500,26 @@ class BioLabApp {
             </div>
           </div>
 
+          
+          <!-- Coleta de Arquivos de Múltiplos Dispositivos -->
+          <div class="mb-4 p-3 bg-slate-950 rounded-xl border border-slate-800 flex flex-wrap justify-between items-center gap-3">
+            <div>
+              <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                <span>📥</span> Coleta de Cadernos dos Alunos (Trabalho em Múltiplos Dispositivos):
+              </span>
+              <p class="text-[11px] text-slate-400 mt-0.5">
+                Se as equipes trabalharam em celulares ou computadores separados, carregue os arquivos <strong>.json</strong> baixados pelos alunos para consolidar tudo no seu painel.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="file" id="teacher-batch-upload-input" accept=".json" multiple class="hidden" onchange="window.app.handleBatchTeamUpload(event)">
+              <button class="btn-secondary text-xs py-1.5 px-3 border-cyan-500/50 text-cyan-300 hover:bg-cyan-950/40 font-bold" 
+                onclick="document.getElementById('teacher-batch-upload-input').click()">
+                📂 Carregar Arquivo(s) de Equipes (.json)
+              </button>
+            </div>
+          </div>
+
           <div class="overflow-x-auto">
             <table class="table-lab">
               <thead>
@@ -1549,9 +1569,17 @@ class BioLabApp {
                       </td>
                       <td class="text-slate-400 text-[11px]">${lastFormatted}</td>
                       <td class="text-right whitespace-nowrap">
-                        <button class="btn-secondary text-[11px] py-1 px-2 text-cyan-300 border-cyan-500/30 mr-1" 
-                          onclick="window.app.loginTeam('${t.id}')" title="Alternar e Ver Caderno desta Equipe">
-                          👁️ Inspecionar
+                        <button class="btn-primary text-[11px] py-1 px-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold mr-1" 
+                          onclick="window.app.openTeacherInspectTeam('${t.id}')" title="Inspecionar Anotações e Respostas desta Equipe">
+                          📋 Ver Respostas
+                        </button>
+                        <button class="btn-secondary text-[11px] py-1 px-2 text-emerald-400 border-emerald-500/40 hover:bg-emerald-950/40 mr-1 font-bold" 
+                          onclick="window.app.openReportModal('${t.id}')" title="Visualizar Relatório Oficial desta Equipe">
+                          📄 Relatório
+                        </button>
+                        <button class="btn-secondary text-[11px] py-1 px-2 mr-1" 
+                          onclick="window.app.enterAsTeam('${t.id}')" title="Navegar no Caderno desta Equipe">
+                          📖 Caderno
                         </button>
                         <button class="btn-secondary text-[11px] py-1 px-2 mr-1" 
                           onclick="window.app.exportTeamById('${t.id}')" title="Baixar JSON desta Equipe">
@@ -2256,8 +2284,302 @@ class BioLabApp {
     document.getElementById('team-modal').classList.add('hidden');
   }
 
-  openReportModal() {
-    if (!this.team || !this.team.name) {
+
+  openTeacherInspectTeam(teamId) {
+    const team = this.teamsRegistry.find(t => t.id === teamId);
+    if (!team) return;
+
+    let teamData = {};
+    try {
+      const raw = localStorage.getItem(this.getTeamDataKey(teamId));
+      if (raw) teamData = JSON.parse(raw);
+    } catch (e) {}
+
+    const answers = teamData.answers || {};
+    const snaps = teamData.snapshots || [];
+    const evidenceMatrix = teamData.evidenceMatrix || {};
+    const progress = this.calculateTeamProgress(teamId);
+    const ch = (window.BIO_DATA && window.BIO_DATA.challenge) || { title: 'Desafio' };
+    const phases = (window.BIO_DATA && window.BIO_DATA.phases) || [];
+
+    const modal = document.getElementById('teacher-inspect-team-modal');
+    const content = document.getElementById('teacher-inspect-modal-content');
+    const titleEl = document.getElementById('teacher-inspect-modal-title');
+    if (!modal || !content) return;
+
+    if (titleEl) {
+      titleEl.innerHTML = `<span>🎓</span> Registros Pedagógicos da Equipe: <span class="text-white">${team.name}</span> (${team.turma})`;
+    }
+
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+
+    content.innerHTML = `
+      <div class="space-y-6">
+        <!-- Barra de Resumo da Equipe -->
+        <div class="p-4 bg-slate-900 rounded-xl border border-slate-700 flex flex-wrap justify-between items-center gap-4">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">${team.avatar || '🔬'}</span>
+            <div>
+              <h4 class="text-base font-bold text-white flex items-center gap-2">
+                <span>${team.name}</span>
+                <span class="text-xs font-mono font-normal bg-slate-800 text-amber-300 px-2 py-0.5 rounded border border-slate-700">PIN: ${team.pin || 'Livre'}</span>
+              </h4>
+              <p class="text-xs text-slate-400 mt-0.5">
+                <strong>Turma:</strong> ${team.turma} • 
+                <strong>Integrantes:</strong> ${(team.members && team.members.length > 0) ? team.members.map(m => m.name + (m.role ? ' (' + m.role + ')' : '')).join(', ') : 'Não informados'}
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <div class="text-right">
+              <div class="text-xs text-slate-400 font-mono">Progresso Geral</div>
+              <div class="text-lg font-black font-mono text-cyan-400">${progress}%</div>
+            </div>
+            <div class="flex gap-2">
+              <button class="btn-primary text-xs py-1.5 px-3 flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold" 
+                onclick="window.app.openReportModal('${team.id}')">
+                <span>📄</span> Ver Relatório Oficial
+              </button>
+              <button class="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5 text-cyan-300 border-cyan-500/40 font-bold" 
+                onclick="window.app.enterAsTeam('${team.id}')">
+                <span>📖</span> Navegar no Caderno
+              </button>
+              <button class="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5" 
+                onclick="window.app.exportTeamById('${team.id}')">
+                <span>📥</span> Baixar JSON
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. RESPOSTAS & ANOTAÇÕES DAS 9 AULAS -->
+        <div class="p-5 bg-slate-900 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h4 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+              <span>✍️</span> Caderno de Campo: Respostas dos Estudantes (${phases.length} Aulas)
+            </h4>
+            <span class="text-xs text-slate-400">${ch.title}</span>
+          </div>
+
+          <div class="space-y-4">
+            ${phases.map(phase => {
+              return `
+                <div class="p-3 bg-slate-950/70 rounded-lg border border-slate-800 space-y-2">
+                  <div class="flex items-center justify-between text-xs font-bold text-cyan-400 border-b border-slate-800/80 pb-1">
+                    <span>${phase.lessonTitle}</span>
+                    <span class="text-[11px] text-slate-500 font-mono">${phase.badge || ''}</span>
+                  </div>
+
+                  <div class="space-y-3 pt-1">
+                    ${phase.questions.map(q => {
+                      const ans = answers[q.id];
+                      let ansDisplay = '';
+                      let hasAnswer = false;
+
+                      if (q.type === 'dual_hypothesis') {
+                        const hipA = ans && (ans.hip_a || ans.hip_a_d2);
+                        const hipB = ans && (ans.hip_b || ans.hip_b_d2);
+                        hasAnswer = !!(hipA || hipB);
+                        ansDisplay = `
+                          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                            <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                              <span class="text-cyan-300 font-bold block mb-1">Hipótese A:</span>
+                              <span class="${hipA ? 'text-slate-200' : 'text-slate-500 italic'}">${hipA || '(Em branco)'}</span>
+                            </div>
+                            <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                              <span class="text-cyan-300 font-bold block mb-1">Hipótese B:</span>
+                              <span class="${hipB ? 'text-slate-200' : 'text-slate-500 italic'}">${hipB || '(Em branco)'}</span>
+                            </div>
+                          </div>
+                        `;
+                      } else if (q.type === 'intervention_plan') {
+                        const planName = ans && (ans.plan_name || ans.plan_d2_name);
+                        const planTarget = ans && (ans.plan_target || ans.plan_d2_target);
+                        const planAction = ans && (ans.plan_action || ans.plan_d2_action);
+                        const planInd = ans && (ans.plan_indicator || ans.plan_d2_indicator);
+                        hasAnswer = !!(planName || planTarget || planAction);
+                        ansDisplay = `
+                          <div class="p-2.5 bg-slate-900 rounded border border-slate-800 text-xs space-y-1">
+                            <div><strong>Projeto:</strong> <span class="text-cyan-300">${planName || '(Em branco)'}</span></div>
+                            <div><strong>Alvos Prioritários:</strong> <span class="text-slate-300">${planTarget || '(Em branco)'}</span></div>
+                            <div><strong>Medidas:</strong> <span class="text-slate-300">${planAction || '(Em branco)'}</span></div>
+                            <div><strong>Indicador:</strong> <span class="text-slate-300">${planInd || '(Em branco)'}</span></div>
+                          </div>
+                        `;
+                      } else if (typeof ans === 'string' && ans.trim().length > 0) {
+                        hasAnswer = true;
+                        ansDisplay = `<div class="p-2.5 bg-slate-900 rounded border border-cyan-500/30 text-xs text-slate-200 whitespace-pre-line leading-relaxed">${ans}</div>`;
+                      } else {
+                        ansDisplay = `<div class="p-2 bg-slate-900/60 rounded border border-dashed border-slate-800 text-xs text-slate-500 italic">Questão ainda não respondida pela equipe.</div>`;
+                      }
+
+                      return `
+                        <div class="space-y-1.5 text-xs">
+                          <div class="font-bold text-slate-300 flex items-start gap-1.5">
+                            <span class="${hasAnswer ? 'text-emerald-400' : 'text-slate-600'}">●</span>
+                            <span>${q.label}</span>
+                          </div>
+                          
+                          <div class="pl-3">
+                            ${ansDisplay}
+                          </div>
+
+                          ${q.expectedHint ? `
+                            <div class="ml-3 p-2 bg-amber-950/20 border-l-2 border-amber-500/60 text-[11px] text-amber-200/90 rounded-r">
+                              <strong>💡 Gabarito / Expectativa Pedagógica:</strong> ${q.expectedHint}
+                            </div>
+                          ` : ''}
+                        </div>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- 2. EVIDÊNCIAS MICROSCÓPICAS COLETADAS PELA EQUIPE -->
+        <div class="p-5 bg-slate-900 rounded-xl border border-slate-800 space-y-3">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h4 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
+              <span>🔬</span> Fotomicrografias Capturadas pela Equipe (${snaps.length})
+            </h4>
+          </div>
+
+          ${snaps.length > 0 ? `
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+              ${snaps.map(s => `
+                <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                  <img src="${s.dataUrl}" alt="Foto" class="w-full aspect-square object-cover rounded border border-slate-700 mb-1.5">
+                  <div class="text-[11px] font-bold text-white">${s.slideCode || 'LÂMINA'}</div>
+                  <div class="text-[10px] text-cyan-400 font-mono">${s.objective || '400x'}</div>
+                  <div class="text-[10px] text-slate-400 italic mt-1 line-clamp-2">"${s.note || 'Sem anotações'}"</div>
+                </div>
+              `).join('')}
+            </div>
+          ` : `
+            <div class="p-4 bg-slate-950 rounded-lg border border-dashed border-slate-800 text-center text-xs text-slate-500 italic">
+              Esta equipe ainda não capturou fotos no microscópio virtual.
+            </div>
+          `}
+        </div>
+
+        <!-- 3. MATRIZ DE EVIDÊNCIAS -->
+        <div class="p-5 bg-slate-900 rounded-xl border border-slate-800 space-y-3">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h4 class="text-sm font-bold text-emerald-300 flex items-center gap-2">
+              <span>⚖️</span> Matriz de Evidências Preenchida pela Equipe
+            </h4>
+          </div>
+
+          ${Object.keys(evidenceMatrix).length > 0 ? `
+            <div class="text-xs text-slate-300">
+              <p class="mb-2 text-slate-400">Classificações registradas pela equipe [ F = Favorece | E = Enfraquece | I = Inconclusivo ]:</p>
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                ${Object.keys(evidenceMatrix).map(k => `
+                  <div class="p-2 bg-slate-950 rounded border border-slate-800 text-center">
+                    <span class="text-[10px] text-slate-500 block truncate">${k}</span>
+                    <strong class="text-sm font-mono ${evidenceMatrix[k] === 'F' ? 'text-emerald-400' : (evidenceMatrix[k] === 'E' ? 'text-rose-400' : 'text-amber-400')}">${evidenceMatrix[k]}</strong>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : `
+            <div class="p-4 bg-slate-950 rounded-lg border border-dashed border-slate-800 text-center text-xs text-slate-500 italic">
+              A Matriz de Evidências ainda não foi preenchida pela equipe (Aula 7 • Ficha 8).
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+  }
+
+  enterAsTeam(teamId) {
+    this.closeModal('teacher-inspect-team-modal');
+    this.loginTeam(teamId);
+    this.switchTab('investigacao');
+  }
+
+  handleBatchTeamUpload(event) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    let loadedCount = 0;
+    let errorCount = 0;
+
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed.team && parsed.team.name) {
+            const teamMeta = Object.assign({}, parsed.team, {
+              id: parsed.team.id || ('team_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4)),
+              lastActive: new Date().toISOString()
+            });
+
+            // Adiciona ou atualiza no registro
+            const existingIdx = this.teamsRegistry.findIndex(t => t.id === teamMeta.id || (t.name === teamMeta.name && t.turma === teamMeta.turma));
+            if (existingIdx !== -1) {
+              this.teamsRegistry[existingIdx] = teamMeta;
+            } else {
+              this.teamsRegistry.push(teamMeta);
+            }
+            localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
+
+            const payload = {
+              team: teamMeta,
+              answers: parsed.answers || {},
+              evidenceMatrix: parsed.evidenceMatrix || {},
+              selfAssessment: parsed.selfAssessment || {},
+              currentPhase: (typeof parsed.currentPhase === 'number') ? parsed.currentPhase : 0,
+              snapshots: parsed.snapshots || [],
+              lastSaved: new Date().toISOString()
+            };
+            localStorage.setItem(this.getTeamDataKey(teamMeta.id), JSON.stringify(payload));
+            loadedCount++;
+          } else {
+            errorCount++;
+          }
+        } catch (err) {
+          errorCount++;
+        }
+
+        // Ao finalizar todos os arquivos
+        if (loadedCount + errorCount === files.length) {
+          this.renderTeacherSection();
+          this.playSound('focus_snap');
+          alert(`✅ ${loadedCount} caderno(s) de equipe importado(s) com sucesso para o Painel do Professor!` + (errorCount > 0 ? ` (${errorCount} arquivo(s) ignorados por formato inválido)` : ''));
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  openReportModal(targetTeamId = null) {
+    let reportTeam = this.team;
+    let reportAnswers = this.studentAnswers;
+    let reportSnaps = (window.microscope && window.microscope.snapshots) || [];
+
+    if (targetTeamId) {
+      const found = this.teamsRegistry.find(t => t.id === targetTeamId);
+      if (found) {
+        reportTeam = found;
+        try {
+          const raw = localStorage.getItem(this.getTeamDataKey(targetTeamId));
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            reportAnswers = parsed.answers || {};
+            reportSnaps = parsed.snapshots || [];
+          }
+        } catch (e) {}
+      }
+    }
+
+    if (!reportTeam || !reportTeam.name) {
       alert('Cadastre primeiro a sua equipe de pesquisa para emitir o Dossiê Científico Oficial.');
       this.openTeamAccessModal('create');
       return;
@@ -2270,26 +2592,29 @@ class BioLabApp {
 
     const reportContent = document.getElementById('printable-report-content');
     if (reportContent) {
-      const snaps = (window.microscope && window.microscope.snapshots) || [];
+      const ch = (window.BIO_DATA && window.BIO_DATA.challenge) || {
+        title: 'O Mistério do Rio das Palmeiras',
+        subtitle: 'Microplásticos, Fontes de Contaminação e Teias Alimentares'
+      };
 
       reportContent.innerHTML = `
-        <div class="report-paper p-8 bg-white text-slate-900 rounded-xl shadow-2xl font-serif max-w-4xl mx-auto">
+        <div class="report-paper">
           <!-- Cabeçalho Oficial -->
           <div class="border-b-2 border-slate-900 pb-4 mb-6 text-center">
             <div class="text-[11px] font-sans font-bold tracking-widest text-slate-500 uppercase mb-1">
               Secretaria de Educação • Programa de Iniciação Científica no Ensino Médio
             </div>
             <h1 class="text-2xl font-black uppercase tracking-wider text-slate-900">Dossiê de Investigação Ambiental</h1>
-            <h2 class="text-base text-slate-700 font-sans mt-1">O Mistério do Rio das Palmeiras • Microplásticos & Dinâmica Trófica</h2>
+            <h2 class="text-base text-slate-700 font-sans mt-1 font-semibold">${ch.title} • ${ch.subtitle}</h2>
             
             <div class="flex flex-wrap justify-center gap-6 text-xs text-slate-600 font-sans mt-3 py-2 bg-slate-100 rounded-lg">
-              <span><strong>Equipe:</strong> ${this.team.name}</span>
-              <span><strong>Turma:</strong> ${this.team.turma}</span>
-              <span><strong>Data de Emissão:</strong> ${this.team.date || new Date().toLocaleDateString('pt-BR')}</span>
+              <span><strong>Equipe:</strong> ${reportTeam.name}</span>
+              <span><strong>Turma:</strong> ${reportTeam.turma}</span>
+              <span><strong>Data de Emissão:</strong> ${reportTeam.date || new Date().toLocaleDateString('pt-BR')}</span>
             </div>
 
             <div class="text-xs text-slate-600 font-sans mt-2">
-              <strong>Pesquisadores Responsáveis:</strong> ${(this.team.members && this.team.members.length > 0) ? this.team.members.map(m => `<u>${m.name}</u> (<em>${m.role}</em>)`).join(' • ') : 'Equipe de Pesquisa'}
+              <strong>Pesquisadores Responsáveis:</strong> ${(reportTeam.members && reportTeam.members.length > 0) ? reportTeam.members.map(m => `<u>${m.name}</u> (<em>${m.role}</em>)`).join(' • ') : 'Equipe de Pesquisa'}
             </div>
           </div>
 
@@ -2299,41 +2624,41 @@ class BioLabApp {
               <span>1. Conclusão Científica Baseada em Evidências</span>
               <span class="text-[10px] text-slate-500">Aula 8 • Ficha 9</span>
             </h3>
-            <div class="text-xs text-slate-800 leading-relaxed whitespace-pre-line p-3 bg-slate-50 border border-slate-200 rounded-lg min-h-[60px]">
-              ${this.studentAnswers['p8_q1'] ? this.studentAnswers['p8_q1'] : '<div class="text-slate-400 italic text-center py-3 border border-dashed border-slate-300 rounded">[Espaço em branco: a equipe preenche esta conclusão no Caderno de Investigação ao final das anotações]</div>'}
+            <div class="text-xs text-slate-800 leading-relaxed whitespace-pre-line p-4 bg-slate-50 border border-slate-200 rounded-lg min-h-[70px]">
+              ${(reportAnswers['p8_q1'] || reportAnswers['p8_q1_d2']) ? (reportAnswers['p8_q1'] || reportAnswers['p8_q1_d2']) : '<div class="text-slate-400 italic text-center py-3 border border-dashed border-slate-300 rounded">[Espaço em branco: a equipe preenche esta conclusão no Caderno de Investigação ao final das anotações da Aula 8]</div>'}
             </div>
           </div>
 
           <!-- 2. Dados Quantitativos e Avaliação da Intervenção -->
           <div class="mb-6 font-sans">
             <h3 class="text-sm font-bold text-slate-900 uppercase border-b-2 border-slate-300 pb-1 mb-2 flex items-center justify-between">
-              <span>2. Análise Quantitativa dos Indicadores & Filtragem Industrial</span>
+              <span>2. Análise Quantitativa dos Indicadores & Eficácia da Intervenção</span>
               <span class="text-[10px] text-slate-500">Aulas 4 e 7 • Fichas 5 e 8</span>
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-800">
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg min-h-[70px]">
-                <strong class="block text-slate-900 mb-1">📊 Análise e Cálculo de Redução no Ponto C:</strong>
-                ${this.studentAnswers['p7_q1'] ? this.studentAnswers['p7_q1'] : '<div class="text-slate-400 italic py-2 border border-dashed border-slate-300 rounded text-center">[Espaço para o cálculo da equipe na Ficha 8]</div>'}
+                <strong class="block text-slate-900 mb-1">📊 Análise e Cálculo de Redução:</strong>
+                ${(reportAnswers['p7_q1'] || reportAnswers['p7_q1_d2']) ? (reportAnswers['p7_q1'] || reportAnswers['p7_q1_d2']) : '<div class="text-slate-400 italic py-2 border border-dashed border-slate-300 rounded text-center">[Espaço para o cálculo da equipe na Ficha 8]</div>'}
               </div>
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg min-h-[70px]">
                 <strong class="block text-slate-900 mb-1">⚖️ Análise de Causalidade vs. Múltiplas Fontes:</strong>
-                ${this.studentAnswers['p7_q2'] ? this.studentAnswers['p7_q2'] : '<div class="text-slate-400 italic py-2 border border-dashed border-slate-300 rounded text-center">[Espaço para a justificativa da equipe na Ficha 8]</div>'}
+                ${(reportAnswers['p7_q3'] || reportAnswers['p7_q3_d2'] || reportAnswers['p7_q2']) ? (reportAnswers['p7_q3'] || reportAnswers['p7_q3_d2'] || reportAnswers['p7_q2']) : '<div class="text-slate-400 italic py-2 border border-dashed border-slate-300 rounded text-center">[Espaço para a justificativa da equipe na Ficha 8]</div>'}
               </div>
             </div>
           </div>
 
           <!-- 3. Fotomicrografias da Bancada -->
-          ${snaps.length > 0 ? `
+          ${reportSnaps.length > 0 ? `
             <div class="mb-6 font-sans">
               <h3 class="text-sm font-bold text-slate-900 uppercase border-b-2 border-slate-300 pb-1 mb-2">
-                3. Evidências Microscópicas Coletadas pela Equipe (${snaps.length} Registros)
+                3. Evidências Microscópicas Coletadas pela Equipe (${reportSnaps.length} Registros)
               </h3>
               <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                ${snaps.map(s => `
+                ${reportSnaps.map(s => `
                   <div class="p-2 border border-slate-300 rounded-lg text-center bg-slate-50">
                     <img src="${s.dataUrl}" alt="Fotomicrografia" class="w-full aspect-square object-cover rounded border border-slate-200 mb-1">
-                    <div class="text-[10px] font-bold text-slate-900">${s.slideCode} • ${s.objective}</div>
-                    <div class="text-[9px] text-slate-600 italic">"${s.note}"</div>
+                    <div class="text-[10px] font-bold text-slate-900">${s.slideCode || 'LÂMINA'} • ${s.objective || '400x'}</div>
+                    <div class="text-[9px] text-slate-600 italic">"${s.note || 'Registro de campo'}"</div>
                   </div>
                 `).join('')}
               </div>
@@ -2356,11 +2681,11 @@ class BioLabApp {
               <span class="text-[10px] text-slate-500">Aula 8 • Ficha 9</span>
             </h3>
             <div class="text-xs text-slate-800 p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2 min-h-[70px]">
-              ${(this.studentAnswers['p8_q3'] && this.studentAnswers['p8_q3'].plan_name) ? `
-                <p><strong>Nome da Ação:</strong> ${this.studentAnswers['p8_q3'].plan_name}</p>
-                <p><strong>Fontes e Alvos Prioritários:</strong> ${this.studentAnswers['p8_q3'].plan_target || '-'}</p>
-                <p><strong>Mecanismo de Atuação:</strong> ${this.studentAnswers['p8_q3'].plan_action || '-'}</p>
-                <p><strong>Indicador de Eficácia:</strong> ${this.studentAnswers['p8_q3'].plan_indicator || '-'}</p>
+              ${((reportAnswers['p8_q3'] && reportAnswers['p8_q3'].plan_name) || (reportAnswers['p8_q3_d2'] && reportAnswers['p8_q3_d2'].plan_d2_name)) ? `
+                <p><strong>Nome da Ação:</strong> ${reportAnswers['p8_q3']?.plan_name || reportAnswers['p8_q3_d2']?.plan_d2_name || '-'}</p>
+                <p><strong>Fontes e Alvos Prioritários:</strong> ${reportAnswers['p8_q3']?.plan_target || reportAnswers['p8_q3_d2']?.plan_d2_target || '-'}</p>
+                <p><strong>Mecanismo de Atuação:</strong> ${reportAnswers['p8_q3']?.plan_action || reportAnswers['p8_q3_d2']?.plan_d2_action || '-'}</p>
+                <p><strong>Indicador de Eficácia:</strong> ${reportAnswers['p8_q3']?.plan_indicator || reportAnswers['p8_q3_d2']?.plan_d2_indicator || '-'}</p>
               ` : `
                 <div class="text-slate-400 italic text-center py-3 border border-dashed border-slate-300 rounded">[Espaço em branco: a proposta de intervenção comunitária será gerada aqui após preenchimento na Ficha 9]</div>
               `}
@@ -2369,7 +2694,7 @@ class BioLabApp {
 
           <!-- Assinaturas Formais da Equipe -->
           <div class="mt-10 pt-4 border-t border-slate-400 grid grid-cols-2 md:grid-cols-4 gap-4 text-center font-sans">
-            ${(this.team.members && this.team.members.length > 0) ? this.team.members.map(m => `
+            ${(reportTeam.members && reportTeam.members.length > 0) ? reportTeam.members.map(m => `
               <div>
                 <div class="border-b border-slate-400 mb-1 h-6"></div>
                 <div class="text-[10px] font-bold text-slate-900">${m.name}</div>
