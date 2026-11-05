@@ -17,20 +17,8 @@ class BioLabApp {
     this.activeTeamId = null;
     this.pendingPinTeamId = null;
 
-    // Dados da Equipe de Pesquisadores Ativa
-    this.team = {
-      name: 'BioInvestigadores Alpha',
-      turma: '1ª Série A - Ensino Médio',
-      date: new Date().toLocaleDateString('pt-BR'),
-      avatar: '🔬',
-      pin: '',
-      members: [
-        { name: 'Ana Beatriz', role: 'Investigadora Principal' },
-        { name: 'Carlos Eduardo', role: 'Especialista em Microscopia' },
-        { name: 'Juliana Lima', role: 'Analista de Dados & Gráficos' },
-        { name: 'Lucas Gabriel', role: 'Relator & Redator Científico' }
-      ]
-    };
+    // Dados da Equipe de Pesquisadores Ativa (inicia vazio; cadastrada pelos alunos ao iniciar)
+    this.team = null;
 
     // Respostas dos estudantes às Fichas (isoladas por equipe)
     this.studentAnswers = {};
@@ -142,6 +130,11 @@ class BioLabApp {
       if (document.getElementById('microfilm-container')) {
         window.microfilmReader = new MicrofilmReader('microfilm-container');
       }
+
+      // Se nenhuma equipe estiver cadastrada, abrir o modal para os alunos criarem a sua equipe
+      if (!this.activeTeamId || !this.team) {
+        this.openTeamAccessModal('create');
+      }
     }, 150);
   }
 
@@ -200,16 +193,29 @@ class BioLabApp {
   renderHeader() {
     const teamBadge = document.getElementById('header-team-badge');
     if (teamBadge) {
-      teamBadge.innerHTML = `
-        <div class="team-badge-pill" onclick="window.app.openTeamModal()" title="Ver e Editar Integrantes da Equipe">
-          <span class="icon-avatar">${this.team.avatar || '🔬'}</span>
-          <div class="text-left">
-            <div class="team-badge-name">${this.team.name}</div>
-            <div class="team-badge-sub">${this.team.turma} • ${this.team.members.length} Pesquisadores</div>
+      if (this.team && this.team.name) {
+        teamBadge.innerHTML = `
+          <div class="team-badge-pill" onclick="window.app.openTeamModal()" title="Ver e Editar Integrantes da Equipe">
+            <span class="icon-avatar">${this.team.avatar || '🔬'}</span>
+            <div class="text-left">
+              <div class="team-badge-name">${this.team.name}</div>
+              <div class="team-badge-sub">${this.team.turma} • ${this.team.members ? this.team.members.length : 0} Pesquisadores</div>
+            </div>
+            <span class="badge-edit-hint">✎ Editar</span>
           </div>
-          <span class="badge-edit-hint">✎ Editar</span>
-        </div>
-      `;
+        `;
+      } else {
+        teamBadge.innerHTML = `
+          <div class="team-badge-pill" onclick="window.app.openTeamAccessModal('create')" title="Clique para cadastrar a sua equipe">
+            <span class="icon-avatar">➕</span>
+            <div class="text-left">
+              <div class="team-badge-name">Cadastrar Equipe</div>
+              <div class="team-badge-sub">Clique para iniciar</div>
+            </div>
+            <span class="badge-edit-hint">Começar →</span>
+          </div>
+        `;
+      }
     }
 
     const teacherBtn = document.getElementById('btn-teacher-toggle');
@@ -379,10 +385,16 @@ class BioLabApp {
             <p>${doc.fullText.replace(/\n\s+/g, '</p><p class="mt-2">')}</p>
           </div>
 
-          <!-- Pista da Investigação e Acesso ao Microfilme -->
-          <div class="newspaper-footer-hint">
-            <strong>🔍 Pista dos Investigadores:</strong> ${doc.sourceHint}
-          </div>
+          <!-- Registro Investigativo (Análise Pedagógica restrita ao Modo Professor) -->
+          ${this.teacherMode ? `
+            <div class="newspaper-footer-hint bg-amber-950/40 border border-amber-500/40 text-amber-200">
+              <strong>🎓 Análise Pedagógica Docente:</strong> ${doc.sourceHint}
+            </div>
+          ` : `
+            <div class="newspaper-footer-hint">
+              <strong>📋 Registro de Campo:</strong> Discuta com sua equipe as informações deste documento e confronte-as com as hipóteses formuladas.
+            </div>
+          `}
           <div class="mt-3 flex justify-end">
             <button class="btn-secondary text-[11px] py-1 px-3 border-cyan-500/40 text-cyan-300 flex items-center gap-1.5" 
               onclick="window.app.switchTab('microfilme'); window.microfilmReader.goToDocFrame('${doc.id}')">
@@ -441,7 +453,11 @@ class BioLabApp {
           <div class="lab-report-footer">
             <div class="lab-footer-meta">
               <strong>Procedimento:</strong> Triagem Óptica Padronizada (Rede 300 µm)<br>
-              <strong>🔍 Pista Pericial:</strong> ${doc.sourceHint}
+              ${this.teacherMode ? `
+                <strong class="text-amber-800">🎓 Análise Pedagógica Docente:</strong> <span class="text-amber-900 font-bold">${doc.sourceHint}</span>
+              ` : `
+                <strong>Registro Pericial:</strong> Interprete os dados analíticos na Ficha correspondente do Caderno de Campo.
+              `}
             </div>
             <div class="lab-signature-box">
               <div class="lab-sign-line"></div>
@@ -1315,6 +1331,10 @@ class BioLabApp {
   // SISTEMA DE GESTÃO DE EQUIPES (MULTI-TENANT)
   // ==========================================
   initTeamsSystem() {
+    // Limpeza rigorosa: remove dados ilustrativos, mockados ou de demonstração prévia
+    localStorage.removeItem('biolab_plano_sc_data');
+    localStorage.removeItem('biolafa_team_team_alpha_data');
+
     try {
       const regRaw = localStorage.getItem('biolafa_teams_registry');
       if (regRaw) {
@@ -1324,63 +1344,30 @@ class BioLabApp {
       this.teamsRegistry = [];
     }
 
-    // Se o registro estiver vazio, migrar dados legados ou criar equipe padrão
-    if (!this.teamsRegistry || this.teamsRegistry.length === 0) {
-      let legacyAnswers = {};
-      let legacyMatrix = {};
-      let legacyAssessment = {};
-      let legacyPhase = 0;
-      let legacyTeam = null;
+    // Descartar qualquer equipe de demonstração (team_alpha)
+    this.teamsRegistry = (this.teamsRegistry || []).filter(t => t.id !== 'team_alpha');
+    localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
 
-      try {
-        const oldRaw = localStorage.getItem('biolab_plano_sc_data');
-        if (oldRaw) {
-          const old = JSON.parse(oldRaw);
-          if (old.answers) legacyAnswers = old.answers;
-          if (old.evidenceMatrix) legacyMatrix = old.evidenceMatrix;
-          if (old.selfAssessment) legacyAssessment = old.selfAssessment;
-          if (typeof old.currentPhase === 'number') legacyPhase = old.currentPhase;
-          if (old.team) legacyTeam = old.team;
-        }
-      } catch (e) {}
-
-      const defaultTeam = {
-        id: 'team_alpha',
-        name: (legacyTeam && legacyTeam.name) || 'BioInvestigadores Alpha',
-        turma: (legacyTeam && legacyTeam.turma) || '1ª Série A - Ensino Médio',
-        avatar: '🔬',
-        pin: '',
-        date: new Date().toLocaleDateString('pt-BR'),
-        members: (legacyTeam && legacyTeam.members) || [
-          { name: 'Ana Beatriz', role: 'Investigadora Principal' },
-          { name: 'Carlos Eduardo', role: 'Especialista em Microscopia' },
-          { name: 'Juliana Lima', role: 'Analista de Dados & Gráficos' },
-          { name: 'Lucas Gabriel', role: 'Relator & Redator Científico' }
-        ],
-        createdAt: new Date().toISOString(),
-        lastActive: new Date().toISOString()
-      };
-
-      this.teamsRegistry = [defaultTeam];
-      localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
-
-      const initialPayload = {
-        team: defaultTeam,
-        answers: legacyAnswers,
-        evidenceMatrix: legacyMatrix,
-        selfAssessment: legacyAssessment,
-        currentPhase: legacyPhase,
-        snapshots: [],
-        lastSaved: new Date().toISOString()
-      };
-      localStorage.setItem('biolafa_team_team_alpha_data', JSON.stringify(initialPayload));
-    }
-
-    // Identificar e carregar a equipe ativa
+    // Identificar e carregar equipe real ativa se existir
     const savedActiveId = localStorage.getItem('biolafa_active_team_id');
-    const targetTeam = this.teamsRegistry.find(t => t.id === savedActiveId) || this.teamsRegistry[0];
-    this.activeTeamId = targetTeam.id;
-    this.loadTeamData(this.activeTeamId, false);
+    const targetTeam = this.teamsRegistry.find(t => t.id === savedActiveId);
+
+    if (targetTeam) {
+      this.activeTeamId = targetTeam.id;
+      this.loadTeamData(this.activeTeamId, false);
+    } else if (this.teamsRegistry.length > 0) {
+      this.activeTeamId = this.teamsRegistry[0].id;
+      this.loadTeamData(this.activeTeamId, false);
+    } else {
+      // Estado 100% LIMPO: sem equipes ilustrativas e sem spoilers
+      this.activeTeamId = null;
+      this.team = null;
+      this.studentAnswers = {};
+      this.evidenceMatrix = {};
+      this.selfAssessment = {};
+      this.currentPhaseIndex = 0;
+      localStorage.removeItem('biolafa_active_team_id');
+    }
   }
 
   loadTeamData(teamId, reRender = true) {
@@ -1608,6 +1595,13 @@ class BioLabApp {
   }
 
   renderNewTeamForm() {
+    const nameInput = document.getElementById('new-team-name');
+    const turmaInput = document.getElementById('new-team-turma');
+    const pinInput = document.getElementById('new-team-pin');
+    if (nameInput) nameInput.value = '';
+    if (turmaInput) turmaInput.value = '1ª Série A - Ensino Médio';
+    if (pinInput) pinInput.value = '';
+
     const grid = document.getElementById('new-team-avatar-grid');
     if (grid) {
       grid.innerHTML = this.avatarsList.map(av => `
@@ -1619,15 +1613,23 @@ class BioLabApp {
     }
 
     const membersCont = document.getElementById('new-team-members-container');
-    if (membersCont && membersCont.children.length === 0) {
+    if (membersCont) {
       membersCont.innerHTML = `
         <div class="flex gap-2 mb-2">
-          <input type="text" class="lab-input flex-1 new-member-name" placeholder="Nome do Aluno 1" value="Pesquisador 1">
+          <input type="text" class="lab-input flex-1 new-member-name" placeholder="Nome do Aluno 1" value="">
           <input type="text" class="lab-input flex-1 text-slate-400 new-member-role" placeholder="Função" value="Investigador Principal">
         </div>
         <div class="flex gap-2 mb-2">
-          <input type="text" class="lab-input flex-1 new-member-name" placeholder="Nome do Aluno 2" value="Pesquisador 2">
+          <input type="text" class="lab-input flex-1 new-member-name" placeholder="Nome do Aluno 2" value="">
           <input type="text" class="lab-input flex-1 text-slate-400 new-member-role" placeholder="Função" value="Especialista em Microscopia">
+        </div>
+        <div class="flex gap-2 mb-2">
+          <input type="text" class="lab-input flex-1 new-member-name" placeholder="Nome do Aluno 3" value="">
+          <input type="text" class="lab-input flex-1 text-slate-400 new-member-role" placeholder="Função" value="Analista de Dados & Gráficos">
+        </div>
+        <div class="flex gap-2 mb-2">
+          <input type="text" class="lab-input flex-1 new-member-name" placeholder="Nome do Aluno 4" value="">
+          <input type="text" class="lab-input flex-1 text-slate-400 new-member-role" placeholder="Função" value="Relator & Redator Científico">
         </div>
       `;
     }
@@ -1939,19 +1941,24 @@ class BioLabApp {
   }
 
   openTeamModal() {
+    if (!this.team) {
+      this.openTeamAccessModal('create');
+      return;
+    }
+
     const modal = document.getElementById('team-modal');
     if (!modal) return;
     modal.classList.remove('hidden');
     modal.style.display = 'flex';
 
-    document.getElementById('input-team-name').value = this.team.name;
-    document.getElementById('input-team-turma').value = this.team.turma;
+    document.getElementById('input-team-name').value = this.team.name || '';
+    document.getElementById('input-team-turma').value = this.team.turma || '1ª Série A - Ensino Médio';
     
     const membersBox = document.getElementById('team-members-inputs');
-    membersBox.innerHTML = this.team.members.map((m, idx) => `
+    membersBox.innerHTML = (this.team.members || []).map((m, idx) => `
       <div class="flex gap-2 mb-2">
-        <input type="text" class="lab-input flex-1" value="${m.name}" placeholder="Nome do Aluno" id="member-name-${idx}">
-        <input type="text" class="lab-input flex-1 text-slate-400" value="${m.role}" placeholder="Papel na Pesquisa" id="member-role-${idx}">
+        <input type="text" class="lab-input flex-1" value="${m.name || ''}" placeholder="Nome do Aluno" id="member-name-${idx}">
+        <input type="text" class="lab-input flex-1 text-slate-400" value="${m.role || ''}" placeholder="Papel na Pesquisa" id="member-role-${idx}">
       </div>
     `).join('');
   }
@@ -1975,6 +1982,12 @@ class BioLabApp {
   }
 
   openReportModal() {
+    if (!this.team || !this.team.name) {
+      alert('Cadastre primeiro a sua equipe de pesquisa para emitir o Dossiê Científico Oficial.');
+      this.openTeamAccessModal('create');
+      return;
+    }
+
     const modal = document.getElementById('report-modal');
     if (!modal) return;
     modal.classList.remove('hidden');
@@ -1997,11 +2010,11 @@ class BioLabApp {
             <div class="flex flex-wrap justify-center gap-6 text-xs text-slate-600 font-sans mt-3 py-2 bg-slate-100 rounded-lg">
               <span><strong>Equipe:</strong> ${this.team.name}</span>
               <span><strong>Turma:</strong> ${this.team.turma}</span>
-              <span><strong>Data de Emissão:</strong> ${this.team.date}</span>
+              <span><strong>Data de Emissão:</strong> ${this.team.date || new Date().toLocaleDateString('pt-BR')}</span>
             </div>
 
             <div class="text-xs text-slate-600 font-sans mt-2">
-              <strong>Pesquisadores Responsáveis:</strong> ${this.team.members.map(m => `<u>${m.name}</u> (<em>${m.role}</em>)`).join(' • ')}
+              <strong>Pesquisadores Responsáveis:</strong> ${(this.team.members && this.team.members.length > 0) ? this.team.members.map(m => `<u>${m.name}</u> (<em>${m.role}</em>)`).join(' • ') : 'Equipe de Pesquisa'}
             </div>
           </div>
 
@@ -2011,8 +2024,8 @@ class BioLabApp {
               <span>1. Conclusão Científica Baseada em Evidências</span>
               <span class="text-[10px] text-slate-500">Aula 8 • Ficha 9</span>
             </h3>
-            <div class="text-xs text-slate-800 leading-relaxed whitespace-pre-line p-3 bg-slate-50 border border-slate-200 rounded-lg">
-              ${this.studentAnswers['p8_q1'] || 'A contaminação do Rio das Palmeiras é multicausal: a indústria têxtil contribuía expressivamente com fibras sintéticas (comprovado pela redução de 53,2% após a instalação dos filtros), associada ao despejo clandestino de esgoto doméstico (fibras de vestuário) e à drenagem pluvial da rodovia (pó de desgaste de pneus). Uma única atividade não explica isoladamente o problema.'}
+            <div class="text-xs text-slate-800 leading-relaxed whitespace-pre-line p-3 bg-slate-50 border border-slate-200 rounded-lg min-h-[60px]">
+              ${this.studentAnswers['p8_q1'] ? this.studentAnswers['p8_q1'] : '<div class="text-slate-400 italic text-center py-3 border border-dashed border-slate-300 rounded">[Espaço em branco: a equipe preenche esta conclusão no Caderno de Investigação ao final das anotações]</div>'}
             </div>
           </div>
 
@@ -2023,14 +2036,13 @@ class BioLabApp {
               <span class="text-[10px] text-slate-500">Aulas 4 e 7 • Fichas 5 e 8</span>
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-800">
-              <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                <strong class="block text-slate-900 mb-1">📊 Redução no Ponto C (Jusante Fabril):</strong>
-                Queda de <strong>47 part/L</strong> para <strong>22 part/L</strong> após o filtro de ultrafiltração da Têxtil Aurora.<br>
-                <span class="font-mono text-cyan-800 font-bold">Variação: -25 part/L = Queda de 53,2%</span>.
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg min-h-[70px]">
+                <strong class="block text-slate-900 mb-1">📊 Análise e Cálculo de Redução no Ponto C:</strong>
+                ${this.studentAnswers['p7_q1'] ? this.studentAnswers['p7_q1'] : '<div class="text-slate-400 italic py-2 border border-dashed border-slate-300 rounded text-center">[Espaço para o cálculo da equipe na Ficha 8]</div>'}
               </div>
-              <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                <strong class="block text-slate-900 mb-1">⚖️ Causalidade vs. Culpa Exclusiva:</strong>
-                A persistência de 22 part/L no Ponto C e as altas contagens no Ponto B (18 part/L) e Ponto D (39 part/L) provam que o problema é de <strong>Múltiplas Fontes Confluentes</strong>.
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg min-h-[70px]">
+                <strong class="block text-slate-900 mb-1">⚖️ Análise de Causalidade vs. Múltiplas Fontes:</strong>
+                ${this.studentAnswers['p7_q2'] ? this.studentAnswers['p7_q2'] : '<div class="text-slate-400 italic py-2 border border-dashed border-slate-300 rounded text-center">[Espaço para a justificativa da equipe na Ficha 8]</div>'}
               </div>
             </div>
           </div>
@@ -2051,7 +2063,16 @@ class BioLabApp {
                 `).join('')}
               </div>
             </div>
-          ` : ''}
+          ` : `
+            <div class="mb-6 font-sans">
+              <h3 class="text-sm font-bold text-slate-900 uppercase border-b-2 border-slate-300 pb-1 mb-2">
+                3. Evidências Microscópicas da Bancada
+              </h3>
+              <div class="p-4 border border-dashed border-slate-300 rounded-lg text-center text-xs text-slate-400 italic bg-slate-50">
+                [Espaço reservado para as fotomicrografias capturadas pela equipe durante as observações no Microscópio Virtual]
+              </div>
+            </div>
+          `}
 
           <!-- 4. Proposta de Intervenção e Mitigação Comunitária -->
           <div class="mb-6 font-sans">
@@ -2059,23 +2080,31 @@ class BioLabApp {
               <span>4. Proposta de Intervenção Ambiental Cidadã</span>
               <span class="text-[10px] text-slate-500">Aula 8 • Ficha 9</span>
             </h3>
-            <div class="text-xs text-slate-800 p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
-              <p><strong>Nome da Ação:</strong> ${(this.studentAnswers['p8_q3'] && this.studentAnswers['p8_q3'].plan_name) || 'Plano Bacia Viva: Mitigação Integrada de Polímeros Fluviais'}</p>
-              <p><strong>Fontes e Alvos Prioritários:</strong> ${(this.studentAnswers['p8_q3'] && this.studentAnswers['p8_q3'].plan_target) || 'Canalização do esgoto residencial para ETE e caixas decantadoras de borracha na drenagem rodoviária.'}</p>
-              <p><strong>Mecanismo de Atuação:</strong> ${(this.studentAnswers['p8_q3'] && this.studentAnswers['p8_q3'].plan_action) || 'Interrupção definitiva de ligações irregulares, implantação de bacias de retenção de sedimentos ao longo da Rodovia dos Ipês e campanhas de descarte correto de petrechos de pesca.'}</p>
-              <p><strong>Indicador de Eficácia:</strong> ${(this.studentAnswers['p8_q3'] && this.studentAnswers['p8_q3'].plan_indicator) || 'Redução das partículas nos Pontos B e D para níveis inferiores a 10 part/L no período de 12 meses.'}</p>
+            <div class="text-xs text-slate-800 p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2 min-h-[70px]">
+              ${(this.studentAnswers['p8_q3'] && this.studentAnswers['p8_q3'].plan_name) ? `
+                <p><strong>Nome da Ação:</strong> ${this.studentAnswers['p8_q3'].plan_name}</p>
+                <p><strong>Fontes e Alvos Prioritários:</strong> ${this.studentAnswers['p8_q3'].plan_target || '-'}</p>
+                <p><strong>Mecanismo de Atuação:</strong> ${this.studentAnswers['p8_q3'].plan_action || '-'}</p>
+                <p><strong>Indicador de Eficácia:</strong> ${this.studentAnswers['p8_q3'].plan_indicator || '-'}</p>
+              ` : `
+                <div class="text-slate-400 italic text-center py-3 border border-dashed border-slate-300 rounded">[Espaço em branco: a proposta de intervenção comunitária será gerada aqui após preenchimento na Ficha 9]</div>
+              `}
             </div>
           </div>
 
           <!-- Assinaturas Formais da Equipe -->
           <div class="mt-10 pt-4 border-t border-slate-400 grid grid-cols-2 md:grid-cols-4 gap-4 text-center font-sans">
-            ${this.team.members.map(m => `
+            ${(this.team.members && this.team.members.length > 0) ? this.team.members.map(m => `
               <div>
                 <div class="border-b border-slate-400 mb-1 h-6"></div>
                 <div class="text-[10px] font-bold text-slate-900">${m.name}</div>
                 <div class="text-[9px] text-slate-500">${m.role}</div>
               </div>
-            `).join('')}
+            `).join('') : `
+              <div class="col-span-4 text-center text-xs text-slate-500 italic">
+                Equipe de Investigação Científica • 1ª Série do Ensino Médio
+              </div>
+            `}
           </div>
         </div>
       `;
