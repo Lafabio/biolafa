@@ -31,6 +31,20 @@ class BioLabApp {
 
     // Inicializar Sistema de Equipes e Carregar Dados Isolados
     this.initTeamsSystem();
+    // Sistema Multi-Desafios e Controle Pedagógico Docente
+    this.activeChallengeId = localStorage.getItem('biolafa_active_challenge_id') || 'desafio-1';
+    this.isChallenge02Unlocked = (localStorage.getItem('biolafa_challenge_02_unlocked') === 'true');
+
+    // Se o Desafio 02 estiver ativo mas estiver bloqueado e o usuário não for professor, reverte para Desafio 01
+    if (this.activeChallengeId === 'desafio-2' && !this.isChallenge02Unlocked && !this.teacherAuth) {
+      this.activeChallengeId = 'desafio-1';
+      localStorage.setItem('biolafa_active_challenge_id', 'desafio-1');
+    }
+
+    if (typeof window !== 'undefined' && window.CHALLENGES_DATABASE && window.CHALLENGES_DATABASE[this.activeChallengeId]) {
+      window.BIO_DATA = window.CHALLENGES_DATABASE[this.activeChallengeId];
+    }
+
 
     // Inicializar sub-módulos
     this.initAudio();
@@ -97,6 +111,7 @@ class BioLabApp {
   initApp() {
     this.loadCustomSlides();
     this.renderHeader();
+    this.renderChallengesHub();
     this.switchTab(this.currentTab, false);
     this.checkServerForNewSlides();
 
@@ -138,6 +153,200 @@ class BioLabApp {
     }, 150);
   }
 
+  
+  getTeamDataKey(teamId, challengeId = this.activeChallengeId) {
+    if (!challengeId || challengeId === 'desafio-1') {
+      return `biolafa_team_${teamId}_data`;
+    }
+    return `biolafa_team_${teamId}_data_${challengeId}`;
+  }
+
+  renderChallengesHub() {
+    const grid = document.getElementById('challenges-grid');
+    if (!grid) return;
+
+    const isCh1Active = (this.activeChallengeId === 'desafio-1');
+    const isCh2Active = (this.activeChallengeId === 'desafio-2');
+    const isCh2Unlocked = this.isChallenge02Unlocked;
+
+    grid.innerHTML = `
+      <!-- Desafio 1 (Microplásticos) -->
+      <div class="challenge-card ${isCh1Active ? 'challenge-card-active' : 'border-slate-700 bg-slate-900/60'} flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <span class="${isCh1Active ? 'badge-tag-cyan' : 'px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono'}">
+              ${isCh1Active ? 'DESAFIO 01 • ATIVO' : 'DESAFIO 01'}
+            </span>
+            <span class="text-xs text-emerald-400 font-mono font-bold">9 Aulas • PBL</span>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">O Mistério do Rio das Palmeiras</h3>
+          <p class="text-xs text-cyan-300 font-semibold mb-3">Microplásticos, Fontes de Contaminação e Teias Alimentares</p>
+          <p class="text-xs text-slate-300 leading-relaxed mb-4">
+            Uma comunidade identifica pequenos resíduos na água. Uma fábrica têxtil, ligações irregulares de esgoto, uma rodovia movimentada e resíduos de pesca estão na região. Analise notícias, lâminas microscópicas e dados de monitoramento para formular uma explicação científica baseada em evidências.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
+            <span class="px-2 py-0.5 rounded bg-slate-800">12 Notícias</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800">Lâminas Ópticas</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800">Simulador Trófico</span>
+          </div>
+        </div>
+        <div class="mt-2 space-y-2">
+          ${isCh1Active ? `
+            <button class="btn-primary w-full justify-center py-2.5" onclick="window.app.switchTab('investigacao')">
+              🔬 Entrar na Missão de Investigação →
+            </button>
+          ` : `
+            <button class="btn-secondary w-full justify-center py-2.5 text-cyan-300 border-cyan-500/40 hover:bg-cyan-950/40 font-bold" onclick="window.app.selectChallenge('desafio-1')">
+              ↩️ Alternar para o Desafio 01
+            </button>
+          `}
+        </div>
+      </div>
+
+      <!-- Desafio 2 (Floração Vermelha / Eutrofização) -->
+      <div class="challenge-card ${isCh2Active ? 'challenge-card-active border-emerald-500/50' : (isCh2Unlocked ? 'border-emerald-600/40 bg-slate-900/80' : 'challenge-card-locked')} flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            ${isCh2Unlocked ? `
+              <span class="${isCh2Active ? 'badge-tag-cyan bg-emerald-950/80 text-emerald-300 border-emerald-500/40' : 'px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-300 text-[10px] font-mono border border-emerald-700/50'}">
+                ${isCh2Active ? 'DESAFIO 02 • ATIVO' : 'DESAFIO 02 • LIBERADO'}
+              </span>
+            ` : `
+              <span class="px-2 py-0.5 rounded bg-rose-950/70 text-rose-300 border border-rose-800/60 text-[10px] font-mono font-bold">
+                🔒 BLOQUEADO PELO PROFESSOR
+              </span>
+            `}
+            <span class="text-xs ${isCh2Unlocked ? 'text-emerald-400' : 'text-slate-500'} font-mono font-bold">9 Aulas • PBL</span>
+          </div>
+          <h3 class="text-lg font-bold ${isCh2Unlocked ? 'text-white' : 'text-slate-300'} mb-2">Floração Vermelha em Vale Verde</h3>
+          <p class="text-xs ${isCh2Unlocked ? 'text-emerald-300' : 'text-amber-400/90'} font-semibold mb-3">Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna</p>
+          <p class="text-xs ${isCh2Unlocked ? 'text-slate-300' : 'text-slate-400'} leading-relaxed mb-4">
+            O Lago Azul amanhece com uma camada verde-azulada e odor característico. Mortandade de alevinos e peixes adultos é observada na madrugada. Os alunos investigarão descarte de fósforo, nitrogênio, cianotoxinas (microcistina) e o ciclo noturno de oxigênio.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
+            <span class="px-2 py-0.5 rounded bg-slate-800">12 Laudos & Notícias</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800">Cianobactérias</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800">Anóxia Noturna</span>
+          </div>
+        </div>
+
+        <div class="mt-2 space-y-2">
+          ${isCh2Unlocked ? `
+            ${isCh2Active ? `
+              <button class="btn-primary w-full justify-center py-2.5 bg-emerald-600 hover:bg-emerald-500 border-emerald-400 text-white font-bold" onclick="window.app.switchTab('investigacao')">
+                🔬 Entrar na Missão do Desafio 02 →
+              </button>
+            ` : `
+              <button class="btn-primary w-full justify-center py-2.5 bg-emerald-600 hover:bg-emerald-500 border-emerald-400 text-white font-bold" onclick="window.app.selectChallenge('desafio-2')">
+                🔬 Entrar no Desafio 02 →
+              </button>
+            `}
+            ${this.teacherAuth ? `
+              <button class="btn-secondary w-full justify-center text-xs py-1.5 text-rose-300 border-rose-500/40 hover:bg-rose-950/40" onclick="window.app.toggleChallenge02Lock()">
+                🔒 Bloquear Desafio 02 Novamente
+              </button>
+            ` : ''}
+          ` : `
+            <button class="btn-secondary w-full justify-center opacity-70 cursor-pointer" onclick="window.app.alertChallengeLocked()">
+              🔒 Desafio Bloqueado (Aguarde o Professor)
+            </button>
+            ${this.teacherAuth ? `
+              <button class="btn-primary w-full justify-center py-2 bg-emerald-600 hover:bg-emerald-500 border-emerald-400 text-white font-bold text-xs" onclick="window.app.toggleChallenge02Lock()">
+                🔓 Liberar Desafio 02 para a Turma
+              </button>
+            ` : ''}
+          `}
+        </div>
+      </div>
+
+      <!-- Desafio 3 (Expansão Futura) -->
+      <div class="challenge-card challenge-card-locked flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">DESAFIO 03 • BLOQUEADO</span>
+            <span class="text-xs text-slate-500 font-mono">Em Breve</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-300 mb-2">Metais Pesados & Bioacumulação</h3>
+          <p class="text-xs text-rose-400 font-semibold mb-3">Chumbo, Mercúrio e Biomagnificação</p>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Investigação de mineração desativada, lixiviação ácida e acúmulo de metais pesados em tecidos de carnívoros aquáticos.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
+            <span class="px-2 py-0.5 rounded bg-slate-800">Toxicologia</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800">Sedimentos</span>
+          </div>
+        </div>
+        <button class="btn-secondary w-full justify-center opacity-50 cursor-not-allowed">
+          🔒 Desafio Bloqueado
+        </button>
+      </div>
+    `;
+  }
+
+  selectChallenge(challengeId) {
+    if (challengeId === 'desafio-2' && !this.isChallenge02Unlocked && !this.teacherAuth) {
+      this.alertChallengeLocked();
+      return;
+    }
+
+    if (!window.CHALLENGES_DATABASE || !window.CHALLENGES_DATABASE[challengeId]) {
+      return;
+    }
+
+    this.activeChallengeId = challengeId;
+    localStorage.setItem('biolafa_active_challenge_id', challengeId);
+    window.BIO_DATA = window.CHALLENGES_DATABASE[challengeId];
+
+    // Resetar índice para o início do novo desafio
+    this.currentPhaseIndex = 0;
+
+    // Recarregar os dados isolados da equipe para o desafio ativo
+    if (this.activeTeamId) {
+      this.loadTeamData(this.activeTeamId);
+    }
+
+    // Carregar primeira lâmina do microscópio para o desafio ativo
+    if (window.microscope && window.BIO_DATA.slides && window.BIO_DATA.slides.length > 0) {
+      window.microscope.loadSlide(window.BIO_DATA.slides[0]);
+      this.renderSlidesShelf();
+    }
+
+    this.renderHeader();
+    this.renderChallengesHub();
+    this.switchTab('investigacao');
+    this.playSound('focus_snap');
+  }
+
+  toggleChallenge02Lock() {
+    if (!this.teacherAuth) {
+      this.openTeacherLoginModal();
+      return;
+    }
+
+    this.isChallenge02Unlocked = !this.isChallenge02Unlocked;
+    localStorage.setItem('biolafa_challenge_02_unlocked', this.isChallenge02Unlocked ? 'true' : 'false');
+    this.playSound(this.isChallenge02Unlocked ? 'focus_snap' : 'tab');
+
+    if (this.isChallenge02Unlocked) {
+      alert('🔓 Desafio 02 LIBERADO com sucesso pelo professor!\n\nA partir de agora, os estudantes podem acessar a investigação "Floração Vermelha em Vale Verde".');
+    } else {
+      alert('🔒 Desafio 02 BLOQUEADO novamente pelo professor.\n\nO acesso para os alunos foi restrito até nova autorização.');
+      if (this.activeChallengeId === 'desafio-2') {
+        this.selectChallenge('desafio-1');
+      }
+    }
+
+    this.renderChallengesHub();
+    if (this.currentTab === 'professor') {
+      this.renderTeacherSection();
+    }
+  }
+
+  alertChallengeLocked() {
+    this.playSound('tab');
+    alert('🔒 Desafio Bloqueado pelo Professor\n\nEste desafio pedagógico está bloqueado para garantir a progressão didática da turma.\n\nO acesso será liberado no momento adequado pelo professor através do Modo Professor.');
+  }
+
   switchTab(tabId, playFx = true) {
     // Proteger acesso ao Painel do Professor: exclusivo para login "biolafa"
     if (tabId === 'professor' && !this.teacherAuth) {
@@ -167,7 +376,9 @@ class BioLabApp {
       activeSec.classList.remove('hidden');
     }
 
-    if (tabId === 'investigacao') {
+    if (tabId === 'desafios') {
+      this.renderChallengesHub();
+    } else if (tabId === 'investigacao') {
       this.renderPhase(this.currentPhaseIndex);
     } else if (tabId === 'microscopio') {
       if (window.microscope) {
@@ -191,6 +402,16 @@ class BioLabApp {
   }
 
   renderHeader() {
+    
+    const chalInfo = document.getElementById('global-challenge-info');
+    if (chalInfo && window.BIO_DATA && window.BIO_DATA.challenge) {
+      const ch = window.BIO_DATA.challenge;
+      chalInfo.innerHTML = `
+        <span class="status-led status-green"></span>
+        <strong>${ch.code} Ativo:</strong> ${ch.title} (${ch.subtitle})
+      `;
+    }
+
     const teamBadge = document.getElementById('header-team-badge');
     if (teamBadge) {
       if (this.team && this.team.name) {
@@ -1212,6 +1433,57 @@ class BioLabApp {
           </div>
         </div>
 
+        
+        <!-- CONTROLE PEDAGÓGICO DE LIBERAÇÃO DE DESAFIOS -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-cyan-500/30">
+          <div class="flex flex-wrap justify-between items-center gap-3 mb-4 border-b border-slate-800 pb-3">
+            <div>
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <span>🔐</span> Controle Pedagógico de Desafios da Turma
+              </h3>
+              <p class="text-xs text-slate-400">
+                Gerencie a liberação gradual dos desafios de investigação para garantir o avanço sincronizado da turma.
+              </p>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Desafio 01 -->
+            <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+              <div>
+                <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800 font-bold">DESAFIO 01 • ATIVO</span>
+                <h4 class="font-bold text-sm text-white mt-1">O Mistério do Rio das Palmeiras</h4>
+                <p class="text-xs text-slate-400">Microplásticos & Teias Alimentares (9 Aulas)</p>
+              </div>
+              <button class="btn-secondary text-xs py-1.5 px-3" onclick="window.app.selectChallenge('desafio-1')">
+                ${this.activeChallengeId === 'desafio-1' ? '✓ Em Andamento' : 'Selecionar'}
+              </button>
+            </div>
+
+            <!-- Desafio 02 -->
+            <div class="p-4 bg-slate-950 rounded-xl border ${this.isChallenge02Unlocked ? 'border-emerald-500/40 bg-emerald-950/20' : 'border-rose-500/40 bg-rose-950/20'} flex justify-between items-center">
+              <div>
+                <span class="text-[10px] font-mono ${this.isChallenge02Unlocked ? 'text-emerald-400 bg-emerald-950 border-emerald-800' : 'text-rose-400 bg-rose-950 border-rose-800'} px-2 py-0.5 rounded border font-bold">
+                  ${this.isChallenge02Unlocked ? '🔓 DESAFIO 02 • LIBERADO' : '🔒 DESAFIO 02 • BLOQUEADO'}
+                </span>
+                <h4 class="font-bold text-sm text-white mt-1">Floração Vermelha em Vale Verde</h4>
+                <p class="text-xs text-slate-400">Eutrofização & Cianobactérias Tóxicas (9 Aulas)</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button class="btn-secondary text-xs py-1.5 px-3 ${this.isChallenge02Unlocked ? 'border-rose-500/50 text-rose-300 hover:bg-rose-950' : 'border-emerald-500/50 text-emerald-300 hover:bg-emerald-950 font-bold'}"
+                  onclick="window.app.toggleChallenge02Lock()">
+                  ${this.isChallenge02Unlocked ? '🔒 Bloquear' : '🔓 Liberar para a Turma'}
+                </button>
+                ${this.isChallenge02Unlocked ? `
+                  <button class="btn-primary text-xs py-1.5 px-3" onclick="window.app.selectChallenge('desafio-2')">
+                    ${this.activeChallengeId === 'desafio-2' ? '✓ Em Andamento' : 'Entrar'}
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- PAINEL DE MONITORAMENTO DAS EQUIPES DA TURMA -->
         <div class="p-6 rounded-2xl bg-slate-900 border border-slate-700">
           <div class="flex flex-wrap justify-between items-center gap-3 mb-4 border-b border-slate-800 pb-3">
@@ -1380,7 +1652,7 @@ class BioLabApp {
 
     // Carregar os dados isolados da equipe
     try {
-      const raw = localStorage.getItem(`biolafa_team_${teamId}_data`);
+      const raw = localStorage.getItem(this.getTeamDataKey(teamId));
       if (raw) {
         const parsed = JSON.parse(raw);
         this.studentAnswers = parsed.answers || {};
@@ -1431,7 +1703,7 @@ class BioLabApp {
     };
 
     try {
-      localStorage.setItem(`biolafa_team_${this.activeTeamId}_data`, JSON.stringify(payload));
+      localStorage.setItem(this.getTeamDataKey(this.activeTeamId), JSON.stringify(payload));
       
       const idx = this.teamsRegistry.findIndex(t => t.id === this.activeTeamId);
       if (idx !== -1) {
@@ -1450,7 +1722,7 @@ class BioLabApp {
 
   calculateTeamProgress(teamId) {
     try {
-      const raw = localStorage.getItem(`biolafa_team_${teamId}_data`);
+      const raw = localStorage.getItem(this.getTeamDataKey(teamId));
       if (!raw) return 0;
       const parsed = JSON.parse(raw);
       const answers = parsed.answers || {};
@@ -1708,7 +1980,7 @@ class BioLabApp {
       snapshots: [],
       lastSaved: new Date().toISOString()
     };
-    localStorage.setItem(`biolafa_team_${newTeam.id}_data`, JSON.stringify(initialPayload));
+    localStorage.setItem(this.getTeamDataKey(newTeam.id), JSON.stringify(initialPayload));
 
     this.loginTeam(newTeam.id);
   }
@@ -1725,7 +1997,8 @@ class BioLabApp {
 
     this.teamsRegistry = this.teamsRegistry.filter(t => t.id !== teamId);
     localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
-    localStorage.removeItem(`biolafa_team_${teamId}_data`);
+    localStorage.removeItem(this.getTeamDataKey(teamId, 'desafio-1'));
+    localStorage.removeItem(this.getTeamDataKey(teamId, 'desafio-2'));
 
     if (this.activeTeamId === teamId) {
       this.loginTeam(this.teamsRegistry[0].id);
@@ -1750,7 +2023,7 @@ class BioLabApp {
 
     let payload = null;
     try {
-      const raw = localStorage.getItem(`biolafa_team_${teamId}_data`);
+      const raw = localStorage.getItem(this.getTeamDataKey(teamId));
       if (raw) payload = JSON.parse(raw);
     } catch (e) {}
 
@@ -1788,7 +2061,7 @@ class BioLabApp {
       teams: this.teamsRegistry.map(t => {
         let teamData = {};
         try {
-          const raw = localStorage.getItem(`biolafa_team_${t.id}_data`);
+          const raw = localStorage.getItem(this.getTeamDataKey(t.id));
           if (raw) teamData = JSON.parse(raw);
         } catch (e) {}
         return {
@@ -1840,7 +2113,7 @@ class BioLabApp {
           snapshots: parsed.snapshots || [],
           lastSaved: new Date().toISOString()
         };
-        localStorage.setItem(`biolafa_team_${importedTeam.id}_data`, JSON.stringify(payload));
+        localStorage.setItem(this.getTeamDataKey(importedTeam.id), JSON.stringify(payload));
 
         alert(`Equipe "${importedTeam.name}" importada com sucesso!`);
         this.loginTeam(importedTeam.id);
@@ -1880,6 +2153,7 @@ class BioLabApp {
       localStorage.setItem('biolafa_teacher_auth', 'true');
       this.closeModal('teacher-login-modal');
       this.renderHeader();
+      this.renderChallengesHub();
       this.switchTab('professor');
       this.playSound('tab');
     } else {
@@ -1893,6 +2167,7 @@ class BioLabApp {
     this.teacherMode = false;
     localStorage.removeItem('biolafa_teacher_auth');
     this.renderHeader();
+    this.renderChallengesHub();
     if (this.currentTab === 'professor') {
       this.switchTab('desafios');
     } else {

@@ -83,7 +83,7 @@
   <!-- Barra de Progresso Global do Desafio -->
   <div class="w-full bg-slate-900 border-b border-slate-800 py-1.5 px-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between text-[11px] text-slate-400">
-      <span class="flex items-center gap-2">
+      <span class="flex items-center gap-2" id="global-challenge-info">
         <span class="status-led status-green"></span>
         <strong>Desafio 1 Ativo:</strong> O Mistério do Rio das Palmeiras (Microplásticos & Teias Alimentares)
       </span>
@@ -118,7 +118,7 @@
       </div>
 
       <!-- Grid de Desafios -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div id="challenges-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <!-- Desafio 1 (Ativo e Principal) -->
         <div class="challenge-card challenge-card-active flex flex-col justify-between">
