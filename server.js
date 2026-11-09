@@ -1,6 +1,8 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const teamsHandler = require('./api/teams.js');
+const slidesHandler = require('./api/slides.js');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -24,25 +26,23 @@ const server = http.createServer((req, res) => {
   // Tratamento de URL limpa
   let reqUrl = decodeURI(req.url.split('?')[0]);
 
-  // Endpoint de Descoberta Automática de Novas Lâminas na pasta
-  if (reqUrl === '/api/slides') {
-    const slidesDir = path.join(PUBLIC_DIR, 'assets', 'slides');
-    fs.readdir(slidesDir, (err, files) => {
-      if (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: err.message }));
-        return;
-      }
-      // Filtrar arquivos que começam com laminas_
-      const laminasFiles = files.filter(f => /^laminas_/i.test(f) || /lamina/i.test(f));
-      res.writeHead(200, { 
-        'Content-Type': 'application/json; charset=utf-8',
-        'Cache-Control': 'no-cache',
-        'Access-Control-Allow-Origin': '*'
-      });
-      res.end(JSON.stringify({ slides: laminasFiles }));
+  // CORS preflight global
+  if (req.method === 'OPTIONS') {
+    res.writeHead(200, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     });
-    return;
+    return res.end();
+  }
+
+  // Endpoints da API
+  if (reqUrl === '/api/teams' || reqUrl.startsWith('/api/teams/')) {
+    return teamsHandler(req, res);
+  }
+
+  if (reqUrl === '/api/slides') {
+    return slidesHandler(req, res);
   }
 
   if (reqUrl === '/' || reqUrl === '') {
@@ -84,5 +84,6 @@ server.listen(PORT, () => {
   console.log(`🚀 BioLab Explorer rodando com sucesso!`);
   console.log(`🌐 Acesse no navegador: http://localhost:${PORT}`);
   console.log(`📁 Diretório servido: ${PUBLIC_DIR}`);
+  console.log(`👥 API de Equipes Ativa: http://localhost:${PORT}/api/teams`);
   console.log(`======================================================\n`);
 });

@@ -29,6 +29,13 @@ class BioLabApp {
     // Autoavaliação da Ficha 11 (isolada por equipe)
     this.selfAssessment = {};
 
+    // Sincronização em Tempo Real (Multi-Dispositivos: Alunos e Professor)
+    this.teacherSyncTimer = null;
+    this.studentHeartbeatTimer = null;
+    this.syncDebounceTimer = null;
+    this.serverTeamsCache = {};
+    this.teacherSearchFilter = '';
+
     // Inicializar Sistema de Equipes e Carregar Dados Isolados
     this.initTeamsSystem();
     // Sistema Multi-Desafios e Controle Pedagógico Docente
@@ -149,6 +156,12 @@ class BioLabApp {
       // Se nenhuma equipe estiver cadastrada, abrir o modal para os alunos criarem a sua equipe
       if (!this.activeTeamId || !this.team) {
         this.openTeamAccessModal('create');
+      }
+
+      // Iniciar heartbeat do estudante e sincronização em tempo real do professor
+      this.startStudentHeartbeat();
+      if (this.teacherAuth && this.currentTab === 'professor') {
+        this.startTeacherLiveSync();
       }
     }, 150);
   }
@@ -396,6 +409,9 @@ class BioLabApp {
       }
     } else if (tabId === 'professor') {
       this.renderTeacherSection();
+      this.startTeacherLiveSync();
+    } else {
+      this.stopTeacherLiveSync();
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1399,8 +1415,17 @@ class BioLabApp {
         <!-- Barra de Status do Professor -->
         <div class="p-6 rounded-2xl bg-amber-950/40 border border-amber-500/40">
           <div class="flex flex-wrap justify-between items-center gap-3 mb-3">
-            <span class="badge-tag-amber">🎓 Painel Docente Autenticado (biolafa)</span>
             <div class="flex items-center gap-2">
+              <span class="badge-tag-amber">🎓 Painel Docente Autenticado (biolafa)</span>
+              <span id="teacher-live-sync-indicator" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-500/50">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Sincronização ao Vivo (4s)
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="btn-secondary text-xs py-1 px-3 border-cyan-500/50 text-cyan-200 hover:bg-cyan-900/60 font-bold" 
+                onclick="window.app.fetchTeacherTeams(false)">
+                🔄 Sincronizar Agora
+              </button>
               <button class="btn-secondary text-xs py-1 px-3 border-amber-500/50 text-amber-200 hover:bg-amber-900/60" 
                 onclick="window.app.exportAllTeams()">
                 📦 Exportar Todas as Equipes (.json)
@@ -1484,31 +1509,42 @@ class BioLabApp {
           </div>
         </div>
 
-        <!-- PAINEL DE MONITORAMENTO DAS EQUIPES DA TURMA -->
-        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-700">
+        <!-- PAINEL DE MONITORAMENTO DAS EQUIPES DA TURMA EM TEMPO REAL -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-700" id="teacher-teams-card">
           <div class="flex flex-wrap justify-between items-center gap-3 mb-4 border-b border-slate-800 pb-3">
             <div>
               <h3 class="text-base font-bold text-white flex items-center gap-2">
-                <span>👥</span> Monitoramento das Equipes da Turma (${this.teamsRegistry.length} cadastradas)
+                <span>👥</span> Monitoramento das Equipes da Turma
+                <span id="teacher-teams-count-badge" class="text-xs bg-slate-800 text-cyan-300 px-2.5 py-0.5 rounded-full border border-slate-700 font-mono">
+                  ${this.teamsRegistry.length} cadastradas
+                </span>
               </h3>
-              <p class="text-xs text-slate-400">Acompanhe o avanço de cada grupo, inspecione cadernos ou recupere PINs esquecidos.</p>
+              <p class="text-xs text-slate-400">
+                Recepção em tempo real de celulares, tablets e computadores dos estudantes. Acompanhe o andamento por aula, inspecione anotações ou emita relatórios.
+              </p>
             </div>
             <div class="flex items-center gap-2">
+              <input type="text" id="teacher-teams-search" placeholder="🔍 Filtrar por equipe ou turma..." 
+                value="${this.teacherSearchFilter || ''}" 
+                oninput="window.app.filterTeacherTeams(this.value)"
+                class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 w-56">
               <button class="btn-primary text-xs py-1.5 px-3" onclick="window.app.openTeamAccessModal('create')">
-                + Cadastrar Nova Equipe
+                + Cadastrar Equipe
               </button>
             </div>
           </div>
 
-          
-          <!-- Coleta de Arquivos de Múltiplos Dispositivos -->
+          <!-- Métricas Rápidas no Topo do Painel de Equipes -->
+          <div id="teacher-quick-stats-bar" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4"></div>
+
+          <!-- Coleta Manual de Arquivos de Múltiplos Dispositivos (Modo Sem Internet) -->
           <div class="mb-4 p-3 bg-slate-950 rounded-xl border border-slate-800 flex flex-wrap justify-between items-center gap-3">
             <div>
               <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                <span>📥</span> Coleta de Cadernos dos Alunos (Trabalho em Múltiplos Dispositivos):
+                <span>📥</span> Coleta Manual de Arquivos (Modo Sem Internet na Escola):
               </span>
               <p class="text-[11px] text-slate-400 mt-0.5">
-                Se as equipes trabalharam em celulares ou computadores separados, carregue os arquivos <strong>.json</strong> baixados pelos alunos para consolidar tudo no seu painel.
+                Se os aparelhos não tiverem acesso à rede, os alunos baixam o arquivo <strong>.json</strong> no final da aula e o professor carrega todos juntos aqui.
               </p>
             </div>
             <div class="flex items-center gap-2">
@@ -1520,84 +1556,8 @@ class BioLabApp {
             </div>
           </div>
 
-          <div class="overflow-x-auto">
-            <table class="table-lab">
-              <thead>
-                <tr>
-                  <th>Equipe</th>
-                  <th>Turma</th>
-                  <th>Integrantes</th>
-                  <th>Progresso</th>
-                  <th>PIN</th>
-                  <th>Último Acesso</th>
-                  <th class="text-right">Ações Docentes</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${this.teamsRegistry.map(t => {
-                  const progress = this.calculateTeamProgress(t.id);
-                  const isCurrent = (t.id === this.activeTeamId);
-                  const lastFormatted = t.lastActive ? new Date(t.lastActive).toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '-';
-
-                  return `
-                    <tr class="${isCurrent ? 'bg-cyan-950/20' : ''}">
-                      <td>
-                        <div class="flex items-center gap-2">
-                          <span class="text-xl">${t.avatar || '🔬'}</span>
-                          <div>
-                            <strong class="text-white block">${t.name}</strong>
-                            ${isCurrent ? '<span class="text-[10px] text-emerald-400 font-bold">● Ativa Agora</span>' : ''}
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-slate-300">${t.turma}</td>
-                      <td class="text-slate-400 text-[11px] max-w-[200px]">
-                        ${t.members.map(m => m.name).join(', ')}
-                      </td>
-                      <td>
-                        <div class="flex items-center gap-2">
-                          <div class="w-16 bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                            <div class="bg-cyan-500 h-full rounded-full" style="width: ${progress}%"></div>
-                          </div>
-                          <span class="font-mono text-cyan-400 font-bold">${progress}%</span>
-                        </div>
-                      </td>
-                      <td>
-                        <span class="font-mono text-amber-300 font-bold bg-slate-800 px-1.5 py-0.5 rounded text-[11px]">
-                          ${t.pin && t.pin.trim().length > 0 ? t.pin : 'Livre (Sem PIN)'}
-                        </span>
-                      </td>
-                      <td class="text-slate-400 text-[11px]">${lastFormatted}</td>
-                      <td class="text-right whitespace-nowrap">
-                        <button class="btn-primary text-[11px] py-1 px-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold mr-1" 
-                          onclick="window.app.openTeacherInspectTeam('${t.id}')" title="Inspecionar Anotações e Respostas desta Equipe">
-                          📋 Ver Respostas
-                        </button>
-                        <button class="btn-secondary text-[11px] py-1 px-2 text-emerald-400 border-emerald-500/40 hover:bg-emerald-950/40 mr-1 font-bold" 
-                          onclick="window.app.openReportModal('${t.id}')" title="Visualizar Relatório Oficial desta Equipe">
-                          📄 Relatório
-                        </button>
-                        <button class="btn-secondary text-[11px] py-1 px-2 mr-1" 
-                          onclick="window.app.enterAsTeam('${t.id}')" title="Navegar no Caderno desta Equipe">
-                          📖 Caderno
-                        </button>
-                        <button class="btn-secondary text-[11px] py-1 px-2 mr-1" 
-                          onclick="window.app.exportTeamById('${t.id}')" title="Baixar JSON desta Equipe">
-                          📥 Backup
-                        </button>
-                        ${this.teamsRegistry.length > 1 ? `
-                          <button class="btn-secondary text-[11px] py-1 px-2 text-rose-400 border-rose-500/30 hover:bg-rose-950/40" 
-                            onclick="window.app.deleteTeam('${t.id}')" title="Excluir Equipe">
-                            🗑️
-                          </button>
-                        ` : ''}
-                      </td>
-                    </tr>
-                  `;
-                }).join('')}
-              </tbody>
-            </table>
-          </div>
+          <!-- Tabela de Equipes Monitoradas em Tempo Real -->
+          <div class="overflow-x-auto" id="teacher-teams-table-wrapper"></div>
         </div>
 
         <!-- Gabarito Orientador das Hipóteses -->
@@ -1625,6 +1585,9 @@ class BioLabApp {
         </div>
       </div>
     `;
+
+    // Renderiza os dados imediatos da tabela de equipes
+    this.renderTeacherTeamsTable();
   }
 
   // ==========================================
@@ -1710,6 +1673,9 @@ class BioLabApp {
       localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
     } catch (e) {}
 
+    // Notificar servidor imediatamente sobre a conexão da equipe
+    this.syncTeamToServer();
+
     if (reRender) {
       this.renderHeader();
       this.updateGlobalProgress();
@@ -1746,6 +1712,9 @@ class BioLabApp {
     } catch (e) {
       console.warn('LocalStorage limit:', e);
     }
+
+    // Sincronização automática para o servidor em segundo plano (sem travar digitação)
+    this.triggerDebouncedSync();
   }
 
   calculateTeamProgress(teamId) {
@@ -1763,6 +1732,411 @@ class BioLabApp {
     } catch (e) {
       return 0;
     }
+  }
+
+  // ==========================================
+  // SINCRONIZAÇÃO EM TEMPO REAL (CLIENTE <-> SERVIDOR)
+  // ==========================================
+  triggerDebouncedSync() {
+    if (this.syncDebounceTimer) clearTimeout(this.syncDebounceTimer);
+    this.syncDebounceTimer = setTimeout(() => {
+      this.syncTeamToServer(false);
+    }, 700);
+  }
+
+  startStudentHeartbeat() {
+    if (this.studentHeartbeatTimer) clearInterval(this.studentHeartbeatTimer);
+    // Envia presença a cada 20 segundos para manter status verde (Online) no painel do professor
+    this.studentHeartbeatTimer = setInterval(() => {
+      if (this.activeTeamId && !this.teacherMode) {
+        this.syncTeamToServer(true);
+      }
+    }, 20000);
+  }
+
+  async syncTeamToServer(isHeartbeat = false) {
+    if (!this.activeTeamId || !this.team) return;
+
+    const currentPhaseIndex = (typeof this.currentPhaseIndex === 'number') ? this.currentPhaseIndex : 0;
+    const currentChallengeDb = (window.CHALLENGES_DATABASE && window.CHALLENGES_DATABASE[this.activeChallengeId]) || window.BIO_DATA;
+    const phases = (currentChallengeDb && currentChallengeDb.phases) || [];
+    const currentPhaseName = (phases[currentPhaseIndex] && phases[currentPhaseIndex].title) 
+      ? phases[currentPhaseIndex].title 
+      : `Aula ${currentPhaseIndex + 1}`;
+    
+    const totalQuestions = phases.reduce((acc, p) => acc + (p.questions ? p.questions.length : 0), 0);
+    const answeredCount = Object.keys(this.studentAnswers || {}).filter(k => {
+      const v = this.studentAnswers[k];
+      return v && (typeof v === 'string' ? v.trim().length > 0 : (typeof v === 'object' ? Object.keys(v).length > 0 : true));
+    }).length;
+    const progress = totalQuestions > 0 ? Math.min(100, Math.round((answeredCount / totalQuestions) * 100)) : 0;
+
+    const payload = {
+      team: {
+        id: this.team.id,
+        name: this.team.name,
+        turma: this.team.turma,
+        avatar: this.team.avatar || '🔬',
+        members: this.team.members || [],
+        pin: this.team.pin || '',
+        lastActive: Date.now()
+      },
+      challengeId: this.activeChallengeId || 'desafio-1',
+      answers: this.studentAnswers || {},
+      evidenceMatrix: this.evidenceMatrix || {},
+      selfAssessment: this.selfAssessment || {},
+      currentPhase: currentPhaseIndex,
+      currentPhaseName: currentPhaseName,
+      progress: progress,
+      answeredCount: answeredCount,
+      totalQuestions: totalQuestions,
+      snapshots: (window.microscope && window.microscope.snapshots) ? window.microscope.snapshots.slice(-10) : [],
+      snapshotsCount: (window.microscope && window.microscope.snapshots) ? window.microscope.snapshots.length : 0,
+      isHeartbeat: isHeartbeat
+    };
+
+    try {
+      await fetch('/api/teams', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (err) {
+      // Modo offline resiliente: se falhar, os dados locais em localStorage permanecem seguros
+    }
+  }
+
+  startTeacherLiveSync() {
+    this.stopTeacherLiveSync();
+    // Busca inicial imediata
+    this.fetchTeacherTeams(true);
+    // Polling contínuo a cada 4 segundos
+    this.teacherSyncTimer = setInterval(() => {
+      if (this.currentTab === 'professor' && this.teacherAuth) {
+        this.fetchTeacherTeams(true);
+      }
+    }, 4000);
+  }
+
+  stopTeacherLiveSync() {
+    if (this.teacherSyncTimer) {
+      clearInterval(this.teacherSyncTimer);
+      this.teacherSyncTimer = null;
+    }
+  }
+
+  async fetchTeacherTeams(silent = true) {
+    try {
+      const res = await fetch('/api/teams?t=' + Date.now());
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data || !Array.isArray(data.teams)) return;
+
+      data.teams.forEach(serverTeam => {
+        if (!serverTeam || !serverTeam.id) return;
+        this.serverTeamsCache[serverTeam.id] = serverTeam;
+
+        let regIdx = this.teamsRegistry.findIndex(t => t.id === serverTeam.id);
+        if (regIdx === -1) {
+          this.teamsRegistry.push({
+            id: serverTeam.id,
+            name: serverTeam.name,
+            turma: serverTeam.turma,
+            avatar: serverTeam.avatar || '🔬',
+            members: serverTeam.members || [],
+            pin: serverTeam.pin || '',
+            lastActive: serverTeam.lastActive || new Date().toISOString()
+          });
+        } else {
+          const local = this.teamsRegistry[regIdx];
+          local.name = serverTeam.name;
+          local.turma = serverTeam.turma;
+          local.avatar = serverTeam.avatar || local.avatar;
+          local.members = serverTeam.members || local.members;
+          local.pin = (typeof serverTeam.pin !== 'undefined') ? serverTeam.pin : local.pin;
+          local.lastActive = serverTeam.lastActive || local.lastActive;
+        }
+
+        // Armazena dados no cache do storage local para inspeção instantânea
+        const targetChId = serverTeam.challengeId || 'desafio-1';
+        const storageKey = this.getTeamDataKey(serverTeam.id, targetChId);
+        
+        let existing = {};
+        try {
+          const raw = localStorage.getItem(storageKey);
+          if (raw) existing = JSON.parse(raw);
+        } catch (e) {}
+
+        const teamPayload = {
+          team: serverTeam,
+          answers: (serverTeam.answers && Object.keys(serverTeam.answers).length > 0) ? serverTeam.answers : (existing.answers || {}),
+          evidenceMatrix: (serverTeam.evidenceMatrix && Object.keys(serverTeam.evidenceMatrix).length > 0) ? serverTeam.evidenceMatrix : (existing.evidenceMatrix || {}),
+          selfAssessment: (serverTeam.selfAssessment && Object.keys(serverTeam.selfAssessment).length > 0) ? serverTeam.selfAssessment : (existing.selfAssessment || {}),
+          currentPhase: (typeof serverTeam.currentPhase === 'number') ? serverTeam.currentPhase : (existing.currentPhase || 0),
+          snapshots: (Array.isArray(serverTeam.snapshots) && serverTeam.snapshots.length > 0) ? serverTeam.snapshots : (existing.snapshots || []),
+          challengeId: targetChId,
+          lastSaved: new Date().toISOString()
+        };
+        localStorage.setItem(storageKey, JSON.stringify(teamPayload));
+      });
+
+      localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
+
+      if (this.currentTab === 'professor') {
+        this.renderTeacherTeamsTable();
+      }
+    } catch (e) {
+      if (!silent) console.warn('Erro ao atualizar equipes do servidor:', e);
+    }
+  }
+
+  filterTeacherTeams(searchTerm) {
+    this.teacherSearchFilter = (searchTerm || '').trim().toLowerCase();
+    this.renderTeacherTeamsTable();
+  }
+
+  renderTeacherTeamsTable() {
+    const wrapper = document.getElementById('teacher-teams-table-wrapper');
+    const statsBar = document.getElementById('teacher-quick-stats-bar');
+    const countBadge = document.getElementById('teacher-teams-count-badge');
+    if (!wrapper) return;
+
+    const allTeams = this.teamsRegistry || [];
+    const now = Date.now();
+
+    // Cálculo das métricas gerais da turma
+    let onlineCount = 0;
+    let totalProgressSum = 0;
+    let totalAnsweredSum = 0;
+
+    allTeams.forEach(t => {
+      const serverTeam = this.serverTeamsCache[t.id] || {};
+      const lastActiveTime = serverTeam.lastActive ? new Date(serverTeam.lastActive).getTime() : (t.lastActive ? new Date(t.lastActive).getTime() : 0);
+      const isOnline = (now - lastActiveTime) < 45000;
+      if (isOnline) onlineCount++;
+
+      const progress = (typeof serverTeam.progress === 'number') ? serverTeam.progress : this.calculateTeamProgress(t.id);
+      totalProgressSum += progress;
+
+      const answered = (typeof serverTeam.answeredCount === 'number') ? serverTeam.answeredCount : 0;
+      totalAnsweredSum += answered;
+    });
+
+    const avgProgress = allTeams.length > 0 ? Math.round(totalProgressSum / allTeams.length) : 0;
+
+    if (countBadge) {
+      countBadge.innerHTML = `${allTeams.length} cadastradas • <span class="text-emerald-400 font-bold">${onlineCount} online</span>`;
+    }
+
+    if (statsBar) {
+      statsBar.innerHTML = `
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-[10px] uppercase font-mono tracking-wider text-slate-400">Equipes na Sala</div>
+            <div class="text-lg font-black text-white">${allTeams.length}</div>
+          </div>
+          <span class="text-2xl">👥</span>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-[10px] uppercase font-mono tracking-wider text-emerald-400">Online Agora</div>
+            <div class="text-lg font-black text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 ${onlineCount > 0 ? 'animate-ping' : ''}"></span>
+              ${onlineCount}
+            </div>
+          </div>
+          <span class="text-2xl">🟢</span>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-[10px] uppercase font-mono tracking-wider text-cyan-400">Média de Avanço</div>
+            <div class="text-lg font-black font-mono text-cyan-400">${avgProgress}%</div>
+          </div>
+          <span class="text-2xl">📊</span>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-[10px] uppercase font-mono tracking-wider text-amber-400">Total de Respostas</div>
+            <div class="text-lg font-black text-amber-400">${totalAnsweredSum}</div>
+          </div>
+          <span class="text-2xl">✍️</span>
+        </div>
+      `;
+    }
+
+    // Filtrar equipes
+    const filter = this.teacherSearchFilter || '';
+    const filteredTeams = allTeams.filter(t => {
+      if (!filter) return true;
+      const nameMatch = (t.name || '').toLowerCase().includes(filter);
+      const turmaMatch = (t.turma || '').toLowerCase().includes(filter);
+      const memberMatch = (t.members || []).some(m => (m.name || '').toLowerCase().includes(filter));
+      return nameMatch || turmaMatch || memberMatch;
+    });
+
+    if (filteredTeams.length === 0) {
+      if (allTeams.length === 0) {
+        wrapper.innerHTML = `
+          <div class="p-8 text-center bg-slate-950 rounded-xl border border-dashed border-slate-800">
+            <span class="text-4xl block mb-2">📡</span>
+            <h4 class="text-base font-bold text-white mb-1">Aguardando Conexão das Equipes dos Alunos...</h4>
+            <p class="text-xs text-slate-400 max-w-lg mx-auto mb-4 leading-relaxed">
+              Os estudantes devem acessar o link <strong>biolafa.vercel.app</strong> em seus celulares, tablets ou computadores e cadastrar suas equipes. As equipes e seu andamento aparecerão aqui automaticamente em tempo real!
+            </p>
+            <div class="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 bg-slate-900 px-3.5 py-1.5 rounded-full border border-slate-700">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Sincronização Ativa com a Sala de Aula
+            </div>
+          </div>
+        `;
+      } else {
+        wrapper.innerHTML = `
+          <div class="p-6 text-center bg-slate-950 rounded-xl border border-slate-800">
+            <p class="text-xs text-slate-400">Nenhuma equipe encontrada para o filtro "<strong>${this.teacherSearchFilter}</strong>".</p>
+          </div>
+        `;
+      }
+      return;
+    }
+
+    wrapper.innerHTML = `
+      <table class="table-lab">
+        <thead>
+          <tr>
+            <th>Equipe & Turma</th>
+            <th>Presença</th>
+            <th>Desafio & Etapa (Aula)</th>
+            <th>Integrantes</th>
+            <th>Andamento / Respostas</th>
+            <th>PIN</th>
+            <th class="text-right">Ações Pedagógicas</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filteredTeams.map(t => {
+            const serverTeam = this.serverTeamsCache[t.id] || {};
+            const lastActiveTime = serverTeam.lastActive ? new Date(serverTeam.lastActive).getTime() : (t.lastActive ? new Date(t.lastActive).getTime() : 0);
+            const diffSec = Math.round((now - lastActiveTime) / 1000);
+
+            let statusBadge = '';
+            if (diffSec < 45) {
+              statusBadge = `
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-600/50">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Online Agora
+                </span>
+              `;
+            } else if (diffSec < 600) {
+              const mins = Math.max(1, Math.round(diffSec / 60));
+              statusBadge = `
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-950 text-amber-300 border border-amber-600/40">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Há ${mins} min
+                </span>
+              `;
+            } else {
+              statusBadge = `
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] text-slate-400 bg-slate-800 border border-slate-700">
+                  <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span> Inativo
+                </span>
+              `;
+            }
+
+            const isCurrentInTeacherDevice = (t.id === this.activeTeamId);
+            const challengeId = serverTeam.challengeId || 'desafio-1';
+            const isCh2 = (challengeId === 'desafio-2');
+            
+            const currentPhase = (typeof serverTeam.currentPhase === 'number') ? serverTeam.currentPhase : 0;
+            const currentPhaseName = serverTeam.currentPhaseName || `Aula ${currentPhase + 1}`;
+
+            const progress = (typeof serverTeam.progress === 'number') ? serverTeam.progress : this.calculateTeamProgress(t.id);
+            const answeredCount = (typeof serverTeam.answeredCount === 'number') ? serverTeam.answeredCount : 0;
+            const totalQuestions = (typeof serverTeam.totalQuestions === 'number' && serverTeam.totalQuestions > 0) ? serverTeam.totalQuestions : 29;
+            const snapsCount = (typeof serverTeam.snapshotsCount === 'number') ? serverTeam.snapshotsCount : (serverTeam.snapshots ? serverTeam.snapshots.length : 0);
+
+            const lastFormatted = lastActiveTime ? new Date(lastActiveTime).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '-';
+
+            return `
+              <tr class="${isCurrentInTeacherDevice ? 'bg-cyan-950/20' : ''}">
+                <td>
+                  <div class="flex items-center gap-2.5">
+                    <span class="text-2xl">${t.avatar || '🔬'}</span>
+                    <div>
+                      <strong class="text-white block text-sm">${t.name}</strong>
+                      <span class="text-xs text-slate-400">${t.turma}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    ${statusBadge}
+                    <div class="text-[10px] text-slate-500 mt-1 font-mono">Último: ${lastFormatted}</div>
+                  </div>
+                </td>
+                <td>
+                  <div class="space-y-1">
+                    <span class="inline-block text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${isCh2 ? 'bg-emerald-950 text-emerald-300 border-emerald-800' : 'bg-cyan-950 text-cyan-300 border-cyan-800'}">
+                      ${isCh2 ? '🌿 Desafio 02' : '🔬 Desafio 01'}
+                    </span>
+                    <div class="text-xs font-semibold text-slate-200">
+                      Aula ${currentPhase + 1}: <span class="text-slate-400 font-normal">${currentPhaseName}</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-slate-400 text-xs max-w-[200px]">
+                  ${(t.members && t.members.length > 0) ? t.members.map(m => m.name).join(', ') : 'Não informados'}
+                </td>
+                <td>
+                  <div class="space-y-1.5 min-w-[130px]">
+                    <div class="flex items-center justify-between text-xs">
+                      <span class="font-mono text-cyan-400 font-bold">${progress}%</span>
+                      <span class="text-[11px] text-slate-400">${answeredCount}/${totalQuestions} q.</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                      <div class="bg-gradient-to-r from-cyan-500 to-emerald-400 h-full rounded-full transition-all duration-500" style="width: ${progress}%"></div>
+                    </div>
+                    ${snapsCount > 0 ? `
+                      <div class="text-[10px] text-amber-300 font-mono flex items-center gap-1">
+                        <span>📷</span> ${snapsCount} foto(s) microscópio
+                      </div>
+                    ` : ''}
+                  </div>
+                </td>
+                <td>
+                  <span class="font-mono text-amber-300 font-bold bg-slate-800 px-1.5 py-0.5 rounded text-xs border border-slate-700">
+                    ${t.pin && t.pin.trim().length > 0 ? t.pin : 'Livre'}
+                  </span>
+                </td>
+                <td class="text-right whitespace-nowrap">
+                  <button class="btn-primary text-xs py-1 px-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold mr-1" 
+                    onclick="window.app.openTeacherInspectTeam('${t.id}')" title="Inspecionar Anotações e Respostas desta Equipe">
+                    📋 Ver Respostas
+                  </button>
+                  <button class="btn-secondary text-xs py-1 px-2 text-emerald-400 border-emerald-500/40 hover:bg-emerald-950/40 mr-1 font-bold" 
+                    onclick="window.app.openReportModal('${t.id}')" title="Visualizar Relatório Oficial desta Equipe">
+                    📄 Relatório
+                  </button>
+                  <button class="btn-secondary text-xs py-1 px-2 mr-1 text-slate-300 hover:text-white" 
+                    onclick="window.app.enterAsTeam('${t.id}')" title="Navegar no Caderno desta Equipe">
+                    📖 Caderno
+                  </button>
+                  <button class="btn-secondary text-xs py-1 px-2 mr-1 text-slate-300 hover:text-white" 
+                    onclick="window.app.exportTeamById('${t.id}')" title="Baixar JSON desta Equipe">
+                    📥 Backup
+                  </button>
+                  ${this.teamsRegistry.length > 1 ? `
+                    <button class="btn-secondary text-xs py-1 px-2 text-rose-400 border-rose-500/30 hover:bg-rose-950/40" 
+                      onclick="window.app.deleteTeam('${t.id}')" title="Excluir Equipe">
+                      🗑️
+                    </button>
+                  ` : ''}
+                </td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    `;
   }
 
   // ==========================================
@@ -2020,19 +2394,27 @@ class BioLabApp {
     }
 
     const team = this.teamsRegistry.find(t => t.id === teamId);
-    const confirmMsg = `Tem certeza que deseja excluir a equipe "${team.name}" e todas as suas respostas salvas? Esta ação não pode ser desfeita.`;
+    const confirmMsg = `Tem certeza que deseja excluir a equipe "${team ? team.name : teamId}" e todas as suas respostas salvas? Esta ação não pode ser desfeita.`;
     if (!confirm(confirmMsg)) return;
 
     this.teamsRegistry = this.teamsRegistry.filter(t => t.id !== teamId);
+    delete this.serverTeamsCache[teamId];
     localStorage.setItem('biolafa_teams_registry', JSON.stringify(this.teamsRegistry));
     localStorage.removeItem(this.getTeamDataKey(teamId, 'desafio-1'));
     localStorage.removeItem(this.getTeamDataKey(teamId, 'desafio-2'));
+
+    // Notifica servidor para excluir equipe sincronizada
+    fetch('/api/teams', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'delete', teamId })
+    }).catch(() => {});
 
     if (this.activeTeamId === teamId) {
       this.loginTeam(this.teamsRegistry[0].id);
     } else {
       if (this.currentTab === 'professor') {
-        this.renderTeacherSection();
+        this.renderTeacherTeamsTable();
       }
       this.renderTeamsRegistryList();
     }
@@ -2191,6 +2573,7 @@ class BioLabApp {
   }
 
   logoutTeacher() {
+    this.stopTeacherLiveSync();
     this.teacherAuth = false;
     this.teacherMode = false;
     localStorage.removeItem('biolafa_teacher_auth');
@@ -2289,18 +2672,25 @@ class BioLabApp {
     const team = this.teamsRegistry.find(t => t.id === teamId);
     if (!team) return;
 
+    const serverTeam = this.serverTeamsCache[teamId] || {};
+    const targetChallengeId = serverTeam.challengeId || this.activeChallengeId;
+    const challengeDb = (window.CHALLENGES_DATABASE && window.CHALLENGES_DATABASE[targetChallengeId]) || window.BIO_DATA;
+    const ch = (challengeDb && challengeDb.challenge) || { title: 'Desafio' };
+    const phases = (challengeDb && challengeDb.phases) || [];
+
     let teamData = {};
     try {
-      const raw = localStorage.getItem(this.getTeamDataKey(teamId));
+      const raw = localStorage.getItem(this.getTeamDataKey(teamId, targetChallengeId));
       if (raw) teamData = JSON.parse(raw);
     } catch (e) {}
 
-    const answers = teamData.answers || {};
-    const snaps = teamData.snapshots || [];
-    const evidenceMatrix = teamData.evidenceMatrix || {};
-    const progress = this.calculateTeamProgress(teamId);
-    const ch = (window.BIO_DATA && window.BIO_DATA.challenge) || { title: 'Desafio' };
-    const phases = (window.BIO_DATA && window.BIO_DATA.phases) || [];
+    const answers = (teamData.answers && Object.keys(teamData.answers).length > 0) ? teamData.answers : (serverTeam.answers || {});
+    const snaps = (teamData.snapshots && teamData.snapshots.length > 0) ? teamData.snapshots : (serverTeam.snapshots || []);
+    const evidenceMatrix = (teamData.evidenceMatrix && Object.keys(teamData.evidenceMatrix).length > 0) ? teamData.evidenceMatrix : (serverTeam.evidenceMatrix || {});
+    const progress = (typeof serverTeam.progress === 'number') ? serverTeam.progress : this.calculateTeamProgress(teamId);
+    const isCh2 = (targetChallengeId === 'desafio-2');
+    const currentPhase = (typeof serverTeam.currentPhase === 'number') ? serverTeam.currentPhase : (teamData.currentPhase || 0);
+    const currentPhaseName = serverTeam.currentPhaseName || (phases[currentPhase] ? phases[currentPhase].title : `Aula ${currentPhase + 1}`);
 
     const modal = document.getElementById('teacher-inspect-team-modal');
     const content = document.getElementById('teacher-inspect-modal-content');
@@ -2321,14 +2711,20 @@ class BioLabApp {
           <div class="flex items-center gap-3">
             <span class="text-3xl">${team.avatar || '🔬'}</span>
             <div>
-              <h4 class="text-base font-bold text-white flex items-center gap-2">
-                <span>${team.name}</span>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-base font-bold text-white">${team.name}</span>
                 <span class="text-xs font-mono font-normal bg-slate-800 text-amber-300 px-2 py-0.5 rounded border border-slate-700">PIN: ${team.pin || 'Livre'}</span>
-              </h4>
-              <p class="text-xs text-slate-400 mt-0.5">
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${isCh2 ? 'bg-emerald-950 text-emerald-300 border-emerald-800' : 'bg-cyan-950 text-cyan-300 border-cyan-800'}">
+                  ${isCh2 ? '🌿 Desafio 02: Vale Verde' : '🔬 Desafio 01: Rio das Palmeiras'}
+                </span>
+              </div>
+              <p class="text-xs text-slate-400">
                 <strong>Turma:</strong> ${team.turma} • 
                 <strong>Integrantes:</strong> ${(team.members && team.members.length > 0) ? team.members.map(m => m.name + (m.role ? ' (' + m.role + ')' : '')).join(', ') : 'Não informados'}
               </p>
+              <div class="text-xs text-cyan-300 mt-1">
+                📍 <strong>Posição Atual na Atividade:</strong> Aula ${currentPhase + 1} (${currentPhaseName})
+              </div>
             </div>
           </div>
 
@@ -2563,17 +2959,24 @@ class BioLabApp {
     let reportTeam = this.team;
     let reportAnswers = this.studentAnswers;
     let reportSnaps = (window.microscope && window.microscope.snapshots) || [];
+    let targetChallengeId = this.activeChallengeId;
 
     if (targetTeamId) {
       const found = this.teamsRegistry.find(t => t.id === targetTeamId);
       if (found) {
         reportTeam = found;
+        const serverTeam = this.serverTeamsCache[targetTeamId] || {};
+        targetChallengeId = serverTeam.challengeId || this.activeChallengeId;
+
         try {
-          const raw = localStorage.getItem(this.getTeamDataKey(targetTeamId));
+          const raw = localStorage.getItem(this.getTeamDataKey(targetTeamId, targetChallengeId));
           if (raw) {
             const parsed = JSON.parse(raw);
-            reportAnswers = parsed.answers || {};
-            reportSnaps = parsed.snapshots || [];
+            reportAnswers = parsed.answers || serverTeam.answers || {};
+            reportSnaps = parsed.snapshots || serverTeam.snapshots || [];
+          } else if (serverTeam.answers) {
+            reportAnswers = serverTeam.answers;
+            reportSnaps = serverTeam.snapshots || [];
           }
         } catch (e) {}
       }
@@ -2592,7 +2995,8 @@ class BioLabApp {
 
     const reportContent = document.getElementById('printable-report-content');
     if (reportContent) {
-      const ch = (window.BIO_DATA && window.BIO_DATA.challenge) || {
+      const challengeDb = (window.CHALLENGES_DATABASE && window.CHALLENGES_DATABASE[targetChallengeId]) || window.BIO_DATA;
+      const ch = (challengeDb && challengeDb.challenge) || {
         title: 'O Mistério do Rio das Palmeiras',
         subtitle: 'Microplásticos, Fontes de Contaminação e Teias Alimentares'
       };
