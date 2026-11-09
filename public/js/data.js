@@ -1075,11 +1075,11 @@ const DESAFIO_04_DATA = {
       "number": 3,
       "style": "lab-report",
       "tag": "Laudo Físico-Químico • Amostragem de Água",
-      "title": "Concentração elevada de nutrientes próxima ao canal",
+      "title": "Laudo Hidroquímico Oficial: Concentração de Nutrientes na Bacia",
       "type": "Laudo físico-químico",
-      "imageSrc": "assets/slides/laudo_fisico_quimico_nutrientes.jfif",
+      "imageSrc": "assets/slides/laudo_hidroquimico_oficial.jfif",
       "imageLabel": "🧪 <strong>Laudo Hidroquímico Oficial</strong>",
-      "imageCaption": "Relatório analítico pericial de ensaios físico-químicos: gradiente de fósforo, nitrogênio e formas amoniacais.",
+      "imageCaption": "Laudo Hidroquímico Oficial: Relatório analítico pericial de ensaios físico-químicos (gradiente de fósforo, nitrogênio e formas amoniacais).",
       "dados": [
         {
           "parametro": "Fósforo total",
