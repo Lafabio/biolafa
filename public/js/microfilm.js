@@ -119,30 +119,31 @@ class MicrofilmReader {
     this.render();
   }
 
+  initFrames() {
+    const currentDb = (window.app && window.app.currentData) || (window.BIO_DATA);
+    if (currentDb && currentDb.documents && currentDb.documents.length > 0) {
+      this.frames = currentDb.documents.map((doc, idx) => ({
+        id: `frame-${doc.id}`,
+        reel: `ROLO 0${Math.floor(idx / 3) + 1} • BOBINA ${(idx % 3 === 0 ? 'A' : (idx % 3 === 1 ? 'B' : 'C'))}`,
+        newspaper: doc.newspaperName || doc.labName || 'ARQUIVO MUNICIPAL',
+        date: doc.tag || doc.edition || 'Registro Oficial',
+        headline: doc.title,
+        img: doc.imageSrc,
+        archiveRef: `Arquivo Público Municipal • Gaveta 0${Math.floor(idx / 2) + 1} • Doc ${doc.number || (idx + 1)}`,
+        synopsis: doc.imageCaption || (doc.fullText ? doc.fullText.slice(0, 120) + '...' : ''),
+        docId: doc.id
+      }));
+      if (this.currentFrameIdx >= this.frames.length) {
+        this.currentFrameIdx = 0;
+      }
+    }
+  }
+
   render() {
     if (!this.container) return;
 
     // Sincroniza dinamicamente os frames com os documentos do desafio ativo
-    if (window.BIO_DATA && window.BIO_DATA.documents && window.BIO_DATA.documents.length > 0) {
-      const activeDocIds = window.BIO_DATA.documents.map(d => d.id);
-      const isOutdated = this.frames.length !== activeDocIds.length || !this.frames.every(f => activeDocIds.includes(f.docId));
-      if (isOutdated) {
-        this.frames = window.BIO_DATA.documents.map((doc, idx) => ({
-          id: `frame-${doc.id}`,
-          reel: `ROLO 0${Math.floor(idx / 3) + 1} • BOBINA ${(idx % 3 === 0 ? 'A' : (idx % 3 === 1 ? 'B' : 'C'))}`,
-          newspaper: doc.newspaperName || doc.labName || 'ARQUIVO MUNICIPAL',
-          date: doc.tag || doc.edition || 'Registro Oficial',
-          headline: doc.title,
-          img: doc.imageSrc,
-          archiveRef: `Arquivo Público Municipal • Gaveta 0${Math.floor(idx / 2) + 1} • Doc ${doc.number || (idx + 1)}`,
-          synopsis: doc.imageCaption || (doc.fullText ? doc.fullText.slice(0, 120) + '...' : ''),
-          docId: doc.id
-        }));
-        if (this.currentFrameIdx >= this.frames.length) {
-          this.currentFrameIdx = 0;
-        }
-      }
-    }
+    this.initFrames();
 
     const f = this.frames[this.currentFrameIdx];
 

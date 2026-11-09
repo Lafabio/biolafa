@@ -700,19 +700,15 @@ const DESAFIO_01_DATA = {
 // Baseado rigorosamente no plano curricular oficial (desafio_floracao_vermelha_vale_verde.json)
 // ============================================================================
 // ============================================================================
-// BANCO DE DADOS DO DESAFIO 02: FLORAÇÃO VERMELHA EM VALE VERDE
+// BANCO DE DADOS DO DESAFIO 04: FLORAÇÃO VERMELHA EM VALE VERDE (MARÉ VERMELHA)
 // Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna (desafio_floracao_vermelha_vale_verde.json)
 // ============================================================================
-// ============================================================================
-// BANCO DE DADOS DO DESAFIO 02: FLORAÇÃO VERMELHA EM VALE VERDE
-// Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna (desafio_floracao_vermelha_vale_verde.json)
-// ============================================================================
-const DESAFIO_02_DATA = {
+const DESAFIO_04_DATA = {
   "challenge": {
-    "id": "desafio-2",
-    "code": "DESAFIO-02",
+    "id": "desafio-4",
+    "code": "DESAFIO-04",
     "title": "Floração Vermelha em Vale Verde",
-    "subtitle": "Eutrofização, cianobactérias tóxicas e anóxia noturna",
+    "subtitle": "Eutrofização, cianobactérias tóxicas e anóxia noturna (Maré Vermelha)",
     "subtitulo": "Eutrofização, cianobactérias tóxicas e anóxia noturna",
     "subject": "Biologia & Ciências da Natureza",
     "level": "1ª Série do Ensino Médio • Biologia & Ciências da Natureza (BNCC)",
@@ -1034,8 +1030,8 @@ const DESAFIO_02_DATA = {
       "tag": "Registro de Ocorrência / Notícia",
       "title": "Lago Azul amanhece coberto por mancha verde e peixes mortos",
       "type": "Registro de ocorrência / notícia",
-      "imageSrc": "assets/slides/Gemini_Generated_Image_9gnx1r9gnx1r9gnx.jfif",
-      "imageCaption": "Registro da ocorrência: densa mancha verde-azulada na superfície, odor fétido e peixes mortos nas margens.",
+      "imageSrc": "assets/slides/eutrof1.jfif",
+      "imageCaption": "Registro da ocorrência: densa mancha verde-azulada e avermelhada na superfície do Lago Azul, com peixes mortos na madrugada.",
       "conteudo": [
         "Mancha verde-azulada na superfície",
         "Odor intenso",
@@ -1058,6 +1054,8 @@ const DESAFIO_02_DATA = {
       "tag": "Boletim Meteorológico e Hidrológico",
       "title": "Calor, estiagem e água parada antecederam a ocorrência",
       "type": "Boletim meteorológico e hidrológico",
+      "imageSrc": "assets/slides/eutro2.jfif",
+      "imageCaption": "Amostragem de água superficial durante calmaria e estiagem em Vale Verde.",
       "dados": {
         "dias_com_baixa_precipitacao": 18,
         "temperatura_media_agua_C": 28,
@@ -1121,6 +1119,8 @@ const DESAFIO_02_DATA = {
       "tag": "Relatório de Vistoria de Campo • Bacia Hidrográfica",
       "title": "Três possíveis fontes de nutrientes na bacia",
       "type": "Relatório de vistoria",
+      "imageSrc": "assets/slides/Gemini_Generated_Image_fa1yxefa1yxefa1y.jfif",
+      "imageCaption": "Vistoria técnica nas três fontes antrópicas suspeitas da bacia hidrográfica.",
       "fontes_suspeitas": [
         "Área agrícola com fertilizantes e solo exposto",
         "Bairro residencial com suspeita não confirmada de ligação clandestina de esgoto",
@@ -1255,7 +1255,8 @@ const DESAFIO_02_DATA = {
       "tag": "Relatório de Ictiopatologia e Necrópsia Animal",
       "title": "Peixes apresentam sinais de estresse respiratório",
       "type": "Relatório de ictiologia",
-      "imageSrc": "assets/slides/histopatologia_peixe.jpg",
+      "imageSrc": "assets/slides/doente.jfif",
+      "imageCaption": "Exame macroscópico pericial de espécime com opérculos dilatados e lesão lamelar.",
       "observacoes": [
         "Movimentos operculares acelerados em peixes moribundos",
         "Muco nas brânquias em alguns exemplares",
@@ -1949,20 +1950,35 @@ const DESAFIO_02_DATA = {
   }
 };
 
+const DESAFIO_02_DATA = DESAFIO_04_DATA;
+
 const CHALLENGES_DATABASE = {
   'desafio-1': DESAFIO_01_DATA,
-  'desafio-2': DESAFIO_02_DATA
+  'desafio-2': DESAFIO_04_DATA,
+  'desafio-4': DESAFIO_04_DATA
 };
 
 // Por padrão, BIO_DATA inicializa com o Desafio 1 (100% de compatibilidade)
-let BIO_DATA = DESAFIO_01_DATA;
+var BIO_DATA = DESAFIO_01_DATA;
+
+function setActiveChallenge(challengeId) {
+  if (CHALLENGES_DATABASE && CHALLENGES_DATABASE[challengeId]) {
+    BIO_DATA = CHALLENGES_DATABASE[challengeId];
+    if (typeof window !== 'undefined') {
+      window.BIO_DATA = BIO_DATA;
+    }
+  }
+  return BIO_DATA;
+}
 
 // Disponibilizar no escopo global do navegador
 if (typeof window !== 'undefined') {
   window.DESAFIO_01_DATA = DESAFIO_01_DATA;
   window.DESAFIO_02_DATA = DESAFIO_02_DATA;
+  window.DESAFIO_04_DATA = DESAFIO_04_DATA;
   window.CHALLENGES_DATABASE = CHALLENGES_DATABASE;
   window.BIO_DATA = BIO_DATA;
+  window.setActiveChallenge = setActiveChallenge;
 }
 
 // Exportar para Node.js / testes
@@ -1971,4 +1987,6 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports.CHALLENGES_DATABASE = CHALLENGES_DATABASE;
   module.exports.DESAFIO_01_DATA = DESAFIO_01_DATA;
   module.exports.DESAFIO_02_DATA = DESAFIO_02_DATA;
+  module.exports.DESAFIO_04_DATA = DESAFIO_04_DATA;
+  module.exports.setActiveChallenge = setActiveChallenge;
 }

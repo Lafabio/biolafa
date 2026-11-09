@@ -40,15 +40,18 @@ class BioLabApp {
     this.initTeamsSystem();
     // Sistema Multi-Desafios e Controle Pedagógico Docente
     this.activeChallengeId = localStorage.getItem('biolafa_active_challenge_id') || 'desafio-1';
-    this.isChallenge02Unlocked = (localStorage.getItem('biolafa_challenge_02_unlocked') === 'true');
+    this.isChallenge04Unlocked = (localStorage.getItem('biolafa_challenge_04_unlocked') === 'true') || (localStorage.getItem('biolafa_challenge_02_unlocked') === 'true');
+    this.isChallenge02Unlocked = this.isChallenge04Unlocked;
 
-    // Se o Desafio 02 estiver ativo mas estiver bloqueado e o usuário não for professor, reverte para Desafio 01
-    if (this.activeChallengeId === 'desafio-2' && !this.isChallenge02Unlocked && !this.teacherAuth) {
+    // Se o Desafio 04/02 estiver ativo mas estiver bloqueado e o usuário não for professor, reverte para Desafio 01
+    if ((this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2') && !this.isChallenge04Unlocked && !this.teacherAuth) {
       this.activeChallengeId = 'desafio-1';
       localStorage.setItem('biolafa_active_challenge_id', 'desafio-1');
     }
 
-    if (typeof window !== 'undefined' && window.CHALLENGES_DATABASE && window.CHALLENGES_DATABASE[this.activeChallengeId]) {
+    if (typeof window !== 'undefined' && typeof window.setActiveChallenge === 'function') {
+      window.setActiveChallenge(this.activeChallengeId);
+    } else if (typeof window !== 'undefined' && window.CHALLENGES_DATABASE && window.CHALLENGES_DATABASE[this.activeChallengeId]) {
       window.BIO_DATA = window.CHALLENGES_DATABASE[this.activeChallengeId];
     }
 
@@ -56,6 +59,20 @@ class BioLabApp {
     // Inicializar sub-módulos
     this.initAudio();
     this.initApp();
+  }
+
+  get currentData() {
+    const id = this.activeChallengeId;
+    if (typeof window !== 'undefined' && window.CHALLENGES_DATABASE) {
+      if (window.CHALLENGES_DATABASE[id]) return window.CHALLENGES_DATABASE[id];
+      if ((id === 'desafio-4' || id === 'desafio-2') && (window.CHALLENGES_DATABASE['desafio-4'] || window.CHALLENGES_DATABASE['desafio-2'])) {
+        return window.CHALLENGES_DATABASE['desafio-4'] || window.CHALLENGES_DATABASE['desafio-2'];
+      }
+    }
+    if (typeof window !== 'undefined' && window.BIO_DATA) {
+      return window.BIO_DATA;
+    }
+    return (typeof window !== 'undefined' && window.DESAFIO_01_DATA) || null;
   }
 
   initAudio() {
@@ -141,8 +158,8 @@ class BioLabApp {
     setTimeout(() => {
       if (document.getElementById('micro-canvas')) {
         window.microscope = new VirtualMicroscope('micro-canvas');
-        if (BIO_DATA.slides.length > 0) {
-          window.microscope.loadSlide(BIO_DATA.slides[0]); // Começa com a Lâmina 1
+        if (this.currentData && this.currentData.slides && this.currentData.slides.length > 0) {
+          window.microscope.loadSlide(this.currentData.slides[0]);
         }
         this.renderSlidesShelf();
       }
@@ -171,6 +188,9 @@ class BioLabApp {
     if (!challengeId || challengeId === 'desafio-1') {
       return `biolafa_team_${teamId}_data`;
     }
+    if (challengeId === 'desafio-4' || challengeId === 'desafio-2') {
+      return `biolafa_team_${teamId}_data_desafio-4`;
+    }
     return `biolafa_team_${teamId}_data_${challengeId}`;
   }
 
@@ -179,8 +199,8 @@ class BioLabApp {
     if (!grid) return;
 
     const isCh1Active = (this.activeChallengeId === 'desafio-1');
-    const isCh2Active = (this.activeChallengeId === 'desafio-2');
-    const isCh2Unlocked = this.isChallenge02Unlocked;
+    const isCh4Active = (this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2');
+    const isCh4Unlocked = this.isChallenge04Unlocked;
 
     grid.innerHTML = `
       <!-- Desafio 1 (Microplásticos) -->
@@ -216,24 +236,68 @@ class BioLabApp {
         </div>
       </div>
 
-      <!-- Desafio 2 (Floração Vermelha / Eutrofização) -->
-      <div class="challenge-card ${isCh2Active ? 'challenge-card-active border-emerald-500/50' : (isCh2Unlocked ? 'border-emerald-600/40 bg-slate-900/80' : 'challenge-card-locked')} flex flex-col justify-between">
+      <!-- Desafio 2 (Expansão Futura) -->
+      <div class="challenge-card challenge-card-locked flex flex-col justify-between opacity-80">
         <div>
           <div class="flex justify-between items-center mb-3">
-            ${isCh2Unlocked ? `
-              <span class="${isCh2Active ? 'badge-tag-cyan bg-emerald-950/80 text-emerald-300 border-emerald-500/40' : 'px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-300 text-[10px] font-mono border border-emerald-700/50'}">
-                ${isCh2Active ? 'DESAFIO 02 • ATIVO' : 'DESAFIO 02 • LIBERADO'}
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">DESAFIO 02 • BLOQUEADO</span>
+            <span class="text-xs text-slate-500 font-mono">Em Breve</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-300 mb-2">Biomagnificação Trófica & Dinâmica Ecológica</h3>
+          <p class="text-xs text-amber-400/90 font-semibold mb-3">Cadeias Alimentares e Fatores de Acumulação</p>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Investigação de bioacumulação em tecidos animais e transferência de compostos persistentes entre produtores, consumidores e predadores de topo.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
+            <span class="px-2 py-0.5 rounded bg-slate-800">Teias Tróficas</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800">Bioquímica</span>
+          </div>
+        </div>
+        <button class="btn-secondary w-full justify-center opacity-50 cursor-not-allowed">
+          🔒 Desafio Reservado
+        </button>
+      </div>
+
+      <!-- Desafio 3 (Expansão Futura) -->
+      <div class="challenge-card challenge-card-locked flex flex-col justify-between opacity-80">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">DESAFIO 03 • BLOQUEADO</span>
+            <span class="text-xs text-slate-500 font-mono">Em Breve</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-300 mb-2">Ameaça Invisível no Efluente</h3>
+          <p class="text-xs text-rose-400 font-semibold mb-3">Superbactérias & Resistência Genômica</p>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Rastreamento de plasmídeos de resistência antimicrobiana em corpos hídricos que recebem resíduos de hospitais e granjas avícolas.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
+            <span class="px-2 py-0.5 rounded bg-slate-800">Genômica</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800">Resistência</span>
+          </div>
+        </div>
+        <button class="btn-secondary w-full justify-center opacity-50 cursor-not-allowed">
+          🔒 Desafio Reservado
+        </button>
+      </div>
+
+      <!-- Desafio 4 (Floração Vermelha / Maré Vermelha / Eutrofização) -->
+      <div class="challenge-card ${isCh4Active ? 'challenge-card-active border-emerald-500/50' : (isCh4Unlocked ? 'border-emerald-600/40 bg-slate-900/80' : 'challenge-card-locked')} flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            ${isCh4Unlocked ? `
+              <span class="${isCh4Active ? 'badge-tag-cyan bg-emerald-950/80 text-emerald-300 border-emerald-500/40' : 'px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-300 text-[10px] font-mono border border-emerald-700/50'}">
+                ${isCh4Active ? 'DESAFIO 04 • ATIVO' : 'DESAFIO 04 • LIBERADO'}
               </span>
             ` : `
               <span class="px-2 py-0.5 rounded bg-rose-950/70 text-rose-300 border border-rose-800/60 text-[10px] font-mono font-bold">
                 🔒 BLOQUEADO PELO PROFESSOR
               </span>
             `}
-            <span class="text-xs ${isCh2Unlocked ? 'text-emerald-400' : 'text-slate-500'} font-mono font-bold">9 Aulas • PBL</span>
+            <span class="text-xs ${isCh4Unlocked ? 'text-emerald-400' : 'text-slate-500'} font-mono font-bold">9 Aulas • PBL</span>
           </div>
-          <h3 class="text-lg font-bold ${isCh2Unlocked ? 'text-white' : 'text-slate-300'} mb-2">Floração Vermelha em Vale Verde</h3>
-          <p class="text-xs ${isCh2Unlocked ? 'text-emerald-300' : 'text-amber-400/90'} font-semibold mb-3">Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna</p>
-          <p class="text-xs ${isCh2Unlocked ? 'text-slate-300' : 'text-slate-400'} leading-relaxed mb-4">
+          <h3 class="text-lg font-bold ${isCh4Unlocked ? 'text-white' : 'text-slate-300'} mb-2">Floração Vermelha em Vale Verde</h3>
+          <p class="text-xs ${isCh4Unlocked ? 'text-emerald-300' : 'text-amber-400/90'} font-semibold mb-3">Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna (Maré Vermelha)</p>
+          <p class="text-xs ${isCh4Unlocked ? 'text-slate-300' : 'text-slate-400'} leading-relaxed mb-4">
             O Lago Azul amanhece com uma camada verde-azulada e odor característico. Mortandade de alevinos e peixes adultos é observada na madrugada. Os alunos investigarão descarte de fósforo, nitrogênio, cianotoxinas (microcistina) e o ciclo noturno de oxigênio.
           </p>
           <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
@@ -244,19 +308,19 @@ class BioLabApp {
         </div>
 
         <div class="mt-2 space-y-2">
-          ${isCh2Unlocked ? `
-            ${isCh2Active ? `
+          ${isCh4Unlocked ? `
+            ${isCh4Active ? `
               <button class="btn-primary w-full justify-center py-2.5 bg-emerald-600 hover:bg-emerald-500 border-emerald-400 text-white font-bold" onclick="window.app.switchTab('investigacao')">
-                🔬 Entrar na Missão do Desafio 02 →
+                🔬 Entrar na Missão do Desafio 04 →
               </button>
             ` : `
-              <button class="btn-primary w-full justify-center py-2.5 bg-emerald-600 hover:bg-emerald-500 border-emerald-400 text-white font-bold" onclick="window.app.selectChallenge('desafio-2')">
-                🔬 Entrar no Desafio 02 →
+              <button class="btn-primary w-full justify-center py-2.5 bg-emerald-600 hover:bg-emerald-500 border-emerald-400 text-white font-bold" onclick="window.app.selectChallenge('desafio-4')">
+                🔬 Entrar no Desafio 04 →
               </button>
             `}
             ${this.teacherAuth ? `
-              <button class="btn-secondary w-full justify-center text-xs py-1.5 text-rose-300 border-rose-500/40 hover:bg-rose-950/40" onclick="window.app.toggleChallenge02Lock()">
-                🔒 Bloquear Desafio 02 Novamente
+              <button class="btn-secondary w-full justify-center text-xs py-1.5 text-rose-300 border-rose-500/40 hover:bg-rose-950/40" onclick="window.app.toggleChallenge04Lock()">
+                🔒 Bloquear Desafio 04 Novamente
               </button>
             ` : ''}
           ` : `
@@ -264,40 +328,18 @@ class BioLabApp {
               🔒 Desafio Bloqueado (Aguarde o Professor)
             </button>
             ${this.teacherAuth ? `
-              <button class="btn-primary w-full justify-center py-2 bg-emerald-600 hover:bg-emerald-500 border-emerald-400 text-white font-bold text-xs" onclick="window.app.toggleChallenge02Lock()">
-                🔓 Liberar Desafio 02 para a Turma
+              <button class="btn-primary w-full justify-center py-2 bg-emerald-600 hover:bg-emerald-500 border-emerald-400 text-white font-bold text-xs" onclick="window.app.toggleChallenge04Lock()">
+                🔓 Liberar Desafio 04 para a Turma
               </button>
             ` : ''}
           `}
         </div>
       </div>
-
-      <!-- Desafio 3 (Expansão Futura) -->
-      <div class="challenge-card challenge-card-locked flex flex-col justify-between">
-        <div>
-          <div class="flex justify-between items-center mb-3">
-            <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">DESAFIO 03 • BLOQUEADO</span>
-            <span class="text-xs text-slate-500 font-mono">Em Breve</span>
-          </div>
-          <h3 class="text-lg font-bold text-slate-300 mb-2">Metais Pesados & Bioacumulação</h3>
-          <p class="text-xs text-rose-400 font-semibold mb-3">Chumbo, Mercúrio e Biomagnificação</p>
-          <p class="text-xs text-slate-400 leading-relaxed mb-4">
-            Investigação de mineração desativada, lixiviação ácida e acúmulo de metais pesados em tecidos de carnívoros aquáticos.
-          </p>
-          <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
-            <span class="px-2 py-0.5 rounded bg-slate-800">Toxicologia</span>
-            <span class="px-2 py-0.5 rounded bg-slate-800">Sedimentos</span>
-          </div>
-        </div>
-        <button class="btn-secondary w-full justify-center opacity-50 cursor-not-allowed">
-          🔒 Desafio Bloqueado
-        </button>
-      </div>
     `;
   }
 
   selectChallenge(challengeId) {
-    if (challengeId === 'desafio-2' && !this.isChallenge02Unlocked && !this.teacherAuth) {
+    if ((challengeId === 'desafio-4' || challengeId === 'desafio-2') && !this.isChallenge04Unlocked && !this.teacherAuth) {
       this.alertChallengeLocked();
       return;
     }
@@ -308,43 +350,63 @@ class BioLabApp {
 
     this.activeChallengeId = challengeId;
     localStorage.setItem('biolafa_active_challenge_id', challengeId);
-    window.BIO_DATA = window.CHALLENGES_DATABASE[challengeId];
+    if (typeof window.setActiveChallenge === 'function') {
+      window.setActiveChallenge(challengeId);
+    } else {
+      window.BIO_DATA = window.CHALLENGES_DATABASE[challengeId];
+    }
 
     // Resetar índice para o início do novo desafio
     this.currentPhaseIndex = 0;
 
     // Recarregar os dados isolados da equipe para o desafio ativo
     if (this.activeTeamId) {
-      this.loadTeamData(this.activeTeamId);
+      this.loadTeamData(this.activeTeamId, false);
     }
 
     // Carregar primeira lâmina do microscópio para o desafio ativo
-    if (window.microscope && window.BIO_DATA.slides && window.BIO_DATA.slides.length > 0) {
-      window.microscope.loadSlide(window.BIO_DATA.slides[0]);
-      this.renderSlidesShelf();
+    if (window.microscope && this.currentData.slides && this.currentData.slides.length > 0) {
+      window.microscope.loadSlide(this.currentData.slides[0]);
+    }
+    this.renderSlidesShelf();
+
+    // Sincronizar frames do leitor de microfilmes
+    if (window.microfilmReader && typeof window.microfilmReader.initFrames === 'function') {
+      window.microfilmReader.initFrames();
+    }
+
+    // Atualizar mapa interativo
+    this.renderInteractiveMap();
+
+    // Atualizar simulador se instanciado
+    if (window.trophicSim && typeof window.trophicSim.render === 'function') {
+      window.trophicSim.render();
     }
 
     this.renderHeader();
     this.renderChallengesHub();
+    this.renderPhase(0);
     this.switchTab('investigacao');
     this.playSound('focus_snap');
   }
 
-  toggleChallenge02Lock() {
+  toggleChallenge04Lock() {
     if (!this.teacherAuth) {
       this.openTeacherLoginModal();
       return;
     }
 
-    this.isChallenge02Unlocked = !this.isChallenge02Unlocked;
-    localStorage.setItem('biolafa_challenge_02_unlocked', this.isChallenge02Unlocked ? 'true' : 'false');
-    this.playSound(this.isChallenge02Unlocked ? 'focus_snap' : 'tab');
+    this.isChallenge04Unlocked = !this.isChallenge04Unlocked;
+    this.isChallenge02Unlocked = this.isChallenge04Unlocked;
+    localStorage.setItem('biolafa_challenge_04_unlocked', this.isChallenge04Unlocked ? 'true' : 'false');
+    localStorage.setItem('biolafa_challenge_02_unlocked', this.isChallenge04Unlocked ? 'true' : 'false');
+    this.playSound(this.isChallenge04Unlocked ? 'focus_snap' : 'tab');
 
-    if (this.isChallenge02Unlocked) {
-      alert('🔓 Desafio 02 LIBERADO com sucesso pelo professor!\n\nA partir de agora, os estudantes podem acessar a investigação "Floração Vermelha em Vale Verde".');
+    if (this.isChallenge04Unlocked) {
+      alert('🔓 Desafio 04 LIBERADO com sucesso pelo professor!\n\nA partir de agora, os estudantes podem acessar a investigação "Floração Vermelha em Vale Verde".');
     } else {
-      alert('🔒 Desafio 02 BLOQUEADO novamente pelo professor.\n\nO acesso para os alunos foi restrito até nova autorização.');
-      if (this.activeChallengeId === 'desafio-2') {
+      alert('🔒 Desafio 04 BLOQUEADO novamente pelo professor.\n\nO acesso para os alunos foi restrito até nova autorização.');
+      if (this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2') {
         this.selectChallenge('desafio-1');
       }
     }
@@ -353,6 +415,10 @@ class BioLabApp {
     if (this.currentTab === 'professor') {
       this.renderTeacherSection();
     }
+  }
+
+  toggleChallenge02Lock() {
+    this.toggleChallenge04Lock();
   }
 
   alertChallengeLocked() {
@@ -420,11 +486,11 @@ class BioLabApp {
   renderHeader() {
     
     const chalInfo = document.getElementById('global-challenge-info');
-    if (chalInfo && window.BIO_DATA && window.BIO_DATA.challenge) {
-      const ch = window.BIO_DATA.challenge;
+    if (chalInfo && this.currentData && this.currentData.challenge) {
+      const ch = this.currentData.challenge;
       chalInfo.innerHTML = `
         <span class="status-led status-green"></span>
-        <strong>${ch.code} Ativo:</strong> ${ch.title} (${ch.subtitle})
+        <strong>${ch.code} Ativo:</strong> ${ch.title} (${ch.subtitle || ch.subtitulo})
       `;
     }
 
@@ -472,18 +538,19 @@ class BioLabApp {
   }
 
   updateGlobalProgress() {
-    const totalQuestions = BIO_DATA.phases.reduce((acc, p) => acc + p.questions.length, 0);
+    if (!this.currentData || !this.currentData.phases) return;
+    const totalQuestions = this.currentData.phases.reduce((acc, p) => acc + (p.questions ? p.questions.length : 0), 0);
     const answeredCount = Object.keys(this.studentAnswers).filter(k => {
       const v = this.studentAnswers[k];
       return v && (typeof v === 'string' ? v.trim().length > 0 : Object.keys(v).length > 0);
     }).length;
 
-    const percent = Math.min(100, Math.round((answeredCount / totalQuestions) * 100));
+    const percent = Math.min(100, Math.round((answeredCount / (totalQuestions || 1)) * 100));
 
     const barEl = document.getElementById('global-progress-bar');
     const textEl = document.getElementById('global-progress-text');
     if (barEl) barEl.style.width = `${percent}%`;
-    if (textEl) textEl.textContent = `${percent}% Concluído (${this.currentPhaseIndex + 1}/9 Aulas)`;
+    if (textEl) textEl.textContent = `${percent}% Concluído (${this.currentPhaseIndex + 1}/${this.currentData.phases.length} Aulas)`;
   }
 
   // ==========================================
@@ -491,13 +558,14 @@ class BioLabApp {
   // ==========================================
   renderPhase(phaseIdx) {
     this.currentPhaseIndex = phaseIdx;
-    const phase = BIO_DATA.phases[phaseIdx];
+    if (!this.currentData || !this.currentData.phases) return;
+    const phase = this.currentData.phases[phaseIdx];
     if (!phase) return;
 
     // Atualizar a régua de fases (timeline)
     const timelineEl = document.getElementById('phases-timeline');
     if (timelineEl) {
-      timelineEl.innerHTML = BIO_DATA.phases.map((p, idx) => `
+      timelineEl.innerHTML = this.currentData.phases.map((p, idx) => `
         <button class="phase-step-btn ${idx === phaseIdx ? 'active-phase' : ''} ${idx < phaseIdx ? 'done-phase' : ''}" 
           onclick="window.app.renderPhase(${idx})">
           <div class="phase-step-num">${idx + 1}</div>
@@ -508,7 +576,7 @@ class BioLabApp {
 
     // Documentos da fase
     const phaseDocIds = phase.docsInvolved || phase.documentRefs || [];
-    const docs = BIO_DATA.documents.filter(d => phaseDocIds.includes(d.id));
+    const docs = (this.currentData.documents || []).filter(d => phaseDocIds.includes(d.id));
 
     const contentEl = document.getElementById('phase-content-container');
     if (contentEl) {
@@ -526,7 +594,6 @@ class BioLabApp {
           </div>
           <h2 class="text-2xl font-bold text-white mb-2">${phase.lessonTitle}</h2>
           <p class="text-slate-300 text-sm leading-relaxed">${goalText}</p>
-        </div>
         </div>
 
         <!-- Dossiê de Documentos Oficiais & Notícias da Fase -->
@@ -889,7 +956,40 @@ class BioLabApp {
       `;
     }
 
+    if (q.type === 'checklist') {
+      const savedList = (this.studentAnswers[q.id] && Array.isArray(this.studentAnswers[q.id])) ? this.studentAnswers[q.id] : [];
+      return `
+        <div class="question-block" id="block-${q.id}">
+          <label class="question-label">${q.label}</label>
+          <div class="space-y-2.5 mt-3">
+            ${(q.options || []).map((opt, oIdx) => {
+              const isChecked = savedList.includes(oIdx);
+              return `
+                <label class="flex items-center gap-3 p-2.5 bg-slate-900/70 hover:bg-slate-800/80 border border-slate-700/80 rounded-lg cursor-pointer transition">
+                  <input type="checkbox" class="w-4 h-4 rounded text-emerald-500 focus:ring-emerald-400 border-slate-600 bg-slate-800" 
+                    ${isChecked ? 'checked' : ''}
+                    onchange="window.app.toggleChecklistOption('${q.id}', ${oIdx})">
+                  <span class="text-xs text-slate-200 leading-relaxed">${opt}</span>
+                </label>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
     return '';
+  }
+
+  toggleChecklistOption(questionId, optIndex) {
+    let list = this.studentAnswers[questionId];
+    if (!Array.isArray(list)) list = [];
+    if (list.includes(optIndex)) {
+      list = list.filter(i => i !== optIndex);
+    } else {
+      list.push(optIndex);
+    }
+    this.saveAnswer(questionId, list);
   }
 
   // ==========================================
@@ -1035,9 +1135,10 @@ class BioLabApp {
   // ==========================================
   renderSlidesShelf() {
     const shelfEl = document.getElementById('micro-slides-shelf');
-    if (!shelfEl) return;
+    if (!shelfEl || !this.currentData) return;
 
-    const slidesHtml = BIO_DATA.slides.map(slide => `
+    const slidesList = this.currentData.slides || [];
+    const slidesHtml = slidesList.map(slide => `
       <div class="slide-item-card ${window.microscope && window.microscope.currentSlide && window.microscope.currentSlide.id === slide.id ? 'active-slide' : ''}" 
         onclick="window.app.loadSlideIntoMicroscope('${slide.id}')">
         <div class="slide-thumb-wrap">
@@ -1067,12 +1168,12 @@ class BioLabApp {
 
   handleNewSlideUpload(event) {
     const file = event.target.files && event.target.files[0];
-    if (!file) return;
+    if (!file || !this.currentData) return;
 
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target.result;
-      const num = BIO_DATA.slides.length + 1;
+      const num = (this.currentData.slides || []).length + 1;
       const title = prompt('Digite o título para esta nova lâmina:', `Lâmina 0${num}: Amostra Adicionada`);
       if (!title) return;
 
@@ -1091,7 +1192,8 @@ class BioLabApp {
         uvFluorescence: true
       };
 
-      BIO_DATA.slides.push(newSlide);
+      if (!this.currentData.slides) this.currentData.slides = [];
+      this.currentData.slides.push(newSlide);
       this.saveCustomSlides();
       this.renderSlidesShelf();
       this.loadSlideIntoMicroscope(newSlide.id);
@@ -1102,9 +1204,10 @@ class BioLabApp {
   }
 
   saveCustomSlides() {
-    const customSlides = BIO_DATA.slides.filter(s => s.id.startsWith('slide_custom_'));
+    if (!this.currentData || !this.currentData.slides) return;
+    const customSlides = this.currentData.slides.filter(s => s.id.startsWith('slide_custom_'));
     try {
-      localStorage.setItem('biolab_custom_slides', JSON.stringify(customSlides));
+      localStorage.setItem(`biolab_custom_slides_${this.activeChallengeId}`, JSON.stringify(customSlides));
     } catch(e) {
       console.warn('LocalStorage limit for images:', e);
     }
@@ -1112,12 +1215,13 @@ class BioLabApp {
 
   loadCustomSlides() {
     try {
-      const saved = localStorage.getItem('biolab_custom_slides');
-      if (saved) {
+      const saved = localStorage.getItem(`biolab_custom_slides_${this.activeChallengeId}`);
+      if (saved && this.currentData) {
         const list = JSON.parse(saved);
+        if (!this.currentData.slides) this.currentData.slides = [];
         list.forEach(item => {
-          if (!BIO_DATA.slides.some(s => s.id === item.id)) {
-            BIO_DATA.slides.push(item);
+          if (!this.currentData.slides.some(s => s.id === item.id)) {
+            this.currentData.slides.push(item);
           }
         });
       }
@@ -1127,15 +1231,16 @@ class BioLabApp {
   async checkServerForNewSlides() {
     try {
       const res = await fetch('/api/slides');
-      if (!res.ok) return;
+      if (!res.ok || !this.currentData) return;
       const data = await res.json();
       if (data && Array.isArray(data.slides)) {
         let added = false;
+        if (!this.currentData.slides) this.currentData.slides = [];
         data.slides.forEach(filename => {
           const slidePath = 'assets/slides/' + filename;
-          const exists = BIO_DATA.slides.some(s => s.src.toLowerCase() === slidePath.toLowerCase() || s.src.includes(filename));
+          const exists = this.currentData.slides.some(s => s.src.toLowerCase() === slidePath.toLowerCase() || s.src.includes(filename));
           if (!exists) {
-            const num = BIO_DATA.slides.length + 1;
+            const num = this.currentData.slides.length + 1;
             const newSlide = {
               id: 'slide_auto_' + filename.replace(/[^a-zA-Z0-9]/g, '_'),
               code: `LÂMINA 0${num}`,
@@ -1150,7 +1255,7 @@ class BioLabApp {
               scaleMicronsPerPixel: 0.15,
               uvFluorescence: true
             };
-            BIO_DATA.slides.push(newSlide);
+            this.currentData.slides.push(newSlide);
             added = true;
           }
         });
@@ -1165,7 +1270,8 @@ class BioLabApp {
 
   loadSlideIntoMicroscope(slideId) {
     this.playSound('click');
-    const slide = BIO_DATA.slides.find(s => s.id === slideId);
+    if (!this.currentData || !this.currentData.slides) return;
+    const slide = this.currentData.slides.find(s => s.id === slideId);
     if (slide && window.microscope) {
       window.microscope.loadSlide(slide);
       this.renderSlidesShelf();
@@ -1228,6 +1334,15 @@ class BioLabApp {
   // MAPA CARTOGRÁFICO INTERATIVO
   // ==========================================
   renderInteractiveMap() {
+    const isDesafio4 = (this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2');
+    if (isDesafio4) {
+      this.renderInteractiveMapDesafio4();
+    } else {
+      this.renderInteractiveMapDesafio1();
+    }
+  }
+
+  renderInteractiveMapDesafio1() {
     const mapContainer = document.getElementById('interactive-map-container');
     if (!mapContainer) return;
 
@@ -1236,10 +1351,10 @@ class BioLabApp {
         <div class="flex justify-between items-center mb-4">
           <div>
             <h3 class="text-lg font-bold text-white flex items-center gap-2">
-              <span>🗺️</span> Bacia Hidrográfica do Rio das Palmeiras (Vale Verde)
+              <span>🗺️</span> Bacia Hidrográfica do Rio das Palmeiras (Vale Verde) • Desafio 01
             </h3>
             <p class="text-xs text-slate-400">
-              Clique nos pontos das estações de monitoramento e instalações humanas para inspecionar os dossiês ambientais.
+              Clique nos pontos das estações de monitoramento e instalações humanas para inspecionar os dossiês ambientais de microplásticos.
             </p>
           </div>
           <div class="map-legend flex gap-3 text-xs font-mono">
@@ -1335,9 +1450,123 @@ class BioLabApp {
           </svg>
         </div>
 
-        <div id="map-popup-dossier" class="mt-4 p-4 rounded-xl bg-slate-900 border border-slate-700 hidden">
-          <!-- Conteúdo dinâmico do ponto clicado -->
+        <div id="map-popup-dossier" class="mt-4 p-4 rounded-xl bg-slate-900 border border-slate-700 hidden"></div>
+      </div>
+    `;
+  }
+
+  renderInteractiveMapDesafio4() {
+    const mapContainer = document.getElementById('interactive-map-container');
+    if (!mapContainer) return;
+
+    mapContainer.innerHTML = `
+      <div class="map-wrapper relative overflow-hidden rounded-2xl border border-slate-700 bg-slate-950 p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🗺️</span> Bacia Hidrográfica do Lago Azul & Vale Verde • Desafio 04
+            </h3>
+            <p class="text-xs text-slate-400">
+              Inspecione as estações de monitoramento limnológico e as fontes potenciais de nutrientes da bacia do Lago Azul.
+            </p>
+          </div>
+          <div class="map-legend flex gap-3 text-xs font-mono">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Floração / Lago</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> Canal Agrícola</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Esgoto Vila Nova</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-cyan-500 inline-block"></span> Captação ETA</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span> Ictiopatologia</span>
+          </div>
         </div>
+
+        <!-- Desenho Cartográfico Vetorial SVG Interativo do Lago Azul -->
+        <div class="relative w-full aspect-[16/9] max-h-[500px] bg-slate-900/90 rounded-xl border border-slate-800 overflow-hidden">
+          <svg viewBox="0 0 900 500" class="w-full h-full">
+            <defs>
+              <linearGradient id="lakeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0284c7"/>
+                <stop offset="40%" stop-color="#059669"/>
+                <stop offset="100%" stop-color="#047857"/>
+              </linearGradient>
+              <radialGradient id="bloomGlow" cx="45%" cy="50%" r="55%">
+                <stop offset="0%" stop-color="#10b981" stop-opacity="0.85"/>
+                <stop offset="50%" stop-color="#047857" stop-opacity="0.7"/>
+                <stop offset="85%" stop-color="#991b1b" stop-opacity="0.45"/>
+                <stop offset="100%" stop-color="#0369a1" stop-opacity="0.3"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Terreno de Fundo -->
+            <rect width="900" height="500" fill="#0b1329" />
+
+            <!-- Relevo e Morros da Bacia -->
+            <circle cx="120" cy="80" r="90" fill="#064e3b" opacity="0.3" />
+            <circle cx="280" cy="60" r="70" fill="#064e3b" opacity="0.3" />
+            <text x="70" y="50" fill="#34d399" font-size="11" font-family="sans-serif">Encostas Agrícolas (Hortaliças e NPK)</text>
+
+            <!-- Zona Urbana Bairro Vila Nova -->
+            <rect x="520" y="50" width="170" height="80" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+            <text x="605" y="75" fill="#94a3b8" font-size="11" font-weight="bold" text-anchor="middle">Bairro Vila Nova</text>
+            <text x="605" y="92" fill="#64748b" font-size="9" text-anchor="middle">(Esgoto Clandestino / Galerias Pluviais)</text>
+
+            <!-- Criatório e Granjas -->
+            <rect x="360" y="70" width="120" height="60" rx="6" fill="#78350f" opacity="0.4" stroke="#d97706" stroke-width="1.5"/>
+            <text x="420" y="95" fill="#fde68a" font-size="10" font-weight="bold" text-anchor="middle">Granja Suína / Aves</text>
+            <text x="420" y="110" fill="#f59e0b" font-size="8" text-anchor="middle">(Esterqueiras a 40m de nascentes)</text>
+
+            <!-- Canal de Drenagem Norte -->
+            <path d="M 180 120 Q 300 180 440 200 T 560 260" stroke="#f59e0b" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M 520 130 L 520 230 L 560 260" stroke="#38bdf8" stroke-width="5" fill="none" stroke-dasharray="6 3"/>
+            <text x="300" y="170" fill="#fde68a" font-size="10" font-family="monospace">Canal de Drenagem Norte (P = 0,31 mg/L)</text>
+
+            <!-- Lago Azul (Corpo Léntico Central com Mancha de Floração) -->
+            <path d="M 460 250 C 600 220 840 240 860 380 C 870 460 680 480 520 460 C 420 440 380 340 460 250 Z" 
+              fill="url(#lakeGrad)" stroke="#38bdf8" stroke-width="3"/>
+            
+            <!-- Mancha de Floração e Anóxia na Enseada Rasa -->
+            <ellipse cx="580" cy="340" rx="130" ry="65" fill="url(#bloomGlow)"/>
+            <text x="580" y="340" fill="#ecfdf5" font-weight="black" font-size="13" text-anchor="middle">Lago Azul • Enseada Rasa</text>
+            <text x="580" y="356" fill="#a7f3d0" font-size="10" text-anchor="middle">Floração de Cianobactérias (85.000 cél/mL)</text>
+
+            <!-- Pontos Clicáveis -->
+            <!-- Ponto 1: Lago Enseada Central -->
+            <g class="cursor-pointer group" onclick="window.app.openMapPopup('lago_enseada')">
+              <circle cx="580" cy="385" r="16" fill="#10b981" stroke="#ffffff" stroke-width="2.5"/>
+              <text x="580" y="390" fill="#ffffff" font-weight="bold" font-size="12" text-anchor="middle">01</text>
+              <text x="580" y="415" fill="#34d399" font-size="10" font-weight="bold" text-anchor="middle">Enseada (OD: 0,8 mg/L)</text>
+            </g>
+
+            <!-- Ponto 2: Canal Agrícola -->
+            <g class="cursor-pointer group" onclick="window.app.openMapPopup('canal_agricola')">
+              <circle cx="280" cy="175" r="14" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+              <text x="280" y="180" fill="#ffffff" font-weight="bold" font-size="11" text-anchor="middle">02</text>
+              <text x="280" y="202" fill="#fde68a" font-size="10" text-anchor="middle">Canal Norte (Fertilizantes)</text>
+            </g>
+
+            <!-- Ponto 3: Esgoto Vila Nova -->
+            <g class="cursor-pointer group" onclick="window.app.openMapPopup('bairro_esgoto')">
+              <circle cx="620" cy="140" r="14" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+              <text x="620" y="145" fill="#ffffff" font-weight="bold" font-size="11" text-anchor="middle">03</text>
+              <text x="620" y="168" fill="#93c5fd" font-size="10" text-anchor="middle">Vila Nova (Esgoto Doméstico)</text>
+            </g>
+
+            <!-- Ponto 4: Captação ETA Sul -->
+            <g class="cursor-pointer group" onclick="window.app.openMapPopup('eta_captacao')">
+              <circle cx="780" cy="420" r="14" fill="#06b6d4" stroke="#ffffff" stroke-width="2"/>
+              <text x="780" y="425" fill="#ffffff" font-weight="bold" font-size="11" text-anchor="middle">04</text>
+              <text x="780" y="448" fill="#67e8f9" font-size="10" text-anchor="middle">Captação ETA (Toxina 2,4 µg/L)</text>
+            </g>
+
+            <!-- Ponto 5: Laboratório de Necrópsia -->
+            <g class="cursor-pointer group" onclick="window.app.openMapPopup('lab_necropsia')">
+              <circle cx="430" cy="420" r="14" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+              <text x="430" y="425" fill="#ffffff" font-weight="bold" font-size="11" text-anchor="middle">05</text>
+              <text x="430" y="448" fill="#fca5a5" font-size="10" text-anchor="middle">Ictiopatologia (Asfixia Branquial)</text>
+            </g>
+          </svg>
+        </div>
+
+        <div id="map-popup-dossier" class="mt-4 p-4 rounded-xl bg-slate-900 border border-slate-700 hidden"></div>
       </div>
     `;
   }
@@ -1348,41 +1577,85 @@ class BioLabApp {
     if (!dossier) return;
 
     const mapData = {
+      // Pontos do Desafio 01
       ponto_a: {
         title: 'Estação de Monitoramento A • Montante (Controle)',
         count: '6 partículas por litro',
         slideId: 'slide_ponto_a',
+        docId: 'doc-1',
         text: 'Área com cobertura de mata ciliar nativa preservada. Ausência de descarte industrial ou residencial. Serve como linha de base (controle experimental) da bacia.'
       },
       ponto_b: {
         title: 'Estação de Monitoramento B • Bairro Residencial / Esgoto',
         count: '18 partículas por litro (+12 sobre o controle)',
         slideId: 'slide_ponto_b',
+        docId: 'doc-3',
         text: 'Trecho impactado pela ligação clandestina de esgoto não tratado de 3 mil habitantes. Alta presença de microfibras oriundas da lavagem de roupas sintéticas.'
       },
       fabrica: {
         title: 'Fábrica Têxtil Aurora (Unidade Industrial)',
         count: 'Capacidade ampliada em 35%',
         slideId: 'slide_ponto_c',
+        docId: 'doc-2',
         text: 'Instalação a 400 m do rio especializada em vestuário esportivo de poliéster e poliamida. Em 2024, instalou sistema de ultrafiltração reduzindo em 53,2% sua carga.'
       },
       ponto_c: {
         title: 'Estação de Monitoramento C • Jusante Imediata da Fábrica',
         count: '47 part/L (Antes do Filtro) → 22 part/L (Depois do Filtro)',
         slideId: 'slide_ponto_c',
+        docId: 'doc-6',
         text: 'Ponto com a maior contagem inicial da bacia. A queda expressiva para 22 part/L após os filtros comprovou a contribuição da fábrica, mas os 22 residuais provam que ela não era a única poluidora.'
       },
       ponto_d: {
         title: 'Estação de Monitoramento D • Rodovia dos Ipês',
         count: '39 partículas por litro',
         slideId: 'slide_ponto_d',
+        docId: 'doc-7',
         text: 'Receptor das águas de drenagem pluvial da rodovia com fluxo de 15 mil veículos/dia. Dominância morfológica de grânulos pretos angulares de desgaste de borracha de pneus.'
       },
       ponto_e: {
         title: 'Estação de Monitoramento E • Desembocadura no Lago Azul',
         count: '28 partículas por litro',
         slideId: 'slide_ponto_e',
+        docId: 'doc-8',
         text: 'Área lêntica onde o escoamento diminui de velocidade. Ocorre diluição pelo volume do lago, sedimentação das partículas no lodo do fundo e ingestão por peixes e plâncton.'
+      },
+
+      // Pontos do Desafio 04 / 02
+      lago_enseada: {
+        title: 'Estação Central • Enseada Rasa do Lago Azul (Zona da Mancha & Anóxia)',
+        count: 'Microcystis: 85.000 cél/mL • OD às 04h: 0,8 mg/L • Microcistina: 2,4 µg/L',
+        slideId: 'slide_d4_1',
+        docId: 'doc-201',
+        text: 'Área límnica rasa com densa mancha verde-azulada e avermelhada. Notou-se mortandade concentrada na madrugada entre 4h e 6h. A sonda registrou supersaturação diurna (14,2 mg/L) e anóxia noturna crítica (0,8 mg/L).'
+      },
+      canal_agricola: {
+        title: 'Canal de Drenagem Norte • Foz Tributária da Zona Agrícola',
+        count: 'Fósforo Total: 0,31 mg/L • Nitrato: 1,85 mg/L • Ortofosfato: 0,19 mg/L',
+        slideId: null,
+        docId: 'doc-203',
+        text: 'Principal vetor de entrada de nutrientes no Lago Azul. Drena encostas agrícolas com cultivo intensivo de hortaliças e grãos onde há aplicação de adubos NPK e solo exposto a erosão pós-chuvas.'
+      },
+      bairro_esgoto: {
+        title: 'Bairro Vila Nova • Rede de Galerias e Esgoto Residencial',
+        count: 'Amônio: 0,72 mg/L • Fósforo de detergentes • Matéria Orgânica',
+        slideId: null,
+        docId: 'doc-204',
+        text: 'Núcleo urbano com ligações clandestinas de esgoto doméstico despejando em galerias pluviais que desembocam no canal tributário. Fonte contínua de fósforo presente em sabões e matéria orgânica fecal.'
+      },
+      eta_captacao: {
+        title: 'Estação de Captação e Tratamento de Água (ETA Enseada Sul)',
+        count: 'Microcistina na Captação: 2,4 µg/L (VMP Portaria MS 888: 1,0 µg/L)',
+        slideId: null,
+        docId: 'doc-207',
+        text: 'Ponto municipal de captação de água potável. O teste ELISA acusou níveis de microcistina superiores ao padrão máximo de potabilidade (1,0 µg/L), exigindo monitoramento urgente e suspensão preventiva.'
+      },
+      lab_necropsia: {
+        title: 'Laboratório de Ecotoxicologia e Ictiopatologia',
+        count: '35 espécimes examinados (Tilápias, Lambaris, Traíras)',
+        slideId: 'slide_d4_2',
+        docId: 'doc-209',
+        text: 'Necrópsia revelou opérculos abertos e intensa hiperplasia e edema nas lamelas branquiais, compatíveis com asfixia aguda por anóxia noturna na madrugada somada a estresse tecidual por cianobactérias.'
       }
     };
 
@@ -1391,16 +1664,26 @@ class BioLabApp {
 
     dossier.classList.remove('hidden');
     dossier.innerHTML = `
-      <div class="flex justify-between items-start gap-4">
-        <div>
+      <div class="flex flex-wrap justify-between items-start gap-4">
+        <div class="flex-1 min-w-[280px]">
           <h4 class="font-bold text-white text-sm mb-1">${item.title}</h4>
-          <span class="text-xs text-cyan-400 font-mono block mb-2">📊 Concentração Registrada: ${item.count}</span>
+          <span class="text-xs text-cyan-400 font-mono block mb-2">📊 Concentração / Indicadores: ${item.count}</span>
           <p class="text-xs text-slate-300 leading-relaxed">${item.text}</p>
         </div>
-        <button class="btn-primary text-xs py-1.5 px-3 whitespace-nowrap" 
-          onclick="window.app.switchTab('microscopio'); window.app.loadSlideIntoMicroscope('${item.slideId}')">
-          🔬 Ver Lâmina no Microscópio →
-        </button>
+        <div class="flex flex-col gap-2">
+          ${item.slideId ? `
+            <button class="btn-primary text-xs py-1.5 px-3 whitespace-nowrap bg-emerald-600 hover:bg-emerald-500 font-bold" 
+              onclick="window.app.switchTab('microscopio'); window.app.loadSlideIntoMicroscope('${item.slideId}')">
+              🔬 Ver Lâmina no Microscópio →
+            </button>
+          ` : ''}
+          ${item.docId ? `
+            <button class="btn-secondary text-xs py-1 px-3 whitespace-nowrap text-cyan-300 border-cyan-500/40" 
+              onclick="window.app.switchTab('microfilme'); window.microfilmReader.goToDocFrame('${item.docId}')">
+              🎞️ Ver Documento no Microfilme →
+            </button>
+          ` : ''}
+        </div>
       </div>
     `;
   }
@@ -1412,7 +1695,8 @@ class BioLabApp {
     const sec = document.getElementById('teacher-guide-container');
     if (!sec) return;
 
-    const g = BIO_DATA.teacherGuide;
+    const g = (this.currentData && this.currentData.teacherGuide) || (window.BIO_DATA && window.BIO_DATA.teacherGuide) || {};
+    const isDesafio4 = (this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2');
 
     sec.innerHTML = `
       <div class="teacher-dashboard space-y-6">
@@ -1440,21 +1724,21 @@ class BioLabApp {
               </button>
             </div>
           </div>
-          <h2 class="text-xl font-bold text-white mb-1">${g.title}</h2>
-          <p class="text-xs text-amber-200/90 leading-relaxed mb-4">${g.warning}</p>
+          <h2 class="text-xl font-bold text-white mb-1">${g.title || 'Guia Pedagógico'}</h2>
+          <p class="text-xs text-amber-200/90 leading-relaxed mb-4">${g.warning || ''}</p>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-700">
               <h4 class="font-bold text-sm text-white mb-2">🎯 Objetivos de Aprendizagem</h4>
               <ul class="text-xs text-slate-300 space-y-1.5 list-disc pl-4">
-                ${g.pedagogicalGoals.map(o => `<li>${o}</li>`).join('')}
+                ${(g.pedagogicalGoals || []).map(o => `<li>${o}</li>`).join('')}
               </ul>
             </div>
 
             <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-700">
               <h4 class="font-bold text-sm text-white mb-2">📅 Cronograma Sugerido (9 Aulas)</h4>
               <div class="space-y-1.5 text-xs text-slate-300">
-                ${g.timelinePacing.map(t => `
+                ${(g.timelinePacing || []).map(t => `
                   <div><strong class="text-cyan-400 font-mono">${t.week}:</strong> ${t.focus}</div>
                 `).join('')}
               </div>
@@ -1489,23 +1773,23 @@ class BioLabApp {
               </button>
             </div>
 
-            <!-- Desafio 02 -->
-            <div class="p-4 bg-slate-950 rounded-xl border ${this.isChallenge02Unlocked ? 'border-emerald-500/40 bg-emerald-950/20' : 'border-rose-500/40 bg-rose-950/20'} flex justify-between items-center">
+            <!-- Desafio 04 (Floração / Maré Vermelha) -->
+            <div class="p-4 bg-slate-950 rounded-xl border ${this.isChallenge04Unlocked ? 'border-emerald-500/40 bg-emerald-950/20' : 'border-rose-500/40 bg-rose-950/20'} flex justify-between items-center">
               <div>
-                <span class="text-[10px] font-mono ${this.isChallenge02Unlocked ? 'text-emerald-400 bg-emerald-950 border-emerald-800' : 'text-rose-400 bg-rose-950 border-rose-800'} px-2 py-0.5 rounded border font-bold">
-                  ${this.isChallenge02Unlocked ? '🔓 DESAFIO 02 • LIBERADO' : '🔒 DESAFIO 02 • BLOQUEADO'}
+                <span class="text-[10px] font-mono ${this.isChallenge04Unlocked ? 'text-emerald-400 bg-emerald-950 border-emerald-800' : 'text-rose-400 bg-rose-950 border-rose-800'} px-2 py-0.5 rounded border font-bold">
+                  ${this.isChallenge04Unlocked ? '🔓 DESAFIO 04 • LIBERADO' : '🔒 DESAFIO 04 • BLOQUEADO'}
                 </span>
                 <h4 class="font-bold text-sm text-white mt-1">Floração Vermelha em Vale Verde</h4>
                 <p class="text-xs text-slate-400">Eutrofização & Cianobactérias Tóxicas (9 Aulas)</p>
               </div>
               <div class="flex items-center gap-2">
-                <button class="btn-secondary text-xs py-1.5 px-3 ${this.isChallenge02Unlocked ? 'border-rose-500/50 text-rose-300 hover:bg-rose-950' : 'border-emerald-500/50 text-emerald-300 hover:bg-emerald-950 font-bold'}"
-                  onclick="window.app.toggleChallenge02Lock()">
-                  ${this.isChallenge02Unlocked ? '🔒 Bloquear' : '🔓 Liberar para a Turma'}
+                <button class="btn-secondary text-xs py-1.5 px-3 ${this.isChallenge04Unlocked ? 'border-rose-500/50 text-rose-300 hover:bg-rose-950' : 'border-emerald-500/50 text-emerald-300 hover:bg-emerald-950 font-bold'}"
+                  onclick="window.app.toggleChallenge04Lock()">
+                  ${this.isChallenge04Unlocked ? '🔒 Bloquear' : '🔓 Liberar para a Turma'}
                 </button>
-                ${this.isChallenge02Unlocked ? `
-                  <button class="btn-primary text-xs py-1.5 px-3" onclick="window.app.selectChallenge('desafio-2')">
-                    ${this.activeChallengeId === 'desafio-2' ? '✓ Em Andamento' : 'Entrar'}
+                ${this.isChallenge04Unlocked ? `
+                  <button class="btn-primary text-xs py-1.5 px-3" onclick="window.app.selectChallenge('desafio-4')">
+                    ${isDesafio4 ? '✓ Em Andamento' : 'Entrar'}
                   </button>
                 ` : ''}
               </div>
@@ -1567,23 +1851,29 @@ class BioLabApp {
         <!-- Gabarito Orientador das Hipóteses -->
         <div class="p-6 rounded-2xl bg-slate-900 border border-slate-700">
           <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-            <span>🔑</span> Gabarito Didático Interpretativo (Não é uma Conclusão Única!)
+            <span>🔑</span> Gabarito Didático Interpretativo (${isDesafio4 ? 'Desafio 04: Floração Vermelha' : 'Desafio 01: Rio das Palmeiras'})
           </h3>
 
           <div class="space-y-4 text-xs text-slate-300 leading-relaxed">
             <div class="p-3 bg-slate-800/60 rounded-lg border-l-4 border-cyan-500">
-              <strong class="text-cyan-300 block mb-1">1. Responsabilidade Industrial (Têxtil Aurora):</strong>
-              ${g.answerKey.industrialResponsibility}
+              <strong class="text-cyan-300 block mb-1">
+                ${isDesafio4 ? '1. Fontes de Nutrientes na Bacia (Esgoto + Agricultura + Dejetos):' : '1. Responsabilidade Industrial (Têxtil Aurora):'}
+              </strong>
+              ${g.answerKey ? g.answerKey.industrialResponsibility : ''}
             </div>
 
             <div class="p-3 bg-slate-800/60 rounded-lg border-l-4 border-amber-500">
-              <strong class="text-amber-300 block mb-1">2. Correlação vs Causalidade:</strong>
-              ${g.answerKey.correlationVsCausality}
+              <strong class="text-amber-300 block mb-1">
+                ${isDesafio4 ? '2. Anóxia Noturna Crítica vs. Cianotoxinas (Microcistina):' : '2. Correlação vs Causalidade:'}
+              </strong>
+              ${g.answerKey ? g.answerKey.correlationVsCausality : ''}
             </div>
 
             <div class="p-3 bg-slate-800/60 rounded-lg border-l-4 border-emerald-500">
-              <strong class="text-emerald-300 block mb-1">3. Ingestão vs Biomagnificação Trófica:</strong>
-              ${g.answerKey.biomagnificationDistinction}
+              <strong class="text-emerald-300 block mb-1">
+                ${isDesafio4 ? '3. Floração Límnica (Água Doce) vs. "Maré Vermelha Marinha" (Karenia brevis):' : '3. Ingestão vs Biomagnificação Trófica:'}
+              </strong>
+              ${g.answerKey ? g.answerKey.biomagnificationDistinction : ''}
             </div>
           </div>
         </div>
@@ -1727,7 +2017,8 @@ class BioLabApp {
       if (!raw) return 0;
       const parsed = JSON.parse(raw);
       const answers = parsed.answers || {};
-      const totalQuestions = BIO_DATA.phases.reduce((acc, p) => acc + p.questions.length, 0);
+      const phasesList = (this.currentData && this.currentData.phases) || [];
+      const totalQuestions = phasesList.reduce((acc, p) => acc + (p.questions ? p.questions.length : 0), 0) || 36;
       const answeredCount = Object.keys(answers).filter(k => {
         const v = answers[k];
         return v && (typeof v === 'string' ? v.trim().length > 0 : Object.keys(v).length > 0);
@@ -2692,9 +2983,9 @@ class BioLabApp {
     const snaps = (teamData.snapshots && teamData.snapshots.length > 0) ? teamData.snapshots : (serverTeam.snapshots || []);
     const evidenceMatrix = (teamData.evidenceMatrix && Object.keys(teamData.evidenceMatrix).length > 0) ? teamData.evidenceMatrix : (serverTeam.evidenceMatrix || {});
     const progress = (typeof serverTeam.progress === 'number') ? serverTeam.progress : this.calculateTeamProgress(teamId);
-    const isCh2 = (targetChallengeId === 'desafio-2');
+    const isCh4 = (targetChallengeId === 'desafio-4' || targetChallengeId === 'desafio-2');
     const currentPhase = (typeof serverTeam.currentPhase === 'number') ? serverTeam.currentPhase : (teamData.currentPhase || 0);
-    const currentPhaseName = serverTeam.currentPhaseName || (phases[currentPhase] ? phases[currentPhase].title : `Aula ${currentPhase + 1}`);
+    const currentPhaseName = serverTeam.currentPhaseName || (phases[currentPhase] ? (phases[currentPhase].lessonTitle || phases[currentPhase].title) : `Aula ${currentPhase + 1}`);
 
     const modal = document.getElementById('teacher-inspect-team-modal');
     const content = document.getElementById('teacher-inspect-modal-content');
@@ -2718,8 +3009,8 @@ class BioLabApp {
               <div class="flex items-center gap-2 mb-1">
                 <span class="text-base font-bold text-white">${team.name}</span>
                 <span class="text-xs font-mono font-normal bg-slate-800 text-amber-300 px-2 py-0.5 rounded border border-slate-700">PIN: ${team.pin || 'Livre'}</span>
-                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${isCh2 ? 'bg-emerald-950 text-emerald-300 border-emerald-800' : 'bg-cyan-950 text-cyan-300 border-cyan-800'}">
-                  ${isCh2 ? '🌿 Desafio 02: Vale Verde' : '🔬 Desafio 01: Rio das Palmeiras'}
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${isCh4 ? 'bg-emerald-950 text-emerald-300 border-emerald-800' : 'bg-cyan-950 text-cyan-300 border-cyan-800'}">
+                  ${isCh4 ? '🌿 Desafio 04: Floração Vermelha' : '🔬 Desafio 01: Rio das Palmeiras'}
                 </span>
               </div>
               <p class="text-xs text-slate-400">

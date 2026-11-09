@@ -118,7 +118,7 @@
       </div>
 
       <!-- Grid de Desafios -->
-      <div id="challenges-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div id="challenges-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         
         <!-- Desafio 1 (Ativo e Principal) -->
         <div class="challenge-card challenge-card-active flex flex-col justify-between">
@@ -134,7 +134,7 @@
             </p>
             <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
               <span class="px-2 py-0.5 rounded bg-slate-800">12 Notícias</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800">12 Lâminas</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800">Lâminas Ópticas</span>
               <span class="px-2 py-0.5 rounded bg-slate-800">Simulador Trófico</span>
             </div>
           </div>
@@ -144,25 +144,29 @@
         </div>
 
         <!-- Desafio 2 (Expansão Futura) -->
-        <div class="challenge-card challenge-card-locked flex flex-col justify-between">
+        <div class="challenge-card challenge-card-locked flex flex-col justify-between opacity-80">
           <div>
             <div class="flex justify-between items-center mb-3">
               <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">DESAFIO 02 • BLOQUEADO</span>
               <span class="text-xs text-slate-500 font-mono">Em Breve</span>
             </div>
-            <h3 class="text-lg font-bold text-slate-300 mb-2">Floração Vermelha em Vale Verde</h3>
-            <p class="text-xs text-amber-400 font-semibold mb-3">Eutrofização & Cianobactérias Tóxicas</p>
+            <h3 class="text-lg font-bold text-slate-300 mb-2">Biomagnificação Trófica & Dinâmica Ecológica</h3>
+            <p class="text-xs text-amber-400/90 font-semibold mb-3">Cadeias Alimentares e Fatores de Acumulação</p>
             <p class="text-xs text-slate-400 leading-relaxed mb-4">
-              O Lago Azul amanhece com uma camada verde-azulada e odor característico. Mortandade de alevinos é observada. Os alunos investigarão descarte de fósforo, nitrogênio e toxinas bacterianas.
+              Investigação de bioacumulação em tecidos animais e transferência de compostos persistentes entre produtores, consumidores e predadores de topo.
             </p>
+            <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
+              <span class="px-2 py-0.5 rounded bg-slate-800">Teias Tróficas</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800">Bioquímica</span>
+            </div>
           </div>
           <button class="btn-secondary w-full justify-center opacity-50 cursor-not-allowed">
-            🔒 Desafio Bloqueado
+            🔒 Desafio Reservado
           </button>
         </div>
 
         <!-- Desafio 3 (Expansão Futura) -->
-        <div class="challenge-card challenge-card-locked flex flex-col justify-between">
+        <div class="challenge-card challenge-card-locked flex flex-col justify-between opacity-80">
           <div>
             <div class="flex justify-between items-center mb-3">
               <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">DESAFIO 03 • BLOQUEADO</span>
@@ -173,9 +177,38 @@
             <p class="text-xs text-slate-400 leading-relaxed mb-4">
               Rastreamento de plasmídeos de resistência antimicrobiana em corpos hídricos que recebem resíduos de hospitais e granjas avícolas.
             </p>
+            <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
+              <span class="px-2 py-0.5 rounded bg-slate-800">Genômica</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800">Resistência</span>
+            </div>
           </div>
           <button class="btn-secondary w-full justify-center opacity-50 cursor-not-allowed">
-            🔒 Desafio Bloqueado
+            🔒 Desafio Reservado
+          </button>
+        </div>
+
+        <!-- Desafio 4 (Floração Vermelha / Maré Vermelha / Eutrofização) -->
+        <div class="challenge-card challenge-card-locked flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="px-2 py-0.5 rounded bg-rose-950/70 text-rose-300 border border-rose-800/60 text-[10px] font-mono font-bold">
+                🔒 BLOQUEADO PELO PROFESSOR
+              </span>
+              <span class="text-xs text-slate-500 font-mono font-bold">9 Aulas • PBL</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-300 mb-2">Floração Vermelha em Vale Verde</h3>
+            <p class="text-xs text-amber-400/90 font-semibold mb-3">Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna (Maré Vermelha)</p>
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              O Lago Azul amanhece com uma camada verde-azulada e odor característico. Mortandade de alevinos e peixes adultos é observada na madrugada. Os alunos investigarão descarte de fósforo, nitrogênio, cianotoxinas (microcistina) e o ciclo noturno de oxigênio.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
+              <span class="px-2 py-0.5 rounded bg-slate-800">12 Laudos & Notícias</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800">Cianobactérias</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800">Anóxia Noturna</span>
+            </div>
+          </div>
+          <button class="btn-secondary w-full justify-center opacity-70 cursor-pointer" onclick="window.app.alertChallengeLocked()">
+            🔒 Desafio Bloqueado (Aguarde o Professor)
           </button>
         </div>
 
