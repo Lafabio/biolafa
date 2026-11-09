@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Ficha de Orientação do Estudante Investigador • Desafio 04 - BioLafa</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 12mm 14mm 14mm 14mm;
+      @bottom-right {
+        content: counter(page) " / " counter(pages);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.42;
+      color: #1e293b;
+      background: #ffffff;
+    }
+
+    /* Cabeçalho */
+    .header-box {
+      border: 2px solid #059669;
+      border-radius: 8px;
+      padding: 12px 16px;
+      background: #f0fdf4;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-left h1 {
+      font-size: 13.5pt;
+      font-weight: 800;
+      color: #065f46;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .header-left h2 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .meta-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      font-size: 7.5pt;
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .badge-bncc {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 8pt;
+      color: #475569;
+    }
+
+    .header-right strong {
+      display: block;
+      color: #059669;
+      font-size: 9.5pt;
+    }
+
+    /* Seções */
+    h2.section-title {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #0f172a;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 3px;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    p {
+      margin-bottom: 5px;
+      text-align: justify;
+    }
+
+    /* Alertas e Callouts */
+    .callout {
+      border-left: 3.5px solid #059669;
+      background: #f8fafc;
+      padding: 7px 11px;
+      border-radius: 0 6px 6px 0;
+      margin: 6px 0;
+      font-size: 8.5pt;
+    }
+
+    .callout-warning {
+      border-left-color: #f59e0b;
+      background: #fffbeb;
+      color: #78350f;
+    }
+
+    .callout-alert {
+      border-left-color: #ef4444;
+      background: #fef2f2;
+      color: #7f1d1d;
+    }
+
+    /* Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 7px 9px;
+      background: #ffffff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .card h3 {
+      font-size: 9pt;
+      font-weight: 700;
+      color: #065f46;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card p, .card ul {
+      font-size: 8pt;
+      color: #334155;
+    }
+
+    ul, ol {
+      margin-left: 16px;
+      margin-bottom: 5px;
+    }
+
+    li {
+      margin-bottom: 2px;
+    }
+
+    /* Tabelas */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8pt;
+      margin: 5px 0 8px 0;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 4px 6px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    /* Regras de Ouro Box */
+    .regras-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 5px;
+    }
+
+    .regra-item {
+      border: 1px solid #fca5a5;
+      background: #fff5f5;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 7.5pt;
+    }
+
+    .regra-item strong {
+      display: block;
+      color: #b91c1c;
+      font-size: 8pt;
+      margin-bottom: 2px;
+    }
+
+    /* Checklist */
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px 8px;
+      font-size: 7.5pt;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 6px 8px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .check-box {
+      width: 10px;
+      height: 10px;
+      border: 1.5px solid #64748b;
+      border-radius: 2px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .footer-note {
+      margin-top: 8px;
+      font-size: 7pt;
+      color: #64748b;
+      text-align: center;
+      border-top: 1px dashed #cbd5e1;
+      padding-top: 4px;
+    }
+
+    .flow-box {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 7.5pt;
+      margin: 6px 0;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .flow-num {
+      background: #059669;
+      color: white;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7pt;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <div class="header-box">
+    <div class="header-left">
+      <h1>BioLafa • Estação de Investigação Científica</h1>
+      <h2>Desafio 04: Floração Vermelha em Vale Verde</h2>
+      <div class="meta-tags">
+        <span class="badge">1ª Série do Ensino Médio</span>
+        <span class="badge">Ecotoxicologia Límnica & Biologia Celular</span>
+        <span class="badge">Metodologia PBL (9 Aulas)</span>
+        <span class="badge badge-bncc">BNCC: EM13CNT101, EM13CNT206, EM13CNT301, EM13CNT303</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <strong>Plataforma Online</strong>
+      <span>biolafa.vercel.app</span>
+      <span style="display:block; margin-top:2px; font-weight:600; color:#065f46;">Caderno de Campo Oficial</span>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 1: MISSÃO PERICIAL -->
+  <h2 class="section-title">🎯 1. O Enigma Pericial: Lago Azul em Crise</h2>
+  <p>
+    Nas primeiras horas da manhã, pescadores e moradores do <strong>Lago Azul</strong>, em Vale Verde, depararam-se com uma situação alarmante: uma densa mancha verde-azulada e avermelhada cobriu a enseada rasa e a foz do canal afluente, acompanhada de forte odor e faixas de escuma superficial. Centenas de peixes (alevinos e adultos de tilápias, lambaris e traíras) foram encontrados mortos ou agonizando na beira d’água entre 4h e 6h da madrugada, boiando com a boca aberta na linha de superfície (boquejamento).
+  </p>
+  <div class="callout">
+    <strong>A Missão Pericial da sua Equipe:</strong> Atuando como o <em>Comitê Científico de Ecotoxicologia e Qualidade Hídrica</em>, vocês deverão examinar os 12 documentos oficiais, lâminas microscópicas das colônias de fitoplâncton, boletins meteorológicos, laudos físico-químicos e a curva nictemeral contínua de oxigênio. O objetivo é diferenciar boatos sensacionalistas da realidade científica e formular o <strong>Laudo Pericial Integrado</strong> definitivo.
+  </div>
+
+  <!-- SEÇÃO 2: AS 6 QUESTÕES INVESTIGATIVAS -->
+  <h2 class="section-title">❓ 2. As 6 Questões Investigativas Centrais</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>🔬 1. Taxonomia dos Organismos</h3>
+      <p>Quais organismos proliferam: cianobactérias procariontes, microalgas eucarióticas ou uma comunidade fitoplanctônica mista?</p>
+    </div>
+    <div class="card">
+      <h3>🌱 2. Nutrientes e Fontes Antrópicas</h3>
+      <p>Quais nutrientes alimentam a floração ($N$ e $P$) e quais são as 3 fontes suspeitas na bacia hidrográfica?</p>
+    </div>
+    <div class="card">
+      <h3>🧪 3. Presença de Cianotoxinas</h3>
+      <p>Há produção de microcistinas na água? A concentração detectada de $2,4\text{ }\mu\text{g/L}$ explica isoladamente a mortandade em massa?</p>
+    </div>
+    <div class="card">
+      <h3>📉 4. Ciclo Nictemeral do Oxigênio ($OD$)</h3>
+      <p>Por que o oxigênio dissolvido atinge pico de $14,2\text{ mg/L}$ às 14h e despenca criticamente para $0,8\text{ mg/L}$ às 06h da madrugada?</p>
+    </div>
+    <div class="card">
+      <h3>🐟 5. Causa Imediata da Morte dos Peixes</h3>
+      <p>A ictiofauna morreu por intoxicação sistêmica aguda, por asfixia decorrente de anóxia noturna ou por sinergismo entre ambos?</p>
+    </div>
+    <div class="card">
+      <h3>📰 6. Fato vs. Mito da "Maré Vermelha"</h3>
+      <p>O evento pode ser chamado de "maré vermelha"? É possível o dinoflagelado marinho <em>Karenia brevis</em> proliferar em lago de água doce?</p>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 3: REGRAS DE OURO DA INVESTIGAÇÃO -->
+  <h2 class="section-title">⚖️ 3. Regras de Ouro da Investigação Científica (Evite Armadilhas!)</h2>
+  <div class="regras-grid">
+    <div class="regra-item">
+      <strong>⚠️ 1. Proximidade Física ≠ Responsabilidade Exclusiva</strong>
+      Estar localizado perto do canal tributário não prova que aquela fonte causou o desastre sozinha. Avalie agricultura, esgoto residencial e esterqueiras com critérios químicos.
+    </div>
+    <div class="regra-item">
+      <strong>⚠️ 2. Sol e Calor Aceleram, mas Não Criam Nutrientes</strong>
+      Estiagem de 18 dias e calor de 28°C são condições potencializadoras indispensáveis, mas nenhuma alga se multiplica sem nitrogênio e fósforo prévios.
+    </div>
+    <div class="regra-item">
+      <strong>⚠️ 3. Detecção de Toxina ≠ Causa Única de Morte</strong>
+      A microcistina ($2,4\text{ }\mu\text{g/L}$) comprova presença de cepas produtoras de toxina, mas a morte rápida na madrugada coincide exatamente com o vale de anóxia ($0,8\text{ mg/L}$).
+    </div>
+    <div class="regra-item">
+      <strong>⚠️ 4. Desmistifique Boatos Virais com Fisiologia Celular</strong>
+      Dinoflagelados marinhos (*Karenia brevis*) são estenohalinos e morrem imediatamente por choque osmótico (lise celular) em água doce pura.
+    </div>
+  </div>
+
+  <!-- QUEBRA DE PÁGINA -->
+  <div class="page-break"></div>
+
+  <!-- SEÇÃO 4: CRONOGRAMA DAS 9 AULAS -->
+  <h2 class="section-title">📅 4. Cronograma Oficial das 9 Aulas e os 12 Documentos Periciais</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 10%;">Aula</th>
+        <th style="width: 25%;">Evidências Analisadas</th>
+        <th style="width: 35%;">Foco Investigativo da Sessão</th>
+        <th style="width: 30%;">Produto Esperado da Equipe</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Aula 1</strong></td>
+        <td><strong>Doc 1:</strong> Notícia da mancha e mortandade<br><strong>Doc 2:</strong> Boletim Meteorológico</td>
+        <td>Análise dos sintomas iniciais do lago, estiagem prolongada e calmaria.</td>
+        <td>Registro no Caderno de Campo: 3 hipóteses causais prévias da equipe.</td>
+      </tr>
+      <tr>
+        <td><strong>Aula 2</strong></td>
+        <td><strong>Doc 3:</strong> Laudo Hidroquímico Oficial ($N$ e $P$)<br><strong>Doc 4:</strong> Vistoria de Campo na Bacia</td>
+        <td>Identificação do gradiente de nutrientes no canal e inspeção das 3 fontes antrópicas suspeitas.</td>
+        <td>Mapeamento conceitual das fontes e plano de amostragem pericial.</td>
+      </tr>
+      <tr>
+        <td><strong>Aula 3</strong></td>
+        <td><strong>Doc 5 / Lâmina D4-01:</strong> <em>Microcystis</em><br><strong>Doc 6 / Lâmina D4-03:</strong> Perfil citomorfológico</td>
+        <td>Observação no Microscópio Virtual: colônias mucilaginosas e filamentos com heterócitos.</td>
+        <td>Quadro comparativo morfológico: procariontes vs algas verdes vs marinhos.</td>
+      </tr>
+      <tr>
+        <td><strong>Aula 4</strong></td>
+        <td><strong>Doc 7:</strong> Laudo Toxicológico ELISA</td>
+        <td>Análise da quantificação de microcistina total ($2,4\text{ }\mu\text{g/L}$) e limites da Portaria MS 888.</td>
+        <td>Avaliação crítica de risco e via de exposição de peixes e humanos.</td>
+      </tr>
+      <tr>
+        <td><strong>Aula 5</strong></td>
+        <td><strong>Doc 8:</strong> Monitoramento Contínuo de $OD$ (24h)</td>
+        <td>Interpretação da oscilação nictemeral: supersaturação diurna vs anóxia na aurora ($0,8\text{ mg/L}$).</td>
+        <td>Curva gráfica de oxigênio explicada pelo balanço fotossíntese/respiração.</td>
+      </tr>
+      <tr>
+        <td><strong>Aula 6</strong></td>
+        <td><strong>Doc 9 / Lâmina D4-02:</strong> Necrópsia ictiológica<br><strong>Doc 10:</strong> Notícia viral na internet</td>
+        <td>Exame macroscópico branquial (boquejamento) e checagem científica de fake news de maré vermelha.</td>
+        <td>Refutação biológica da notícia viral e parecer preliminar de ictiopatologia.</td>
+      </tr>
+      <tr>
+        <td><strong>Aula 7</strong></td>
+        <td><strong>Doc 11:</strong> Relatório de Sedimentos Bênticos</td>
+        <td>Compreensão da decomposição da matéria orgânica acumulada e carga interna de fósforo.</td>
+        <td>Construção do <strong>Modelo Causal Integrador em 6 Etapas</strong>.</td>
+      </tr>
+      <tr>
+        <td><strong>Aula 8</strong></td>
+        <td><strong>Doc 12:</strong> Relatório de Síntese Pericial</td>
+        <td>Articulação completa de dados moleculares, químicos e meteorológicos para o veredito.</td>
+        <td>Redação preliminar do <strong>Parecer Técnico Integrado</strong> da equipe.</td>
+      </tr>
+      <tr>
+        <td><strong>Aula 9</strong></td>
+        <td><em>Todos os laudos e evidências acumuladas</em></td>
+        <td>Defesa oral das conclusões científicas, debate com os pares e autoavaliação formativa.</td>
+        <td>Entrega final do Parecer Técnico e preenchimento da Rubrica BNCC.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SEÇÃO 5: O MODELO CAUSAL EM 6 ETAPAS -->
+  <h2 class="section-title">🔄 5. O Modelo Causal Integrador (A Lógica Pericial)</h2>
+  <div class="flow-box">
+    <div class="flow-step">
+      <span class="flow-num">1</span>
+      <div><strong>Aporte Excessivo de Nutrientes na Bacia:</strong> Descargas de esgoto doméstico não tratado (Vila Nova), fertilizantes agrícolas solúveis (NPK) e esterqueiras próximas aos afluentes saturam o canal de fósforo ($0,31\text{ mg/L}$) e nitrogênio ($1,85\text{ mg/L}$).</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">2</span>
+      <div><strong>Eutrofização Artificial Acelerada:</strong> Estiagem de 18 dias, águas paradas sem circulação turbulenta e temperatura elevada ($28^\circ\text{C}$) criam as condições perfeitas para o enriquecimento da enseada rasa do Lago Azul.</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">3</span>
+      <div><strong>Explosão Populacional de Cianobactérias:</strong> Proliferação em massa (>85.000 cél/mL) de <em>Microcystis aeruginosa</em> (com vesículas gasosas para flutuação superficial) e cianobactérias filamentosas fixadoras de $N_2$, liberando microcistinas ($2,4\text{ }\mu\text{g/L}$).</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">4</span>
+      <div><strong>Oscilação Nictemeral Extrema de Oxigênio ($OD$):</strong> Às 14h, sob sol pleno, intensa fotossíntese supersatura a água ($14,2\text{ mg/L}$). Ao entardecer, a fotossíntese cessa totalmente, enquanto a respiração da enorme biomassa vegetal e dos peixes continua ininterrupta.</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">5</span>
+      <div><strong>Anóxia Noturna Crítica na Madrugada:</strong> A decomposição bacteriana aeróbica no sedimento e a respiração noturna esgotam o oxigênio, derrubando o $OD$ para $0,8\text{ mg/L}$ na superfície e $0,3\text{ mg/L}$ no fundo entre 4h e 6h da manhã (zona de sufocamento).</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">6</span>
+      <div><strong>Asfixia Fulminante e Mortandade da Ictiofauna:</strong> Peixes sobem à superfície em desespero respiratório (boquejamento), sofrem colapso lamelar nas brânquias e morrem por asfixia aguda hipóxica, tendo a irritação por toxinas e mucilagem como fator agravante secundário.</div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 6: ROTEIRO DO PARECER FINAL & CHECKLIST -->
+  <h2 class="section-title">📝 6. Roteiro do Parecer Técnico Final & Checklist da Equipe</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>📋 Estrutura Obrigatória do Parecer (Aula 8/9)</h3>
+      <ol style="font-size: 7.5pt; margin-left: 14px;">
+        <li><strong>Identificação dos Organismos:</strong> Diferenciação procariontes vs dinoflagelados.</li>
+        <li><strong>Fontes de Eutrofização:</strong> Discriminação das cargas antrópicas na bacia.</li>
+        <li><strong>Dinâmica do Oxigênio:</strong> Explicação da supersaturação diurna vs anóxia noturna.</li>
+        <li><strong>Toxicologia da Microcistina:</strong> Avaliação dos $2,4\text{ }\mu\text{g/L}$ e comparação com a lei.</li>
+        <li><strong>Causa Mortis dos Peixes:</strong> Asfixia por anóxia noturna como causa primária.</li>
+        <li><strong>Esclarecimento Público:</strong> Refutação da fake news de maré vermelha costeira.</li>
+        <li><strong>Ações de Mitigação:</strong> Saneamento em Vila Nova e contenção agrícola.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>✅ Checklist de Investigação da Equipe</h3>
+      <div class="checklist-grid" style="grid-template-columns: 1fr;">
+        <div class="check-item"><span class="check-box"></span> Criamos nossa Equipe no BioLafa com PIN seguro.</div>
+        <div class="check-item"><span class="check-box"></span> Analisamos as 3 Lâminas no Microscópio Virtual (D4-01, D4-02 e D4-03).</div>
+        <div class="check-item"><span class="check-box"></span> Testamos o Simulador Trófico de Anóxia Noturna.</div>
+        <div class="check-item"><span class="check-box"></span> Examinamos os 12 Laudos no Leitor de Microfilmes da Hemeroteca.</div>
+        <div class="check-item"><span class="check-box"></span> Preenchemos todas as 9 Aulas e autoavaliação da Ficha 11.</div>
+        <div class="check-item"><span class="check-box"></span> Exportamos o Relatório Oficial em PDF para apresentação.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    BioLafa • Estação de Investigação Científica Escolar • Plataforma de Ensino Baseada em Problemas (PBL) • Documento Homologado para Ensino Médio
+  </div>
+
+</body>
+</html>

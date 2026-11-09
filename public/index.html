@@ -40,8 +40,8 @@
         <button class="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5" onclick="window.app.exportCurrentTeamFile()" title="Baixar Backup da Equipe em arquivo .json">
           <span>💾</span> Salvar Arquivo
         </button>
-        <a href="FICHA_DE_ORIENTACAO_ALUNOS.pdf" download="FICHA_DE_ORIENTACAO_ALUNOS.pdf" target="_blank" class="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5 text-cyan-300 hover:text-cyan-200 border-cyan-500/40" title="Baixar Guia e Ficha de Orientação do Aluno em PDF">
-          <span>📥</span> Ficha do Aluno (PDF)
+        <a id="header-student-guide-link" href="FICHA_DE_ORIENTACAO_ALUNOS.pdf" download="FICHA_DE_ORIENTACAO_ALUNOS.pdf" target="_blank" class="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5 text-cyan-300 hover:text-cyan-200 border-cyan-500/40" title="Baixar Guia e Ficha de Orientação do Aluno em PDF">
+          <span>📥</span> <span id="header-student-guide-text">Ficha do Aluno (PDF)</span>
         </a>
         <button class="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5" onclick="window.app.openReportModal()" title="Exportar Caderno em PDF / Imprimir">
           <span>📄</span> Relatório Oficial

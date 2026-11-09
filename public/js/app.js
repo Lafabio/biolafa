@@ -233,6 +233,9 @@ class BioLabApp {
               ↩️ Alternar para o Desafio 01
             </button>
           `}
+          <a href="FICHA_DE_ORIENTACAO_ALUNOS.pdf" download="FICHA_DE_ORIENTACAO_ALUNOS.pdf" target="_blank" class="btn-secondary w-full justify-center text-xs py-1.5 text-cyan-300 border-cyan-500/40 hover:bg-cyan-950/40 flex items-center gap-1.5">
+            <span>📥</span> Baixar Ficha do Estudante (PDF)
+          </a>
         </div>
       </div>
 
@@ -323,6 +326,9 @@ class BioLabApp {
                 🔒 Bloquear Desafio 04 Novamente
               </button>
             ` : ''}
+            <a href="FICHA_DE_ORIENTACAO_DESAFIO_04.pdf" download="FICHA_DE_ORIENTACAO_DESAFIO_04.pdf" target="_blank" class="btn-secondary w-full justify-center text-xs py-1.5 text-emerald-300 border-emerald-500/40 hover:bg-emerald-950/40 flex items-center gap-1.5 font-semibold">
+              <span>📥</span> Baixar Ficha do Estudante Desafio 04 (PDF)
+            </a>
           ` : `
             <button class="btn-secondary w-full justify-center py-2.5 text-xs text-rose-300 border-rose-500/40 hover:bg-rose-950/40 font-bold cursor-pointer" onclick="window.app.alertChallengeLocked()">
               🔒 Desafio 04 Bloqueado (Clique para Liberar)
@@ -537,6 +543,24 @@ class BioLabApp {
         teacherBtn.innerHTML = '<span>🔒</span> Modo Professor';
         teacherBtn.className = 'btn-secondary text-xs py-1.5 px-3 border-amber-500/40 text-amber-300 hover:bg-amber-950/40 flex items-center gap-1.5';
         teacherBtn.title = 'Acesso Exclusivo do Professor (Login: biolafa)';
+      }
+    }
+
+    const studentGuideLink = document.getElementById('header-student-guide-link');
+    if (studentGuideLink) {
+      const isDesafio4 = (this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2');
+      if (isDesafio4) {
+        studentGuideLink.href = 'FICHA_DE_ORIENTACAO_DESAFIO_04.pdf';
+        studentGuideLink.setAttribute('download', 'FICHA_DE_ORIENTACAO_DESAFIO_04.pdf');
+        studentGuideLink.title = 'Baixar Ficha de Orientação do Aluno - Desafio 04 (Floração de Vale Verde) em PDF';
+        const guideText = document.getElementById('header-student-guide-text');
+        if (guideText) guideText.textContent = 'Ficha Desafio 04 (PDF)';
+      } else {
+        studentGuideLink.href = 'FICHA_DE_ORIENTACAO_ALUNOS.pdf';
+        studentGuideLink.setAttribute('download', 'FICHA_DE_ORIENTACAO_ALUNOS.pdf');
+        studentGuideLink.title = 'Baixar Ficha de Orientação do Aluno - Desafio 01 (Microplásticos) em PDF';
+        const guideText = document.getElementById('header-student-guide-text');
+        if (guideText) guideText.textContent = 'Ficha Desafio 01 (PDF)';
       }
     }
 
