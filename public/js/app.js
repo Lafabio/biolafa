@@ -507,22 +507,26 @@ class BioLabApp {
     }
 
     // Documentos da fase
-    const docs = BIO_DATA.documents.filter(d => phase.docsInvolved.includes(d.id));
+    const phaseDocIds = phase.docsInvolved || phase.documentRefs || [];
+    const docs = BIO_DATA.documents.filter(d => phaseDocIds.includes(d.id));
 
     const contentEl = document.getElementById('phase-content-container');
     if (contentEl) {
+      const fichasLabel = (phase.fichas && Array.isArray(phase.fichas)) ? phase.fichas.join(' e ') : (phase.expectedProduct || 'Registro de Campo');
+      const goalText = phase.goal || phase.focus || 'Investigação pericial dos laudos da fase.';
       contentEl.innerHTML = `
         <!-- Cabeçalho da Fase -->
         <div class="phase-banner mb-6">
           <div class="flex flex-wrap justify-between items-center gap-4 mb-2">
-            <span class="badge-tag-cyan">${phase.badge}</span>
+            <span class="badge-tag-cyan">${phase.badge || ('Aula ' + (phaseIdx + 1))}</span>
             <div class="flex items-center gap-3 text-xs text-slate-400">
-              <span>⏱️ Duração: ${phase.duration}</span>
-              <span>📋 ${phase.fichas.join(' e ')}</span>
+              <span>⏱️ Duração: ${phase.duration || '45 min'}</span>
+              <span>📋 ${fichasLabel}</span>
             </div>
           </div>
           <h2 class="text-2xl font-bold text-white mb-2">${phase.lessonTitle}</h2>
-          <p class="text-slate-300 text-sm leading-relaxed">${phase.goal}</p>
+          <p class="text-slate-300 text-sm leading-relaxed">${goalText}</p>
+        </div>
         </div>
 
         <!-- Dossiê de Documentos Oficiais & Notícias da Fase -->
@@ -542,7 +546,7 @@ class BioLabApp {
         <div class="questions-dossier-box">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-base font-bold text-white flex items-center gap-2">
-              <span>✍️</span> Registros Científicos da Equipe • ${phase.fichas.join(' / ')}
+              <span>✍️</span> Registros Científicos da Equipe • ${(phase.fichas && Array.isArray(phase.fichas)) ? phase.fichas.join(' / ') : (phase.expectedProduct || 'Caderno de Campo')}
             </h3>
             <span class="text-xs text-emerald-400 font-mono">💾 Salvamento Automático Ativo</span>
           </div>

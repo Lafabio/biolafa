@@ -694,668 +694,1261 @@ const DESAFIO_01_DATA = {
 // BANCO DE DADOS DO DESAFIO 02: FLORAÇÃO VERMELHA EM VALE VERDE
 // Eutrofização Artificial, Cianobactérias Tóxicas e Anóxia Noturna
 // ============================================================================
+// ============================================================================
+// BANCO DE DADOS DO DESAFIO 02: FLORAÇÃO VERMELHA EM VALE VERDE
+// Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna
+// Baseado rigorosamente no plano curricular oficial (desafio_floracao_vermelha_vale_verde.json)
+// ============================================================================
+// ============================================================================
+// BANCO DE DADOS DO DESAFIO 02: FLORAÇÃO VERMELHA EM VALE VERDE
+// Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna (desafio_floracao_vermelha_vale_verde.json)
+// ============================================================================
+// ============================================================================
+// BANCO DE DADOS DO DESAFIO 02: FLORAÇÃO VERMELHA EM VALE VERDE
+// Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna (desafio_floracao_vermelha_vale_verde.json)
+// ============================================================================
 const DESAFIO_02_DATA = {
-  challenge: {
-    id: 'desafio-2',
-    code: 'DESAFIO-02',
-    title: 'Floração Vermelha em Vale Verde',
-    subtitle: 'Eutrofização Artificial, Cianobactérias Tóxicas e Anóxia Noturna',
-    subject: 'Biologia & Ciências da Natureza',
-    level: '1ª Série do Ensino Médio • Biologia & Ciências da Natureza (BNCC)',
-    methodology: 'PBL – Aprendizagem Baseada em Problemas',
-    totalLessons: 9,
-    lessonDuration: '45 minutos cada',
-    estimatedTime: '6 a 9 aulas',
-    badge: 'Eco-Toxicologista Límnico',
-    context: `No auge do verão, as águas calmas do Lago Azul e do trecho represado de Vale Verde amanheceram cobertas por uma espessa camada de espuma com coloração avermelhada e verde-azulada e odor fétido. Frequentadores do balneário e praticantes de esportes aquáticos relataram queimação nos olhos, irritação na pele e náuseas após o contato. Simultaneamente, centenas de peixes (alevinos, lambaris e tilápias) foram encontrados mortos boiando nas margens com as brânquias inflamadas e bocas escancaradas. A cidade entrou em estado de emergência ambiental. Três suspeitas principais foram levantadas pela população: o despejo de esgoto doméstico com alta carga de fósforo e detergentes pela estação municipal sobrecarregada, o escoamento superficial de fertilizantes agrícolas solúveis (adubação NPK) após tempestades, e a liberação de compostos orgânicos do lodo anaeróbio do fundo da antiga represa sob forte onda de calor. Sua equipe de pesquisadores periciais deve analisar laudos periciais, inspecionar lâminas ao microscópio, quantificar os nutrientes nas estações de monitoramento, modelar o ciclo diurno-noturno do oxigênio dissolvido e propor um plano de intervenção ecológica para recuperar a bacia.`,
-    rules: [
-      'Examine cada laudo técnico e notícia oficial antes de debater com a equipe.',
-      'Diferencie floração inofensiva de microalgas de florescimento de cianobactérias produtoras de toxinas.',
-      'Compreenda a relação estequiométrica entre nitrogênio (N) e fósforo (P) na limitação do crescimento fitoplanctônico.',
-      'Analise a dinâmica do oxigênio dissolvido: entenda por que picos de fotossíntese diurna geram anóxia mortal na madrugada.',
-      'Utilize os dados das 5 estações do lago e da bacia para fundamentar cálculos e gráficos.',
-      'Ao final, elabore um plano pericial de contenção de nutrientes e restauração da bacia hidrográfica.'
+  "challenge": {
+    "id": "desafio-2",
+    "code": "DESAFIO-02",
+    "title": "Floração Vermelha em Vale Verde",
+    "subtitle": "Eutrofização, cianobactérias tóxicas e anóxia noturna",
+    "subtitulo": "Eutrofização, cianobactérias tóxicas e anóxia noturna",
+    "subject": "Biologia & Ciências da Natureza",
+    "level": "1ª Série do Ensino Médio • Biologia & Ciências da Natureza (BNCC)",
+    "methodology": "PBL – Aprendizagem Baseada em Problemas",
+    "totalLessons": 9,
+    "lessonDuration": "45 minutos cada",
+    "estimatedTime": "9 aulas de 45 min",
+    "badge": "Eco-Toxicologista Límnico",
+    "context": "O Lago Azul apresenta uma camada verde-azulada, odor intenso e mortandade de peixes percebida durante a madrugada.",
+    "natureza_do_material": "Caso fictício para fins didáticos. Locais, notícias, personagens e resultados numéricos são simulados.",
+    "objetivo_geral": "Investigar as causas e consequências de uma floração no Lago Azul, relacionando nutrientes, proliferação de cianobactérias e microalgas, possível produção de cianotoxinas e variações diárias do oxigênio dissolvido. Analisar evidências, confrontar hipóteses e elaborar uma explicação científica para a mortandade de peixes.",
+    "generalObjective": "Investigar as causas e consequências de uma floração no Lago Azul, relacionando nutrientes, proliferação de cianobactérias e microalgas, possível produção de cianotoxinas e variações diárias do oxigênio dissolvido. Analisar evidências, confrontar hipóteses e elaborar uma explicação científica para a mortandade de peixes.",
+    "questoes_investigativas": [
+      "Quais organismos estão proliferando: cianobactérias, microalgas ou uma comunidade mista?",
+      "Quais nutrientes favorecem a floração e quais podem ser suas fontes?",
+      "Há produção de cianotoxinas, como microcistina?",
+      "A mortandade está relacionada à toxicidade, à falta de oxigênio ou à combinação dos dois fatores?",
+      "Por que o oxigênio pode aumentar durante o dia e cair durante a noite?",
+      "O evento no lago pode ser chamado de maré vermelha? Como se diferencia de florações marinhas?"
     ],
-    glossary: [
+    "organismos_para_investigar": {
+      "cianobacterias_agua_doce": [
+        {
+          "nome": "Microcystis aeruginosa",
+          "pista": "Forma colônias; algumas linhagens produzem microcistinas."
+        },
+        {
+          "nome": "Dolichospermum spp.",
+          "pista": "Forma filamentos; algumas espécies/linhagens podem produzir cianotoxinas e apresentar heterócitos."
+        },
+        {
+          "nome": "Raphidiopsis raciborskii",
+          "pista": "Cianobactéria filamentosa; algumas linhagens produzem cilindrospermopsina ou saxitoxinas."
+        },
+        {
+          "nome": "Planktothrix agardhii",
+          "pista": "Forma filamentos; algumas linhagens produzem microcistinas."
+        },
+        {
+          "nome": "Aphanizomenon flos-aquae",
+          "pista": "Cianobactéria filamentosa; investigar fixação de nitrogênio e potencial tóxico."
+        }
+      ],
+      "microalgas_agua_doce": [
+        {
+          "nome": "Peridinium spp.",
+          "pista": "Dinoflagelados de água doce que podem formar florações."
+        },
+        {
+          "nome": "Euglena sanguinea",
+          "pista": "Pode apresentar pigmentação avermelhada em ambientes ricos em matéria orgânica."
+        },
+        {
+          "nome": "Chlamydomonas spp.",
+          "pista": "Algas verdes unicelulares; úteis para comparação com cianobactérias."
+        }
+      ],
+      "organismos_marinhos_para_comparacao": [
+        {
+          "nome": "Karenia brevis",
+          "pista": "Dinoflagelado marinho associado a florações nocivas e brevetoxinas."
+        },
+        {
+          "nome": "Alexandrium catenella",
+          "pista": "Dinoflagelado marinho; algumas linhagens produzem saxitoxinas."
+        },
+        {
+          "nome": "Pseudo-nitzschia spp.",
+          "pista": "Diatomáceas marinhas; algumas espécies produzem ácido domoico."
+        },
+        {
+          "nome": "Noctiluca scintillans",
+          "pista": "Dinoflagelado associado a florações coloridas e bioluminescência; não implica necessariamente produção de toxina."
+        }
+      ],
+      "observacao": "Os organismos são candidatos para pesquisa e comparação, não identificações antecipadas do Lago Azul. Nem toda floração é tóxica e nem toda linhagem de uma espécie produtora contém ou expressa genes de toxinas."
+    },
+    "cronograma_de_liberacao": [
       {
-        term: 'Eutrofização Artificial',
-        definition: 'Processo antrópico de enriquecimento das águas por nutrientes inorgânicos (especialmente fósforo e nitrogênio), provocando proliferação excessiva e descontrolada de organismos fotossintetizantes (fitoplâncton e cianobactérias).'
+        "etapa": 1,
+        "foco": "Evento misterioso",
+        "documentos": [
+          1,
+          2
+        ]
       },
       {
-        term: 'Cianobactérias & Microcistinas',
-        definition: 'Bactérias fototróficas capazes de sintetizar compostos químicos complexos. Certas linhagens (ex: Microcystis aeruginosa) liberam microcistinas, hepatotoxinas potentes que bloqueiam proteínas fosfatases e causam hemorragia hepática em animais e humanos.'
+        "etapa": 2,
+        "foco": "Nutrientes e fontes de contaminação",
+        "documentos": [
+          3,
+          4
+        ]
       },
       {
-        term: 'Anóxia Noturna',
-        definition: 'Queda extrema do oxigênio dissolvido (OD < 2 mg/L) que ocorre durante a madrugada em corpos d\'água eutrofizados, quando a fotossíntese cessa e a respiração contínua da biomassa algal somada à decomposição bacteriana consome todo o oxigênio.'
+        "etapa": 3,
+        "foco": "Identificação dos organismos",
+        "documentos": [
+          5,
+          6
+        ]
       },
       {
-        term: 'Demanda Bioquímica de Oxigênio (DBO)',
-        definition: 'Medida indireta da matéria orgânica biodegradável na água, expressa pela quantidade de oxigênio consumida por microrganismos aeróbios para oxidá-la ao longo de 5 dias a 20°C (DBO5).'
+        "etapa": 4,
+        "foco": "Cianotoxinas e oxigênio dissolvido",
+        "documentos": [
+          7,
+          8
+        ]
       },
       {
-        term: 'Fósforo como Nutriente Limitante',
-        definition: 'Princípio ecológico (Lei do Mínimo de Liebig) que estabelece que, em águas doces continentais, o fósforo disponível é o nutriente que mais restringe o crescimento das algas. Pequenos aportes provocam explosões populacionais.'
+        "etapa": 5,
+        "foco": "Mortandade, notícia enganosa e hipóteses alternativas",
+        "documentos": [
+          9,
+          10
+        ]
       },
       {
-        term: 'Carga Interna de Sedimento (Internal Loading)',
-        definition: 'Liberação de fósforo e outros nutrientes estocados no sedimento de fundo para a coluna d\'água sob condições de anóxia e altas temperaturas, perpetuando florações mesmo quando as fontes externas cessam.'
+        "etapa": 6,
+        "foco": "Decomposição e integração dos resultados",
+        "documentos": [
+          11,
+          12
+        ]
+      }
+    ],
+    "cronograma_9_aulas": [
+      {
+        "aula": 1,
+        "duracao_min": 45,
+        "atividade": "Apresentação do evento e análise dos laudos 1 e 2",
+        "produto": "Hipóteses iniciais"
+      },
+      {
+        "aula": 2,
+        "duracao_min": 45,
+        "atividade": "Análise de nutrientes e fontes — laudos 3 e 4",
+        "produto": "Mapa de fontes possíveis"
+      },
+      {
+        "aula": 3,
+        "duracao_min": 45,
+        "atividade": "Microscopia e identificação — laudos 5 e 6",
+        "produto": "Quadro comparativo de espécies"
+      },
+      {
+        "aula": 4,
+        "duracao_min": 45,
+        "atividade": "Investigação de cianotoxinas — laudo 7",
+        "produto": "Explicação sobre microcistina"
+      },
+      {
+        "aula": 5,
+        "duracao_min": 45,
+        "atividade": "Interpretação do oxigênio dissolvido — laudo 8",
+        "produto": "Gráfico e explicação do ciclo diário"
+      },
+      {
+        "aula": 6,
+        "duracao_min": 45,
+        "atividade": "Mortandade e notícia falsa — laudos 9 e 10",
+        "produto": "Análise crítica das evidências"
+      },
+      {
+        "aula": 7,
+        "duracao_min": 45,
+        "atividade": "Sedimentos e decomposição — laudo 11",
+        "produto": "Modelo explicativo"
+      },
+      {
+        "aula": 8,
+        "duracao_min": 45,
+        "atividade": "Integração e laudo final — documento 12",
+        "produto": "Parecer técnico"
+      },
+      {
+        "aula": 9,
+        "duracao_min": 45,
+        "atividade": "Apresentação e avaliação",
+        "produto": "Defesa científica das conclusões"
+      }
+    ],
+    "modelo_causal_a_investigar": [
+      {
+        "ordem": 1,
+        "evento": "Entrada excessiva de nitrogênio e fósforo",
+        "fontes_possiveis": [
+          "Esgoto",
+          "Fertilizantes",
+          "Dejetos animais",
+          "Outras fontes da bacia"
+        ]
+      },
+      {
+        "ordem": 2,
+        "evento": "Eutrofização",
+        "descricao": "Enriquecimento de nutrientes no ambiente aquático."
+      },
+      {
+        "ordem": 3,
+        "evento": "Floração",
+        "descricao": "Aumento da biomassa de cianobactérias e/ou microalgas."
+      },
+      {
+        "ordem": 4,
+        "evento": "Variação diária do oxigênio",
+        "dia": "Fotossíntese pode elevar o oxigênio.",
+        "noite": "Fotossíntese cessa; respiração e decomposição continuam consumindo oxigênio."
+      },
+      {
+        "ordem": 5,
+        "evento": "Hipóxia ou anóxia",
+        "descricao": "Oxigênio insuficiente para os organismos aquáticos."
+      },
+      {
+        "ordem": 6,
+        "evento": "Estresse e mortandade de peixes",
+        "descricao": "Pode haver contribuição adicional de cianotoxinas, dependendo da exposição."
+      }
+    ],
+    "produto_final_dos_alunos": {
+      "formato": "Parecer técnico e apresentação oral",
+      "itens_obrigatorios": [
+        "Identificação dos organismos e justificativa baseada nas evidências.",
+        "Explicação da eutrofização e das possíveis fontes de nutrientes.",
+        "Interpretação do ciclo diário do oxigênio.",
+        "Análise do resultado de microcistina.",
+        "Distinção entre hipóxia, anóxia e intoxicação.",
+        "Comparação entre florações de água doce e marés vermelhas marinhas.",
+        "Proposta de monitoramento e mitigação.",
+        "Indicação das limitações e das informações ainda necessárias."
+      ],
+      "questao_final": "A mortandade de peixes no Lago Azul foi causada por uma toxina produzida pelas cianobactérias, pela redução noturna do oxigênio dissolvido ou pela combinação dos dois fenômenos? Que evidências sustentam a conclusão e o que ainda precisaria ser investigado?"
+    },
+    "orientacoes_cientificas_ao_professor": [
+      "Não usar maré vermelha como sinônimo automático de floração de cianobactérias em água doce.",
+      "Nem toda floração é tóxica e nem toda linhagem de uma espécie potencialmente produtora produz toxinas.",
+      "A presença de microcistina não prova, por si só, que a toxina causou a mortandade.",
+      "Um valor alto de oxigênio durante a tarde não exclui hipóxia ou anóxia durante a madrugada.",
+      "Separar evidências observacionais, resultados analíticos, interpretações e hipóteses causais.",
+      "Manter os laudos 7 e 8 em aulas diferentes para exigir revisão das hipóteses pelos grupos.",
+      "Imagens ilustrativas não devem ser tratadas como fotografias reais das amostras nem como identificação taxonômica definitiva."
+    ],
+    "referencias_para_o_professor": [
+      {
+        "instituicao": "OMS",
+        "tema": "Cianobactérias planctônicas de água doce e toxinas"
+      },
+      {
+        "instituicao": "EPA",
+        "tema": "Cianobactérias, florações e cianotoxinas"
+      },
+      {
+        "instituicao": "EPA",
+        "tema": "Nutrientes, temperatura, luz e circulação como fatores de florações"
+      },
+      {
+        "instituicao": "NOAA",
+        "tema": "Florações nocivas e marés vermelhas marinhas"
+      },
+      {
+        "instituicao": "IMA/SC",
+        "tema": "Nota Técnica Conjunta nº 001/2024 sobre floração de Karenia no litoral catarinense"
+      },
+      {
+        "instituicao": "ANA",
+        "tema": "Parâmetros de qualidade da água, oxigênio dissolvido e eutrofização"
+      },
+      {
+        "bases_de_imagens": [
+          "AlgaeBase — https://www.algaebase.org/",
+          "GBIF — https://www.gbif.org/"
+        ]
+      }
+    ],
+    "rules": [
+      "Examine cada laudo técnico e notícia oficial antes de debater com a equipe.",
+      "Diferencie cianobactérias de água doce de algas verdes e de dinoflagelados marinhos (maré vermelha).",
+      "Analise as concentrações de nitrogênio e fósforo e investigue suas fontes na bacia.",
+      "Avalie a presença de microcistina e a variação horária do oxigênio dissolvido (anóxia noturna).",
+      "Separe evidências observacionais, dados laboratoriais, notícias distratoras e hipóteses causais.",
+      "Ao final, elabore um parecer técnico pericial integrando os resultados e apresente a defesa oral."
+    ],
+    "glossary": [
+      {
+        "term": "Eutrofização",
+        "definition": "Enriquecimento de nutrientes (nitrogênio e fósforo) no ambiente aquático, favorecendo a proliferação excessiva de produtores primários e cianobactérias."
+      },
+      {
+        "term": "Cianobactérias & Microcistinas",
+        "definition": "Bactérias fototróficas capazes de sintetizar compostos químicos complexos. Certas linhagens (ex: Microcystis, Planktothrix) liberam microcistinas, hepatotoxinas que bloqueiam proteínas fosfatases."
+      },
+      {
+        "term": "Anóxia Noturna",
+        "definition": "Queda extrema do oxigênio dissolvido (OD < 1,5 mg/L) durante a madrugada provocada pela cessação da fotossíntese somada à contínua respiração celular e decomposição bacteriana."
+      },
+      {
+        "term": "Heterócitos",
+        "definition": "Células diferenciadas de certas cianobactérias filamentosas (ex: Dolichospermum, Aphanizomenon) especializadas na fixação biológica de nitrogênio gasoso (N2)."
+      },
+      {
+        "term": "Maré Vermelha Marinha (Karenia brevis)",
+        "definition": "Floração costeira causada por dinoflagelados marinhos produtores de brevetoxinas; é um fenômeno estritamente marinho que não ocorre em águas doces continentais."
+      },
+      {
+        "term": "Decomposição & Sedimentos (Internal Loading)",
+        "definition": "Consumo maciço de oxigênio por microrganismos decompositores na camada profunda, com potencial liberação de fósforo acumulado no sedimento sob condições anóxicas."
       }
     ]
   },
-  documents: [
+  "documents": [
     {
-      id: 'doc-201',
-      number: 1,
-      style: 'newspaper',
-      newspaperName: 'JORNAL DO VALE',
-      edition: 'Edição Especial de Verão • 14 de Janeiro de 2024 • Vale Verde',
-      tag: 'Jornal do Vale • 14 de Janeiro de 2024',
-      title: 'Lago Azul amanhece coberto por manto verde-azulado e moradores relatam mal-estar',
-      type: 'Notícia de Alerta Comunitário',
-      imageSrc: 'assets/slides/Gemini_Generated_Image_9gnx1r9gnx1r9gnx.jfif',
-      imageCaption: 'Registro fotográfico: densa escuma esverdeada e avermelhada acumulada nas margens do balneário municipal.',
-      fullText: `Moradores e turistas que frequentam a represa do Lago Azul foram surpreendidos por uma drástica alteração nas águas: uma espessa mancha de cor verde-azulada brilhante, com faixas avermelhadas e forte odor de matéria em decomposição, cobriu toda a área rasa próxima à orla.
-      Banhistas que entraram na água pela manhã relataram coceira intensa na pele, ardência nos olhos e sintomas de náusea. O Corpo de Bombeiros e a Defesa Civil isolaram provisoriamente a praia pública e desaconselharam qualquer contato com a água ou consumo de pescados. A Secretaria Municipal de Meio Ambiente anunciou o início de coletas periciais emergenciais para identificar a natureza da substância.`,
-      sourceHint: 'Identifica o início súbito da floração na época mais quente do ano e efeitos agudos de contato na população.'
+      "id": "doc-201",
+      "number": 1,
+      "style": "newspaper",
+      "newspaperName": "JORNAL DO VALE",
+      "edition": "Edição Especial de Verão • Registro de Ocorrência",
+      "tag": "Registro de Ocorrência / Notícia",
+      "title": "Lago Azul amanhece coberto por mancha verde e peixes mortos",
+      "type": "Registro de ocorrência / notícia",
+      "imageSrc": "assets/slides/Gemini_Generated_Image_9gnx1r9gnx1r9gnx.jfif",
+      "imageCaption": "Registro da ocorrência: densa mancha verde-azulada na superfície, odor fétido e peixes mortos nas margens.",
+      "conteudo": [
+        "Mancha verde-azulada na superfície",
+        "Odor intenso",
+        "Mortandade de alevinos e peixes adultos entre 4h e 6h",
+        "Espuma próxima à saída de um canal"
+      ],
+      "investigacao": [
+        "A cor identifica o organismo?",
+        "O odor comprova toxicidade?",
+        "Por que a mortandade foi percebida de madrugada?"
+      ],
+      "classificacao": "Observações verdadeiras no cenário, mas insuficientes para determinar a causa.",
+      "fullText": "Moradores e pescadores que frequentam o Lago Azul depararam-se com uma cena alarmante nas primeiras horas da manhã: uma densa mancha de coloração verde-azulada brilhante, com faixas de escuma espumosa e odor intenso, cobriu grande parte da enseada rasa próxima ao balneário e à desembocadura de um canal.\nEntre 4h e 6h da madrugada, foram observados centenas de alevinos e peixes adultos (lambaris, tilápias e traíras) moribundos ou já mortos boiando nas margens com as bocas escancaradas na linha d'água. Praticantes de caminhada e moradores vizinhos queixaram-se de náuseas e ardência nos olhos provocadas pelos gases liberados. A Defesa Civil isolou a orla preventivamente.",
+      "sourceHint": "Registro de campo: constata a ocorrência, o odor e a mortandade na madrugada, mas não identifica o organismo nem a causa."
     },
     {
-      id: 'doc-202',
-      number: 2,
-      style: 'newspaper',
-      newspaperName: 'GAZETA REGIONAL',
-      edition: 'Caderno Regional de Meio Ambiente • 17 de Janeiro de 2024',
-      tag: 'Gazeta Regional • 17 de Janeiro de 2024',
-      title: 'Centenas de peixes amanhecem mortos boiando na represa municipal',
-      type: 'Reportagem Investigativa',
-      imageSrc: 'assets/slides/Gemini_Generated_Image_bk2ce8bk2ce8bk2c.jfif',
-      imageCaption: 'Massa de tilápias e lambaris mortos recolhidos pelas equipes de limpeza urbana nas margens da represa.',
-      fullText: `Pescadores artesanais e trabalhadores da represa registraram uma cena alarmante na manhã de ontem: centenas de quilos de peixes de diversas espécies e idades (alevinos, lambaris e tilápias adultas) amanheceram flutuando mortos nas águas calmas do Lago Azul.
-      Segundo os relatos dos pescadores mais experientes, muitos peixes vinham à tona boquejando na superfície d'água no final da madrugada, aparentando sufocamento. Especialistas ouvidos pelo jornal alertam que mortandades súbitas com essas características podem estar associadas à queda severa de oxigênio ou à presença de toxinas biológicas potentes. Amostras foram recolhidas para necrópsia veterinária.`,
-      sourceHint: 'Destaca a asfixia aparente no final da madrugada, sugerindo mecanismo de anóxia noturna ou intoxicação branquial.'
+      "id": "doc-202",
+      "number": 2,
+      "style": "official-bulletin",
+      "tag": "Boletim Meteorológico e Hidrológico",
+      "title": "Calor, estiagem e água parada antecederam a ocorrência",
+      "type": "Boletim meteorológico e hidrológico",
+      "dados": {
+        "dias_com_baixa_precipitacao": 18,
+        "temperatura_media_agua_C": 28,
+        "reducao_volume_lago_percentual": 22,
+        "ventos": "Fracos durante cinco dias"
+      },
+      "investigacao": [
+        "Como temperatura e circulação influenciam florações?",
+        "Calor é causa única ou fator favorável?"
+      ],
+      "classificacao": "Dados simulados verdadeiros; não provam causa isoladamente.",
+      "fullText": "BOLETIM HIDROMETEOROLÓGICO REGIONAL:\n• Período de estiagem: 18 dias consecutivos com precipitação inferior a 2 mm.\n• Temperatura média da água superficial: 28°C (picos vespertinos de 31°C).\n• Redução do volume útil do lago: 22% abaixo da cota média histórica.\n• Regime de ventos: Calmaria e ventos fracos (< 4 km/h) mantidos nos últimos cinco dias, impedindo a mistura turbulenta das camadas de água e favorecendo a estratificação térmica.",
+      "sourceHint": "O calor elevado e a calmaria são condições sinérgicas altamente favoráveis, mas não geram biomassa sem nutrientes prévios."
     },
     {
-      id: 'doc-203',
-      number: 3,
-      style: 'lab_report',
-      protocolNumber: 'AGRO-2024/0122-FISCAL',
-      labName: 'SECRETARIA DE DESENVOLVIMENTO AGROPECUÁRIO & MEIO AMBIENTE',
-      tag: 'Relatório de Fiscalização Rural • 22 de Janeiro de 2024',
-      title: 'AUTO DE INSPEÇÃO AGROPECUÁRIA: Escoamento de Adubação NPK no Córrego das Tabocas',
-      type: 'Relatório de Fiscalização Agrícola',
-      imageSrc: 'assets/slides/Gemini_Generated_Image_djayl3djayl3djay.jfif',
-      imageCaption: 'Talhões agrícolas em declive com sulcos de erosão e arraste de solo fertilizado em direção ao leito do riacho.',
-      fullText: `Fiscais ambientais inspecionaram propriedades de cultivo intensivo de milho e hortaliças situadas na microbacia do Córrego das Tabocas, tributário que deságua no Rio das Palmeiras a montante do Lago Azul. Constatou-se que, dias antes do florescimento no lago, ocorreram temporais de alta intensidade (85 mm de precipitação em 3 horas).
-      As chuvas torrenciais lavaram solos que haviam recebido adubação mineral solúvel pesada com formulação NPK (Nitrogênio, Fósforo e Potássio), além de esterco de aviário curtido. Foram identificados sulcos de erosão laminar descarregando enxurradas turvas diretamente no riacho, sem passagem por faixas ripárias de contenção ou bacias de retenção pluvial.`,
-      sourceHint: 'Apresenta a fonte difusa agrícola: fertilizantes minerais solúveis e matéria orgânica carreados por fortes temporais.'
+      "id": "doc-203",
+      "number": 3,
+      "style": "lab-report",
+      "tag": "Laudo Físico-Químico • Amostragem de Água",
+      "title": "Concentração elevada de nutrientes próxima ao canal",
+      "type": "Laudo físico-químico",
+      "dados": [
+        {
+          "parametro": "Fósforo total",
+          "centro_mg_L": 0.09,
+          "canal_mg_L": 0.31,
+          "unidade": "mg/L"
+        },
+        {
+          "parametro": "Ortofosfato",
+          "centro_mg_L": 0.03,
+          "canal_mg_L": 0.19,
+          "unidade": "mg/L"
+        },
+        {
+          "parametro": "Nitrato",
+          "centro_mg_L": 0.42,
+          "canal_mg_L": 1.85,
+          "unidade": "mg/L"
+        },
+        {
+          "parametro": "Amônio",
+          "centro_mg_L": 0.08,
+          "canal_mg_L": 0.72,
+          "unidade": "mg/L"
+        }
+      ],
+      "investigacao": [
+        "O que é eutrofização?",
+        "Qual o papel do nitrogênio e fósforo?",
+        "Os dados identificam a fonte?"
+      ],
+      "classificacao": "Evidência de enriquecimento localizado; fonte não identificada.",
+      "fullText": "RELATÓRIO DE ENSAIOS HIDROQUÍMICOS (LABORATÓRIO REGIONAL DE SANEAMENTO):\nAmostras coletadas no centro do lago e nas proximidades do canal afluente revelaram forte gradiente químico:\n• Fósforo Total: 0,09 mg/L no Centro vs 0,31 mg/L no Canal (Aumento de 3,4x).\n• Ortofosfato solúvel (forma assimilável): 0,03 mg/L no Centro vs 0,19 mg/L no Canal (Aumento de 6,3x).\n• Nitrato: 0,42 mg/L no Centro vs 1,85 mg/L no Canal (Aumento de 4,4x).\n• Amônio: 0,08 mg/L no Centro vs 0,72 mg/L no Canal (Aumento de 9,0x).\nDiagnóstico preliminar: O canal representa a rota primária de aporte de nutrientes eutrofizantes para a enseada afetada.",
+      "sourceHint": "Evidência concreta de enriquecimento em nutrientes (eutrofização localizada), porém o laudo químico sozinho não diz de qual atividade econômica o fósforo veio."
     },
     {
-      id: 'doc-204',
-      number: 4,
-      style: 'lab_report',
-      protocolNumber: 'SAN-2024/0128-ETE',
-      labName: 'COMPANHIA REGIONAL DE SANEAMENTO & ÁGUAS DE VALE VERDE',
-      tag: 'Boletim de Engenharia Sanitária • 28 de Janeiro de 2024',
-      title: 'AUDITORIA OPERACIONAL DA ETE CENTRAL: Carga de Fósforo e Detergentes em Efluentes',
-      type: 'Laudo de Auditoria Sanitária',
-      imageSrc: 'assets/slides/Gemini_Generated_Image_3v7oin3v7oin3v7o.jfif',
-      imageCaption: 'Canal de descarga de efluentes tratados da ETE Municipal com turbidez residual e formação de espumas.',
-      fullText: `Uma comissão técnica auditou o desempenho da Estação de Tratamento de Esgoto (ETE) Central de Vale Verde durante os primeiros meses do ano. A planta, projetada para atender 40 mil habitantes, operou com sobrecarga volumétrica média de 38% em razão do crescimento urbano recente.
-      O laudo constatou que a ETE utiliza processo de lodos ativados secundários convencionais, eficiente na remoção de matéria carbonácea (DBO), porém carece de etapa terciária de precipitação físico-química de fósforo. Como consequência, o efluente lançado no rio manteve concentração média de Fósforo Total de 4,2 mg/L, impulsionado pelo consumo domiciliar massivo de detergentes em pó convencionais ricos em polifosfatos e descargas sanitárias brutas.`,
-      sourceHint: 'Identifica uma fonte pontual contínua de fósforo doméstico não retido pelo sistema secundário da ETE.'
+      "id": "doc-204",
+      "number": 4,
+      "style": "inspection-report",
+      "tag": "Relatório de Vistoria de Campo • Bacia Hidrográfica",
+      "title": "Três possíveis fontes de nutrientes na bacia",
+      "type": "Relatório de vistoria",
+      "fontes_suspeitas": [
+        "Área agrícola com fertilizantes e solo exposto",
+        "Bairro residencial com suspeita não confirmada de ligação clandestina de esgoto",
+        "Criatório de animais com esterco armazenado próximo a afluente"
+      ],
+      "investigacao": "Criar plano de amostragem para distinguir as fontes.",
+      "classificacao": "Fontes plausíveis, nenhuma comprovada.",
+      "fullText": "AUTO DE VISTORIA AMBIENTAL DA BACIA DO LAGO AZUL:\nFiscais ambientais inspecionaram as margens tributárias do canal e identificaram 3 atividades antrópicas com potencial de contaminação:\n1. Zona Agrícola de Hortaliças e Grãos: Uso intensivo de fertilizantes químicos solúveis (NPK 04-14-08 e ureia) em áreas de declive com solo desprovido de mata ciliar protetora.\n2. Bairro Vila Nova (Zona Urbana Residencial): Suspeita de lançamentos clandestinos de efluentes domésticos não tratados (ricos em detergentes fosfatados e matéria fecal) em galerias pluviais que drenam para o canal.\n3. Suinocultura e Avicultura Familiar: Esterqueiras com armazenamento a céu aberto situadas a menos de 40 metros de uma das nascentes que alimentam o afluente.\nConclusão dos fiscais: Todas as 3 fontes são ecologicamente plausíveis, necessitando de plano de amostragem específico para comprovação.",
+      "sourceHint": "Aponta suspeitos plausíveis na bacia, mas reforça a necessidade de método científico para não cometer injustiças sem provas."
     },
     {
-      id: 'doc-205',
-      number: 5,
-      style: 'newspaper',
-      newspaperName: 'CIÊNCIA HOJE REGIONAL',
-      edition: 'Artigo de Divulgação Científica • Volume 19 • Fevereiro de 2024',
-      tag: 'Ciência Hoje Regional • 2024',
-      title: 'Florescimentos algais e o fósforo como nutriente limitante em águas continentais',
-      type: 'Artigo Científico de Divulgação',
-      imageSrc: 'assets/slides/Gemini_Generated_Image_d84jsrd84jsrd84j.jfif',
-      imageCaption: 'Estrutura celular microscópica de cianobactérias exibindo vesículas de gás (aerótopos) para flutuação na coluna d’água.',
-      fullText: `Pesquisadores do Centro de Recursos Hídricos explicam os mecanismos ecológicos da eutrofização em reservatórios subtropicais. Em ecossistemas de água doce, o fósforo atua historicamente como o nutriente limitante (relação N:P alta). Quando aportes volumosos de fósforo biodisponível ocorrem em corpos d'água calmos e ensolarados, o freio limitante é rompido.
-      Cianobactérias possuem vesículas gasosas internas (aerótopos) que lhes permitem regular a flutuabilidade, subindo à superfície para captar luz solar intensa durante o dia e sombreando as microalgas verdes benéficas. Algumas espécies são capazes de fixar nitrogênio atmosférico, garantindo vantagem competitiva absoluta em ambientes desequilibrados.`,
-      sourceHint: 'Explica a biologia das cianobactérias: adaptação de flutuação por vesículas gasosas e papel disparador do fósforo.'
+      "id": "doc-205",
+      "number": 5,
+      "style": "microscopy-report",
+      "tag": "Laudo de Microscopia Óptica • Amostra de Superfície",
+      "title": "Microscopia identifica colônias e filamentos",
+      "type": "Laudo de microscopia",
+      "imageSrc": "assets/slides/laminas_slide1.bmp",
+      "observacoes": [
+        "Células arredondadas em colônias",
+        "Material mucilaginoso",
+        "Filamentos em menor quantidade",
+        "Alta densidade de organismos fotossintetizantes"
+      ],
+      "identificacao_preliminar": "Morfologia compatível com cianobactérias, incluindo organismos semelhantes a Microcystis.",
+      "investigacao": [
+        "Como diferenciar cianobactérias de algas eucarióticas?",
+        "O que significa identificação em nível de gênero?",
+        "Todas as linhagens produzem microcistina?"
+      ],
+      "classificacao": "Evidência verdadeira, mas identificação preliminar; não confirma espécie ou toxicidade.",
+      "fullText": "LAUDO FITOPLANCTÔNICO DE TRIAGEM:\n• Exame a fresco e com coloração (aumentos de 100x e 400x):\nObserva-se altíssima densidade de células esféricas microscópicas (3 a 5 µm de diâmetro) agregadas em colônias irregulares imersas em mucilagem amorfa incolor, morfologicamente compatíveis com o gênero Microcystis (Ordem Chroococcales).\nEm contagem preliminar, a densidade supera 85.000 células/mL, configurando florescimento algal severo. Notam-se ainda filamentos esparsos entremeados na massa celular.\nRessalva pericial: A morfologia óptica indica cianobactéria colonial, mas a confirmação da linhagem tóxica requer ensaio toxicológico ou molecular específico.",
+      "sourceHint": "Comprova morfologia de colônias de cianobactérias (Microcystis), mas salienta que a microscopia óptica não atesta toxicidade por si só."
     },
     {
-      id: 'doc-206',
-      number: 6,
-      style: 'lab_report',
-      protocolNumber: 'METEO-2024/0203-CLIMA',
-      labName: 'INSTITUTO METEOROLÓGICO & CLIMATOLÓGICO ESTADUAL',
-      tag: 'Boletim Hidrometeorológico • Fevereiro de 2024',
-      title: 'BOLETIM DE ONDA DE CALOR & ESTAGNAÇÃO TÉRMICA NO RESERVATÓRIO',
-      type: 'Boletim Meteorológico',
-      imageSrc: 'assets/slides/doc_titulo_1.jpg',
-      imageCaption: 'Termografia da superfície do Lago Azul revelando aquecimento anômalo das águas marginais rasas.',
-      fullText: `O monitoramento climatológico registrou uma das mais intensas ondas de calor das últimas três décadas na região de Vale Verde. Entre 5 e 15 de janeiro, as temperaturas máximas do ar permaneceram continuamente entre 34°C e 37°C, acompanhadas por ventos fracos (calmaria média < 4 km/h) e ausência de nebulosidade.
-      A água superficial do Lago Azul atingiu 29,4°C. Esse aquecimento reduziu fisicamente a solubilidade do oxigênio molecular no líquido e provocou forte estratificação térmica (termoclina acentuada), impedindo a circulação vertical e transformando o lago em um reator estagnado ideal para cinéticas biológicas aceleradas de cianobactérias.`,
-      sourceHint: 'Apresenta os catalisadores climáticos abióticos: temperatura alta, calmaria do vento e menor solubilidade do O2.'
+      "id": "doc-206",
+      "number": 6,
+      "style": "microscopy-report",
+      "tag": "Laudo de Microscopia Óptica • Camada Profunda",
+      "title": "Filamentos encontrados na região profunda",
+      "type": "Laudo de microscopia",
+      "observacoes": [
+        "Filamentos com estruturas diferenciadas compatíveis com cianobactérias heterocistadas"
+      ],
+      "hipoteses_taxonomicas": [
+        "Dolichospermum spp.",
+        "Aphanizomenon spp.",
+        "Outros gêneros filamentosos"
+      ],
+      "investigacao": [
+        "O que é fixação biológica de nitrogênio?",
+        "O que são heterócitos?",
+        "Como diferentes cianobactérias coexistem?"
+      ],
+      "classificacao": "Observação verdadeira; identificação inconclusiva.",
+      "fullText": "ANÁLISE FITOPLANCTÔNICA DE PROFUNDIDADE (1,5 A 2,5 METROS):\nAmostragens colhidas sob a mancha superficial revelaram presença expressiva de cianobactérias filamentosas:\n• Tricomas solitários ou fasciculados, com células cilíndricas ou em barril.\n• Presença marcante de heterócitos (células especializadas maiores com paredes espessadas e sem pigmentação fotossintética ativa).\nGêneros compatíveis: Dolichospermum (antigo Anabaena) e Aphanizomenon.\nSignificado ecológico: A presença de heterócitos indica capacidade de fixação biológica de N2 atmosférico dissolvido, conferindo vantagem competitiva crucial em momentos de limitação de nitrogênio inorgânico na água.",
+      "sourceHint": "Identifica cianobactérias filamentosas capazes de fixar nitrogênio graças aos heterócitos, demonstrando comunidade mista."
     },
     {
-      id: 'doc-207',
-      number: 7,
-      style: 'lab_report',
-      protocolNumber: 'LIMNO-2024/0219-MONIT',
-      labName: 'LABORATÓRIO MUNICIPAL DE QUALIDADE DAS ÁGUAS & LIMNOLOGIA',
-      tag: 'Laudo Pericial Oficial • 2024',
-      title: 'LAUDO TÉCNICO PERICIAL: Mapeamento Físico-Químico em 5 Estações da Bacia',
-      type: 'Laudo Analítico Espacial',
-      imageSrc: 'assets/slides/Gemini_Generated_Image_38gdz338gdz338gd.jfif',
-      imageCaption: 'Coletas com sonda multiparâmetros padronizada calibrada a 25°C ao longo dos 5 pontos do sistema fluvial-lacustre.',
-      fullText: `A equipe pericial de limnologia realizou coletas de água superficial nas 5 estações do sistema durante a crise ambiental:
-      
-      TABELA OFICIAL DE MONITORAMENTO DE QUALIDADE DA ÁGUA:
-      • Estação Ponto 1 (Montante / Mata Ciliar Preservada): Fósforo Total = 0,02 mg/L | Nitrogênio Total = 0,8 mg/L | DBO5 = 1,8 mg/L | OD = 7,8 mg/L
-      • Estação Ponto 2 (Jusante da Descarga da ETE Urbana): Fósforo Total = 0,38 mg/L | Nitrogênio Total = 4,2 mg/L | DBO5 = 24,0 mg/L | OD = 3,9 mg/L
-      • Estação Ponto 3 (Confluência do Córrego das Tabocas / Agrícola): Fósforo Total = 0,31 mg/L | Nitrogênio Total = 6,8 mg/L | DBO5 = 19,5 mg/L | OD = 4,2 mg/L
-      • Estação Ponto 4 (Entrada do Lago Azul / Área do Bloom): Fósforo Total = 0,48 mg/L | Nitrogênio Total = 8,1 mg/L | DBO5 = 42,0 mg/L | OD Diurno (14h) = 10,8 mg/L (Supersaturação) | OD Noturno (04h) = 1,1 mg/L (Anóxia Crítica!)
-      • Estação Ponto 5 (Vertedouro de Saída do Lago): Fósforo Total = 0,22 mg/L | Nitrogênio Total = 4,5 mg/L | DBO5 = 16,0 mg/L | OD = 4,0 mg/L
-      
-      PARECER TÉCNICO: O Ponto 4 registra o colapso do sistema: enquanto a fotossíntese explosiva ao meio-dia gera oxigênio supersaturado (10,8 mg/L), a respiração maciça na madrugada derruba o oxigênio para níveis asfixiantes (1,1 mg/L).`,
-      sourceHint: 'Dados numéricos essenciais: revelam aportes combinados de esgoto (Ponto 2) e adubo (Ponto 3), culminando na anóxia noturna no Ponto 4.'
+      "id": "doc-207",
+      "number": 7,
+      "style": "toxicology-report",
+      "tag": "Laudo de Toxicologia Ambiental • Ensaio Imunoenzimático",
+      "title": "Teste preliminar detecta microcistina",
+      "type": "Laudo de toxicologia ambiental",
+      "dados_microcistinas_totais_ug_L": {
+        "centro": 0.35,
+        "mancha_superficial": 2.4,
+        "proximo_canal": 1.1
+      },
+      "metodo": "Ensaio imunoenzimático de triagem (ELISA); confirmação analítica necessária.",
+      "investigacao": [
+        "O que são microcistinas?",
+        "A presença prova que a toxina matou os peixes?",
+        "Ainda é necessário investigar oxigênio?"
+      ],
+      "classificacao": "Triagem positiva simulada; não é confirmação definitiva nem prova da causa da mortandade.",
+      "fullText": "LAUDO ECOTOXICOLÓGICO PRELIMINAR (ENSAIO ELISA - KITS ESPECÍFICOS):\n• Mancha superficial concentrada: 2,4 µg/L de microcistinas totais.\n• Região próxima ao canal afluente: 1,1 µg/L.\n• Centro do Lago Azul: 0,35 µg/L.\n(Valor de referência CONAMA 357 / Portaria GM/MS 888 para água potável tratada: 1,0 µg/L).\nNota técnica: O teste ELISA é um ensaio de triagem biológica por anticorpos monoclonais que indica presença de variantes de microcistina, mas exige confirmação analítica por cromatografia líquida com espectrometria de massas (LC-MS/MS).\nA detecção comprova produção de toxina no ecossistema, mas não estabelece isoladamente nexo causal incontestável com o óbito dos peixes sem análise do oxigênio.",
+      "sourceHint": "Confirma a presença de hepatotoxinas na mancha (2,4 µg/L), mas a ecotoxicologia exige avaliar a via de exposição e os demais parâmetros vitais."
     },
     {
-      id: 'doc-208',
-      number: 8,
-      style: 'lab_report',
-      protocolNumber: 'CITO-2024/0288-FIT',
-      labName: 'CENTRO INTEGRADO DE CITOLOGIA & TAXONOMIA VEGETAL',
-      tag: 'Laudo Citomorfológico • 2024',
-      title: 'LAUDO DE MICROSCOPIA ÓPTICA: Densidade Celular e Taxonomia de Cianobactérias',
-      type: 'Laudo de Análise Microscópica',
-      imageSrc: 'assets/slides/laminas_slide1.bmp',
-      imageCaption: 'Fotomicrografia pericial: colônias maciças esféricas de Microcystis aeruginosa envolvidas por mucilagem translúcida.',
-      fullText: `A análise fitoplanctônica realizada com câmara de Sedgewick-Rafter e microscopia de contraste óptico revelou uma alteração comunitária severa nas amostras do Lago Azul. As diatomáceas e clorofíceas nativas foram quase totalmente suprimidas.
-      A comunidade passou a ser dominada (91,5% dos indivíduos contados) por colônias esféricas a irregulares de Microcystis aeruginosa, espécie célebre por sua capacidade de biossíntese de cianotoxinas. A contagem celular alcançou a marca recorde de 85.000 células/mL, superando em mais de quatro vezes o limite máximo de segurança estipulado pela Resolução CONAMA nº 357/2005 (20.000 cél/mL) para águas doces destinadas à recreação primária.`,
-      sourceHint: 'Identificação taxonômica decisiva: Microcystis aeruginosa a 85.000 cél/mL (4x acima do limite legal do CONAMA).'
+      "id": "doc-208",
+      "number": 8,
+      "style": "monitoring-report",
+      "tag": "Laudo de Monitoramento Nictemeral de Oxigênio Dissolvido",
+      "title": "Oxigênio dissolvido cai durante a madrugada",
+      "type": "Laudo de monitoramento",
+      "dados_oxigenio_superficie_mg_L": [
+        {
+          "horario": "06h",
+          "valor": 0.8
+        },
+        {
+          "horario": "10h",
+          "valor": 5.7
+        },
+        {
+          "horario": "14h",
+          "valor": 14.2
+        },
+        {
+          "horario": "18h",
+          "valor": 9.1
+        },
+        {
+          "horario": "22h",
+          "valor": 3
+        },
+        {
+          "horario": "02h",
+          "valor": 1.4
+        }
+      ],
+      "dado_fundo": {
+        "horario": "06h",
+        "valor_mg_L": 0.3
+      },
+      "investigacao": [
+        "Por que o oxigênio sobe durante o dia?",
+        "O que ocorre à noite?",
+        "Como respiração e decomposição consomem oxigênio?",
+        "Como isso afeta os peixes?"
+      ],
+      "classificacao": "Evidência-chave compatível com hipóxia severa e anóxia em algumas camadas.",
+      "fullText": "MONITORAMENTO CONTÍNUO DE OXIGÊNIO DISSOLVIDO (OD) AO LONGO DE 24 HORAS:\nSonda multiparâmetros instalada a 0,5 metro de profundidade na enseada da floração registrou oscilação extrema:\n• 06h: 0,8 mg/L (Hipóxia crítica / anóxia funcional na aurora)\n• 10h: 5,7 mg/L (Recuperação inicial)\n• 14h: 14,2 mg/L (Supersaturação violenta por intensa fotossíntese sob sol pleno)\n• 18h: 9,1 mg/L (Diminuição da incidência luminosa)\n• 22h: 3,0 mg/L (Consumo contínuo por respiração)\n• 02h: 1,4 mg/L (Zona de asfixia respiratória para a ictiofauna)\n• Fundo (2,5 m) às 06h: 0,3 mg/L (Anóxia total).\nInterpretação pericial: Peixes precisam de pelo menos 4 a 5 mg/L de OD para manutenção vital básica. Valores abaixo de 1,5 mg/L provocam sufocamento agudo e morte em poucas horas.",
+      "sourceHint": "Evidência-chave: desvenda o mistério de por que a mortandade ocorreu exatamente entre 4h e 6h da madrugada, quando o OD atingiu 0,8 mg/L."
     },
     {
-      id: 'doc-209',
-      number: 9,
-      style: 'lab_report',
-      protocolNumber: 'ICTIO-2024/0315-TOX',
-      labName: 'LABORATÓRIO DE ICTIOPATOLOGIA & ECOTOXICOLOGIA VETERINÁRIA',
-      tag: 'Laudo de Necrópsia Animal • 2024',
-      title: 'LAUDO DE NECRÓPSIA DE ICTIOFAUNA: Avaliação Histopatológica Branquial e Hepática',
-      type: 'Laudo de Ictiopatologia',
-      imageSrc: 'assets/slides/histopatologia_peixe.jpg',
-      imageCaption: 'Corte histológico das lamelas branquiais exibindo fusão e hiperplasia epitelial, com muco denso retendo células algais (H&E, 400x).',
-      fullText: `Foi realizada a necrópsia de 25 espécimes de tilápias e 30 lambaris recolhidos mortos na calha do Lago Azul. A análise anatomopatológica revelou:
-      1. Sistema Respiratório (Brânquias): Filamentos branquiais com hiperplasia celular severa, dilatação vascular e secreção mucosa abundante com aderência de colônias mucilaginosas. Esse quadro, somado aos relatos de boquejo na madrugada, confirma asfixia mecânica aguda provocada pela anóxia noturna (OD = 1,1 mg/L).
-      2. Sistema Digestório e Fígado: Parênquima hepático apresentando necrose focal com perda da arquitetura celular habitual, hemorragia e congestão venosa, lesões clássicas e características da ação de hepatotoxinas cíclicas (microcistinas).`,
-      sourceHint: 'Demonstra a dupla causa da mortandade: asfixia física pela anóxia noturna + necrose hepática por hepatotoxina microcistina.'
+      "id": "doc-209",
+      "number": 9,
+      "style": "veterinary-report",
+      "tag": "Relatório de Ictiopatologia e Necrópsia Animal",
+      "title": "Peixes apresentam sinais de estresse respiratório",
+      "type": "Relatório de ictiologia",
+      "imageSrc": "assets/slides/histopatologia_peixe.jpg",
+      "observacoes": [
+        "Movimentos operculares acelerados em peixes moribundos",
+        "Muco nas brânquias em alguns exemplares",
+        "Ausência de lesões externas específicas",
+        "Coleta após a madrugada, sem observação contínua da morte"
+      ],
+      "investigacao": "A aparência das brânquias permite determinar a causa?",
+      "classificacao": "Achados verdadeiros, porém inespecíficos; não provam intoxicação ou anóxia isoladamente.",
+      "fullText": "NECRÓPSIA DE EXEMPLARES COLETADOS (LABORATÓRIO DE ICTIOLOGIA):\nExame em 35 peixes (Astyanax bimaculatus - lambaris; Oreochromis niloticus - tilápias; Hoplias malabaricus - traíras):\n• Quadro macroscópico: opérculos abertos, brânquias congestas recobertas por espessa camada de muco viscoso de reação defensiva, e bocas abertas em atitude de respiração superficial (boquejamento).\n• Lesões externas: Ausência de lesões tegumentares traumáticas, ulcerações ou parasitas evidentes.\n• Exame histopatológico branquial preliminar: fusão lamelar e edema branquial compatíveis com asfixia aguda por hipóxia e/ou irritação química por contato com algas e toxinas.\nConclusão técnica: Os achados atestam estresse respiratório agudo, porém a aparência macroscópica branquial é inespecífica e não separa por si só asfixia anóxica de intoxicação sistêmica.",
+      "sourceHint": "Demonstra asfixia branquial real, porém enfatiza que os sintomas branquiais sozinhos são comuns a hipóxia e a irritação química."
     },
     {
-      id: 'doc-210',
-      number: 10,
-      style: 'lab_report',
-      protocolNumber: 'NOTIF-SAN-2024/044',
-      labName: 'VIGILÂNCIA EM SAÚDE AMBIENTAL & ABASTECIMENTO PÚBLICO',
-      tag: 'Notificação Sanitária • 2024',
-      title: 'NOTIFICAÇÃO SANITÁRIA EMERGENCIAL: Dosagem de Microcistina por Ensaio ELISA',
-      type: 'Alerta de Saúde Pública',
-      imageSrc: 'assets/slides/Gemini_Generated_Image_atl2c3atl2c3atl2.jfif',
-      imageCaption: 'Ensaio de imunoabsorção enzimática (ELISA) em placa com leitura espectrofotométrica para quantificação de microcistina-LR.',
-      fullText: `A Secretaria Municipal de Saúde, em ação conjunta com a Vigilância Sanitária Estadual, submeteu alíquotas de água bruta captada no Lago Azul a ensaios imunoenzimáticos padronizados (ELISA) específicos para a variante tóxica Microcistina-LR.
-      O resultado analítico apontou uma concentração média de 4,8 µg/L de microcistina-LR livre na água. A Portaria GM/MS nº 888 do Ministério da Saúde estabelece o limite máximo de 1,0 µg/L para água potável tratada. Diante do risco iminente de toxicidade aguda e crônica para a população humana, a prefeitura decretou a interrupção imediata da captação de água na represa e interditou o acesso às margens.`,
-      sourceHint: 'Prova a toxicidade química: 4,8 µg/L de microcistina-LR, justificando o fechamento do abastecimento público.'
+      "id": "doc-210",
+      "number": 10,
+      "style": "newspaper",
+      "newspaperName": "PORTAL CLIQUE NOTÍCIAS",
+      "edition": "Coluna de Opinião e Polêmica • Redes Sociais",
+      "tag": "Notícia Distratora / Boato Sem Sustentação",
+      "title": "Especialista afirma que o lago sofre maré vermelha causada por dinoflagelados marinhos",
+      "type": "Notícia distratora",
+      "alegacao": "Karenia brevis teria chegado ao lago por aves migratórias.",
+      "investigacao": [
+        "Karenia brevis é de água doce?",
+        "O que são brevetoxinas?",
+        "Fotografia marinha comprova ocorrência no lago?",
+        "Qual a diferença entre cianobactéria e dinoflagelado?"
+      ],
+      "classificacao": "Notícia sem sustentação para o caso; imagem marinha não comprova a presença da espécie no lago.",
+      "fullText": "MATÉRIA SENSACIONALISTA VEICULADA NA INTERNET:\nUm suposto consultor ambiental autônomo publicou em redes sociais que o desastre no Lago Azul seria uma autêntica 'Maré Vermelha', idêntica às ocorridas em oceanos e enseadas litorâneas.\nSegundo a postagem, o dinoflagelado marinho Karenia brevis teria sido transportado do litoral até a represa pelas penas de aves marinhas migratórias e estaria liberando brevetoxinas mortais na água doce. A publicação foi ilustrada com uma foto aérea de alta resolução tirada na costa da Flórida mostrando ondas com manchas avermelhadas.\nO post viralizou na cidade, causando pânico sobre contaminação pelo ar.",
+      "sourceHint": "Notícia sem sustentação científica: Karenia brevis é estenohalina (organismo marinho que não tolera água doce) e a foto é de outro ecossistema."
     },
     {
-      id: 'doc-211',
-      number: 11,
-      style: 'lab_report',
-      protocolNumber: 'GEO-2024/0512-SED',
-      labName: 'INSTITUTO DE GEOCIÊNCIAS & GEOQUÍMICA DE SEDIMENTOS',
-      tag: 'Estudo Geoquímico do Sedimento • 2024',
-      title: 'LAUDO GEOQUÍMICO: Liberação Interna de Fósforo pelo Sedimento Lacustre (Internal Loading)',
-      type: 'Estudo Geoquímico',
-      imageSrc: 'assets/slides/Gemini_Generated_Image_7zo9hs7zo9hs7zo9.jfif',
-      imageCaption: 'Amostrador de sedimento de fundo tipo testemunhador revelando estrato de lodo negro anaeróbio enriquecido em matéria orgânica.',
-      fullText: `Geocientistas investigaram o histórico deposicional do fundo do Lago Azul. A antiga represa municipal acumula, ao longo de mais de 40 anos, um estrato de lodo fino e escuro com espessura variando de 0,8 a 1,4 metro, rico em fósforo inorgânico complexado com oxi-hidróxidos de ferro (Fe-P).
-      Sob as condições anaeróbias e quentes registradas na crise (potencial redox Eh < -150 mV), o ferro férrico (Fe3+) reduz-se a ferro ferroso (Fe2+), quebrando a ligação iônica e liberando ortofosfato solúvel diretamente na coluna d'água. Essa "carga interna" respondeu por cerca de 28% do fósforo disponível durante a calmaria, explicando por que a floração persistiu mesmo após a diminuição das enxurradas pluviais.`,
-      sourceHint: 'Revela a fonte interna de fósforo: o lodo do fundo libera fosfatos estocados sob anóxia, perpetuando o bloom.'
+      "id": "doc-211",
+      "number": 11,
+      "style": "geochem-report",
+      "tag": "Relatório de Sedimentos e Decomposição Bêntica",
+      "title": "Matéria orgânica acumulada pode ampliar o consumo de oxigênio",
+      "type": "Relatório de sedimentos",
+      "observacoes": [
+        "Acúmulo de matéria orgânica",
+        "Restos de organismos fotossintetizantes",
+        "Atividade microbiana elevada",
+        "Odor compatível com decomposição em áreas pouco circuladas"
+      ],
+      "investigacao": "Construir sequência desde o aporte de nutrientes até a mortandade.",
+      "classificacao": "Evidência verdadeira; não quantifica sozinha a contribuição da decomposição.",
+      "fullText": "ANÁLISE DE TESTEMUNHOS DE SEDIMENTO (LABORATÓRIO DE LIMNOLOGIA BÊNTICA):\nSondagens de fundo realizadas na enseada do Lago Azul demonstraram:\n• Espessa camada de lodo escuro (8 a 15 cm) rica em carbono orgânico e restos mortos de algas e cianobactérias senescentes.\n• Respiração microbiana heterotrófica extremamente ativa: bactérias e fungos decompositores consomem vorazmente o oxigênio da camada inferior.\n• Condição redox do sedimento: potencial de oxirredução negativo (anóxia de fundo), acompanhado de odor de sulfeto de hidrogênio (H2S).\nConclusão: O sedimento funciona como um poderoso sumidouro de oxigênio dissolvido, acelerando a anóxia noturna da coluna d'água inteira quando a fotossíntese cessa.",
+      "sourceHint": "Evidência fundamental: a decomposição contínua no sedimento é o motor biológico que esgota o oxigênio durante a noite."
     },
     {
-      id: 'doc-212',
-      number: 12,
-      style: 'lab_report',
-      protocolNumber: 'AUDIT-2024/0620-LAGO',
-      labName: 'CÂMARA TÉCNICA DE SANEAMENTO & RECUPERAÇÃO LÍMNICA',
-      tag: 'Relatório Técnico de Controle e Mitigação • 2024',
-      title: 'LAUDO DE AVALIAÇÃO DE EFICÁCIA: Precipitação de Fósforo e Aeração Noturna',
-      type: 'Relatório de Eficácia de Intervenção',
-      imageSrc: 'assets/slides/Gemini_Generated_Image_ke1ouvke1ouvke1o.jfif',
-      imageCaption: 'Equipamento de aeração superficial mecânica em operação noturna conjugado à aplicação de coagulante mineral ecológico.',
-      fullText: `A força-tarefa ambiental implementou um plano emergencial de contingência no Lago Azul consistindo em duas ações imediatas:
-      1. Aplicação controlada de coagulante/precipitador ecológico (policloreto de alumínio com bentonita modificada) para flocular e precipitar o fósforo dissolvido no fundo;
-      2. Instalação de baterias de aeradores mecânicos operando continuamente durante o período noturno (das 22h às 07h) no braço represado.
-      
-      COMPARAÇÃO DE PARÂMETROS (Antes da Intervenção vs 30 Dias Pós-Intervenção):
-      • Fósforo Total: de 0,48 mg/L para 0,07 mg/L (Queda drástica de 85,4%)
-      • Densidade de Microcystis: de 85.000 cél/mL para 30.600 cél/mL (Redução absoluta de 54.400 cél/mL = queda de 64,0%!)
-      • Oxigênio Dissolvido Noturno: de 1,1 mg/L para 5,4 mg/L (Recuperação da faixa segura para a ictiofauna)
-      • Microcistina-LR: reduziu para 0,8 µg/L (Abaixo do teto legal de 1,0 µg/L)
-      
-      DISCUSSÃO CIENTÍFICA: A redução de 64% na contagem e o fim da mortandade comprovam o papel disparador do fósforo e da anóxia noturna, demonstrando que a recuperação sustentável exige conter tanto o esgoto urbano quanto as enxurradas agrícolas NPK.`,
-      sourceHint: 'Evidência empírica final: comprova que neutralizar o fósforo e oxigenar a noite cessa a mortandade e reduz o bloom em 64%.'
+      "id": "doc-212",
+      "number": 12,
+      "style": "official-bulletin",
+      "tag": "Relatório Técnico Integrado Final",
+      "title": "Análises confirmam cianobactérias potencialmente tóxicas e oxigenação crítica",
+      "type": "Relatório técnico integrado",
+      "resultados": [
+        "Análise molecular compatível com Microcystis e Dolichospermum",
+        "LC-MS/MS confirma microcistina-LR na amostra superficial",
+        "Monitoramento confirma queda noturna do oxigênio",
+        "Fósforo e nitrogênio mais elevados próximo ao canal",
+        "Origem dos nutrientes não atribuída a uma única fonte"
+      ],
+      "conclusao_preliminar": "Resultados compatíveis com eutrofização, floração de cianobactérias, presença de microcistina e episódios de hipóxia/anóxia. A contribuição relativa da toxicidade e da falta de oxigênio para a mortandade exige investigação específica.",
+      "classificacao": "Conjunto forte de evidências, com limitações sobre a causa exata e a origem dos nutrientes.",
+      "fullText": "PARECER INTEGRADO DOS ÓRGÃOS DE FISCALIZAÇÃO AMBIENTAL E SAÚDE PÚBLICA:\nConsolidação definitiva dos exames analíticos:\n1. Caracterização biológica: Sequenciamento genético e PCR confirmaram linhagens de Microcystis aeruginosa (com genes mcy para produção de microcistinas) e Dolichospermum circinale.\n2. Cromatografia Líquida de Alta Resolução acoplada a Espectrometria de Massas (LC-MS/MS): Confirmação inequívoca de 2,1 µg/L de microcistina-LR na água da enseada.\n3. Dinâmica de Oxigenação: Confirmação de colapso respiratório noturno com oxigênio caindo para 0,8 mg/L às 06h da madrugada, seguido de supersaturação diurna.\n4. Nutrientes e Fontes: Elevado fósforo (0,31 mg/L) e nitrogênio na foz do canal. As análises de isótopos e traçadores indicam contribuição mista: efluentes sanitários domésticos urbanos combinados com drenagem de áreas fertilizadas e dejetos.\nParecer conclusivo: Trata-se de desastre ecológico multifatorial derivado da eutrofização antrópica, com anóxia noturna severa como causa direta imediata de asfixia da ictiofauna, potencializada pelo estresse fisiológico da cianotoxina.",
+      "sourceHint": "Laudo pericial final que integra todas as peças do caso: confirma a complexidade do ecossistema e refuta soluções simplistas."
     }
   ],
-  phases: [
+  "phases": [
     {
-      phaseNumber: 1,
-      lessonTitle: 'Aula 1: A Emergência no Lago Azul & Hipóteses Iniciais',
-      fichas: ['Ficha 1', 'Ficha 2'],
-      badge: 'Fase 1: O Lago em Crise',
-      duration: '45 minutos',
-      goal: 'Compreender o alerta dos moradores e a mortandade súbita de peixes, examinando os recortes de jornal e formulando duas hipóteses científicas preliminares.',
-      docsInvolved: ['doc-201', 'doc-202'],
-      questions: [
+      "id": "phase-201",
+      "lessonNumber": 1,
+      "lessonTitle": "Aula 1: Apresentação do Evento e Análise dos Laudos 1 e 2",
+      "title": "Ocorrência no Lago Azul & Hipóteses Iniciais",
+      "focus": "Evento misterioso e condições meteorológicas",
+      "duration": "45 min",
+      "documentRefs": [
+        "doc-201",
+        "doc-202"
+      ],
+      "badge": "Etapa 1: Evento Misterioso",
+      "expectedProduct": "Hipóteses iniciais sobre a mancha e a mortandade na madrugada",
+      "questions": [
         {
-          id: 'p1_q1_d2',
-          type: 'textarea',
-          label: '1. Quais foram as queixas da população de Vale Verde e que fenômeno foi observado nas águas do Lago Azul?',
-          placeholder: 'Descreva a cor da água, odor, queixas clínicas de banhistas e a mortandade de peixes...',
-          expectedHint: 'Água verde-azulada e avermelhada com odor fétido, queimação nos olhos e coceira em banhistas, e mortandade maciça de tilápias e lambaris.'
+          "id": "p1_q1_d2",
+          "type": "textarea",
+          "label": "1. A cor verde-azulada e avermelhada da mancha na superfície do Lago Azul identifica com certeza qual é o organismo responsável? Por que observações visuais isoladas são insuficientes para determinar a causa?",
+          "placeholder": "Discuta sobre a aparência visual das águas, pigmentos de cianobactérias, algas e a necessidade de identificação laboratorial microscópica...",
+          "expectedHint": "A coloração verde-azulada ou avermelhada indica alta concentração de pigmentos fotossintetizantes, mas diferentes organismos (cianobactérias, microalgas verdes, dinoflagelados ou euglenófitas) podem gerar tons parecidos. Observações visuais registram o fenômeno, mas não identificam gêneros nem confirmam se há produção de toxina."
         },
         {
-          id: 'p1_q2_d2',
-          type: 'textarea',
-          label: '2. Por que os peixes foram vistos boquejando na superfície especificamente no final da madrugada?',
-          placeholder: 'Pense na relação entre luz solar, fotossíntese e respiração biológica...',
-          expectedHint: 'Durante a noite a fotossíntese para e todos os organismos aquáticos apenas respiram, consumindo o oxigênio dissolvido até níveis asfixiantes antes do nascer do sol.'
+          "id": "p1_q2_d2",
+          "type": "textarea",
+          "label": "2. O odor fétido e a presença de espuma nas margens comprovam por si sós que há produção de toxinas letais dissolvidas na água?",
+          "placeholder": "Diferencie a decomposição de matéria orgânica de substâncias químicas tóxicas ativas...",
+          "expectedHint": "O odor intenso e a espuma decorrem frequentemente da decomposição de matéria orgânica acumulada e liberação de gases (como sulfetos e amônia), não comprovando por si sós a presença de cianotoxinas específicas como a microcistina."
         },
         {
-          id: 'p1_q3_d2',
-          type: 'dual_hypothesis',
-          label: '3. Formule duas hipóteses iniciais para explicar o florescimento e a morte da fauna:',
-          fields: [
-            { key: 'hip_a_d2', label: 'Hipótese A (Química/Nutrientes):', placeholder: 'Ex: A proliferação foi provocada pelo excesso de nutrientes como fósforo vindo de...' },
-            { key: 'hip_b_d2', label: 'Hipótese B (Clima/Tóxica):', placeholder: 'Ex: A mortandade foi acelerada pela onda de calor extremo que gerou toxinas bacterianas...' }
+          "id": "p1_q3_d2",
+          "type": "textarea",
+          "label": "3. Por que a mortandade de alevinos e peixes adultos foi percebida especificamente entre 4h e 6h da madrugada e não ao meio-dia sob sol forte? Formule a hipótese inicial da sua equipe.",
+          "placeholder": "Elabore uma hipótese sobre o que acontece com a água durante a noite na ausência de luz solar...",
+          "expectedHint": "Durante a madrugada a água passa horas sem fotossíntese enquanto todos os seres vivos continuam respirando e microrganismos decompõem a biomassa, gerando suspeita de que o oxigênio possa ter caído a níveis mortais nesse horário."
+        },
+        {
+          "id": "p1_q4_d2",
+          "type": "textarea",
+          "label": "4. Com base no Boletim Meteorológico (Doc 2), como a combinação de calor (28°C), 18 dias de estiagem e ventos fracos influencia o ecossistema lacustre? O calor é a causa única da floração ou um fator favorável?",
+          "placeholder": "Analise o papel da temperatura na velocidade de multiplicação celular e o efeito de águas paradas na estratificação...",
+          "expectedHint": "O calor acelera o metabolismo e a divisão celular, e águas paradas sem ventos formam uma camada superficial aquecida e calma onde cianobactérias boiam. O calor não cria biomassa do nada: ele é um fator ambiental favorável que potencializa a floração se houver nutrientes prévios."
+        }
+      ],
+      "phaseNumber": 1,
+      "docsInvolved": [
+        "doc-201",
+        "doc-202"
+      ],
+      "fichas": [
+        "Laudo 1",
+        "Laudo 2"
+      ],
+      "goal": "Apresentação do evento no Lago Azul e análise preliminar dos laudos 1 e 2."
+    },
+    {
+      "id": "phase-202",
+      "lessonNumber": 2,
+      "lessonTitle": "Aula 2: Análise de Nutrientes e Fontes de Contaminação (Laudos 3 e 4)",
+      "title": "Eutrofização & Rastreamento de Nitrogênio e Fósforo",
+      "focus": "Nutrientes e fontes de contaminação",
+      "duration": "45 min",
+      "documentRefs": [
+        "doc-203",
+        "doc-204"
+      ],
+      "badge": "Etapa 2: Nutrientes & Fontes",
+      "expectedProduct": "Mapa conceitual de fontes possíveis e plano de amostragem na bacia",
+      "questions": [
+        {
+          "id": "p2_q1_d2",
+          "type": "textarea",
+          "label": "1. Compare as concentrações de fósforo total (0,31 mg/L vs 0,09 mg/L) e nitrato (1,85 mg/L vs 0,42 mg/L) entre a saída do canal e o centro do lago. O que esses dados revelam sobre o processo de eutrofização?",
+          "placeholder": "Analise o gradiente espacial de nutrientes entre o canal afluente e a área aberta da represa...",
+          "expectedHint": "A concentração muito mais alta na saída do canal demonstra que há enriquecimento artificial localizado em nutrientes (eutrofização), indicando que o canal atua como vetor direto de despejo de nitrogênio e fósforo na enseada."
+        },
+        {
+          "id": "p2_q2_d2",
+          "type": "textarea",
+          "label": "2. Qual o papel biológico do nitrogênio e do fósforo no crescimento descontrolado de cianobactérias e microalgas em águas doces continentais?",
+          "placeholder": "Explique a importância do fósforo (ATP, DNA, membranas) e nitrogênio (proteínas, clorofila)...",
+          "expectedHint": "Nitrogênio e fósforo são macronutrientes essenciais para a síntese de proteínas, ácidos nucleicos (DNA/RNA) e ATP. Em águas continentais, o fósforo costuma ser o nutriente limitante: quando introduzido em excesso, quebra o equilíbrio e deflagra explosão populacional."
+        },
+        {
+          "id": "p2_q3_d2",
+          "type": "textarea",
+          "label": "3. O Laudo 4 aponta três fontes suspeitas na bacia (área agrícola com adubo NPK, esgoto urbano clandestino e esterqueiras de animais). Os dados químicos do Laudo 3 comprovam isoladamente qual delas é a verdadeira culpada?",
+          "placeholder": "Discuta se uma análise química de nutrientes consegue identificar a origem exata do escoamento sem amostragem nos tributários...",
+          "expectedHint": "Não comprovam. O laudo químico atesta que há nitrogênio e fósforo elevados, mas todas as três fontes contêm esses elementos. Sem amostragem nos canais específicos de cada atividade, não se pode culpar uma única fonte."
+        },
+        {
+          "id": "p2_q4_d2",
+          "type": "textarea",
+          "label": "4. Proponha um plano pericial de amostragem com pontos de coleta e parâmetros adicionais para conseguir distinguir cientificamente a contribuição de cada uma das três fontes suspeitas.",
+          "placeholder": "Descreva pontos de coleta a montante e jusante de cada atividade, além de indicadores como coliformes fecais, cafeína ou fósforo particulado...",
+          "expectedHint": "Deve-se coletar amostras a montante e jusante da lavoura, do bairro e do criatório de animais, medindo coliformes fecais e traçadores de esgoto (cafeína/resíduos farmacêuticos) para esgoto humano, e sedimentos/nitrogênio orgânico para o criatório e lavouras."
+        }
+      ],
+      "phaseNumber": 2,
+      "docsInvolved": [
+        "doc-203",
+        "doc-204"
+      ],
+      "fichas": [
+        "Laudo 3",
+        "Laudo 4"
+      ],
+      "goal": "Análise de nutrientes na água e rastreamento das três fontes suspeitas na bacia."
+    },
+    {
+      "id": "phase-203",
+      "lessonNumber": 3,
+      "lessonTitle": "Aula 3: Microscopia e Identificação Taxonômica (Laudos 5 e 6)",
+      "title": "Microscopia de Fitoplâncton & Comunidades Mistas",
+      "focus": "Identificação dos organismos proliferantes",
+      "duration": "45 min",
+      "documentRefs": [
+        "doc-205",
+        "doc-206"
+      ],
+      "badge": "Etapa 3: Identificação Celular",
+      "expectedProduct": "Quadro comparativo de espécies e estruturas morfológicas",
+      "questions": [
+        {
+          "id": "p3_q1_d2",
+          "type": "textarea",
+          "label": "1. Como diferenciar cianobactérias (bactérias fotossintetizantes procariontes) de algas eucarióticas unicelulares (como clorofíceas ou dinoflagelados) sob a ótica da microscopia e citologia?",
+          "placeholder": "Destaque ausência de carioteca, ausência de cloroplastos organizados, presença de mucilagem e pigmentos ficobilinas...",
+          "expectedHint": "Cianobactérias são procariontes (não possuem núcleo delimitado por membrana nem cloroplastos individualizados, com tilacoides livres no citoplasma), além de formarem mucilagem gelatinosa e pigmentos de ficobilinas. Algas são eucariontes com núcleo visível e plastos definidos."
+        },
+        {
+          "id": "p3_q2_d2",
+          "type": "textarea",
+          "label": "2. O Laudo 5 descreve células arredondadas em colônias com mucilagem, compatíveis com Microcystis. O que significa uma identificação taxonômica preliminar em nível de gênero? Todas as linhagens de Microcystis aeruginosa produzem microcistinas?",
+          "placeholder": "Diferencie identificação de gênero da confirmação de espécie e discuta se a toxicidade é fixa em todas as linhagens...",
+          "expectedHint": "Significa que a morfologia encaixa no gênero, mas não identifica a espécie exata nem garante toxicidade. Nem toda floração é tóxica: existem linhagens de Microcystis aeruginosa que possuem os genes mcy de síntese de toxina e outras linhagens que não os possuem ou não os expressam."
+        },
+        {
+          "id": "p3_q3_d2",
+          "type": "textarea",
+          "label": "3. O Laudo 6 relata filamentos com heterócitos na região profunda do lago (compatíveis com Dolichospermum ou Aphanizomenon). O que são heterócitos e qual a importância biológica da fixação de nitrogênio nesse cenário?",
+          "placeholder": "Explique a função dos heterócitos e a enzima nitrogenase sensível ao oxigênio...",
+          "expectedHint": "Heterócitos são células especializadas de parede espessada onde a enzima nitrogenase converte N2 atmosférico gasoso em amônio. Isso permite que essas cianobactérias proliferem mesmo quando o nitrogênio dissolvido na água acaba, mantendo a floração."
+        },
+        {
+          "id": "p3_q4_d2",
+          "type": "textarea",
+          "label": "4. Elabore um quadro comparativo contrastando cianobactérias coloniais (Microcystis) e filamentosas (Dolichospermum), explicando como ambas podem coexistir na mesma represa.",
+          "placeholder": "Compare morfologia, posição na coluna de água, capacidade de flutuação por vacúolos de gás e fixação de N2...",
+          "expectedHint": "Microcystis forma colônias na superfície aproveitando luz plena e regulando flutuabilidade por vesículas de gás, enquanto Dolichospermum pode fixar N2 na camada inferior; juntas constituem uma comunidade mista com nichos ecológicos complementares."
+        }
+      ],
+      "phaseNumber": 3,
+      "docsInvolved": [
+        "doc-205",
+        "doc-206"
+      ],
+      "fichas": [
+        "Laudo 5",
+        "Laudo 6"
+      ],
+      "goal": "Microscopia óptica, citologia comparativa e caracterização de cianobactérias."
+    },
+    {
+      "id": "phase-204",
+      "lessonNumber": 4,
+      "lessonTitle": "Aula 4: Investigação de Cianotoxinas (Laudo 7)",
+      "title": "Cianotoxinas & Ensaio de Microcistina",
+      "focus": "Toxicologia ambiental e limites de segurança",
+      "duration": "45 min",
+      "documentRefs": [
+        "doc-207"
+      ],
+      "badge": "Etapa 4: Cianotoxinas",
+      "expectedProduct": "Parecer técnico sobre microcistina e necessidade de investigar o oxigênio",
+      "questions": [
+        {
+          "id": "p4_q1_d2",
+          "type": "textarea",
+          "label": "1. O que são microcistinas, qual a sua natureza química geral e qual o mecanismo molecular de toxicidade hepática em vertebrados (animais e seres humanos)?",
+          "placeholder": "Descreva peptídeos cíclicos, inibição de fosfatases proteicas celulares (PP1 e PP2A) e hemorragia hepática...",
+          "expectedHint": "São heptapeptídeos cíclicos hepatotóxicos produzidos por cianobactérias. Seu mecanismo de ação consiste na inibição potente das proteínas fosfatases 1 e 2A (PP1 e PP2A) dos hepatócitos, desestruturando o citoesqueleto e provocando hemorragia hepática aguda e choque hipovolêmico."
+        },
+        {
+          "id": "p4_q2_d2",
+          "type": "textarea",
+          "label": "2. O teste ELISA indicou 2,4 µg/L de microcistinas totais na mancha superficial do lago. Qual é a diferença metodológica entre um ensaio de triagem imunológico (ELISA) e um método confirmatório quantitativo (ex: LC-MS/MS)?",
+          "placeholder": "Diferencie triagem baseada em ligação de anticorpos de separação cromatográfica precisa com espectrometria de massa...",
+          "expectedHint": "O ELISA é um ensaio rápido de triagem baseado em anticorpos que pode acusar reações cruzadas e somar derivados semelhantes. O LC-MS/MS é um método instrumental analítico de alta especificidade que identifica e quantifica exatamente cada congênere molecular (ex: microcistina-LR)."
+        },
+        {
+          "id": "p4_q3_d2",
+          "type": "textarea",
+          "label": "3. A detecção de 2,4 µg/L de microcistina na superfície prova por si só que essa toxina foi a causa direta e fatal da morte dos peixes na madrugada?",
+          "placeholder": "Discuta vias de absorção, tempo necessário para morte por hepatotoxicidade crônica/aguda vs mortandade súbita em poucas horas...",
+          "expectedHint": "Não prova sozinha. A presença de 2,4 µg/L na água indica risco, mas peixes precisariam ingerir ou absorver doses suficientes ao longo do tempo. Mortandade súbita em massa de centenas de peixes concentrada na madrugada aponta fortemente para outro fator imediato fulminante."
+        },
+        {
+          "id": "p4_q4_d2",
+          "type": "textarea",
+          "label": "4. Por que, mesmo após confirmar a presença de toxina na água, ainda é biologicamente imprescindível investigar o oxigênio dissolvido no lago?",
+          "placeholder": "Explique que fatores ambientais interagem e que a falta de ar pode ser o agente letal agudo...",
+          "expectedHint": "Porque o estresse tóxico e a asfixia por falta de oxigênio frequentemente ocorrem juntos em corpos de água eutrofizados. A anóxia pode matar em minutos ou poucas horas, enquanto a hepatotoxicidade costuma ter curso clínico diferente."
+        }
+      ],
+      "phaseNumber": 4,
+      "docsInvolved": [
+        "doc-207"
+      ],
+      "fichas": [
+        "Laudo 7"
+      ],
+      "goal": "Investigação ecotoxicológica de microcistinas por ELISA e limites de segurança."
+    },
+    {
+      "id": "phase-205",
+      "lessonNumber": 5,
+      "lessonTitle": "Aula 5: Interpretação do Oxigênio Dissolvido e Ciclo Diário (Laudo 8)",
+      "title": "Dinâmica do Oxigênio Dissolvido & Anóxia Noturna",
+      "focus": "Variação nictemeral do oxigênio e anóxia noturna",
+      "duration": "45 min",
+      "documentRefs": [
+        "doc-208"
+      ],
+      "badge": "Etapa 5: Ciclo do Oxigênio",
+      "expectedProduct": "Gráfico e modelo explicativo do ciclo nictemeral do oxigênio",
+      "questions": [
+        {
+          "id": "p5_q1_d2",
+          "type": "textarea",
+          "label": "1. Analise os valores de oxigênio dissolvido na superfície do Lago Azul: 06h (0,8 mg/L), 10h (5,7 mg/L), 14h (14,2 mg/L), 18h (9,1 mg/L), 22h (3,0 mg/L) e 02h (1,4 mg/L). Por que o oxigênio atinge valores extremos de supersaturação (14,2 mg/L) às 14h?",
+          "placeholder": "Explique a fotossíntese acelerada sob radiação solar máxima e temperatura de 28°C...",
+          "expectedHint": "Às 14h a incidência luminosa solar e a temperatura estão no auge. A biomassa gigantesca de cianobactérias realiza fotossíntese a todo vapor, liberando grandes volumes de O2 na água muito mais rápido do que ele consegue escapar para a atmosfera."
+        },
+        {
+          "id": "p5_q2_d2",
+          "type": "textarea",
+          "label": "2. Explique detalhadamente o mecanismo que faz o oxigênio despencar vertiginosamente durante a noite até atingir níveis críticos de anóxia (0,8 mg/L na superfície e 0,3 mg/L no fundo às 06h).",
+          "placeholder": "Discuta a ausência de luz solar, a parada da fotossíntese e a respiração ininterrupta de trilhões de células e bactérias...",
+          "expectedHint": "À noite não há luz, logo a fotossíntese cessa por completo e a produção de O2 vai a zero. Entretanto, toda a massa de organismos fotossintetizantes, bactérias decompositoras e peixes continua respirando continuamente, exaurindo quase todo o oxigênio da água."
+        },
+        {
+          "id": "p5_q3_d2",
+          "type": "textarea",
+          "label": "3. Um valor alto de oxigênio medido às 14h (14,2 mg/L) descarta a ocorrência de anóxia na madrugada? Por que apresentar somente o dado das 14h atua como um distrator em avaliações ambientais?",
+          "placeholder": "Mostre como coletas em horários pontuais escondem o comportamento dinâmico de 24 horas...",
+          "expectedHint": "Não descarta em hipótese alguma. Esse é o principal distrator: uma amostra pontual vespertina esconde o colapso noturno. O ciclo nictemeral varia drasticamente e a mortalidade ocorre nas horas mais escuras."
+        },
+        {
+          "id": "p5_q4_d2",
+          "type": "textarea",
+          "label": "4. Quais são as consequências fisiológicas imediatas de níveis de oxigênio dissolvido abaixo de 1,5 mg/L para a respiração branquial e a sobrevivência dos peixes?",
+          "placeholder": "Descreva a asfixia, a incapacidade de manter o gradiente de difusão de oxigênio nas brânquias e a morte súbita...",
+          "expectedHint": "A maioria dos peixes tropicais exige pelo menos 4 a 5 mg/L de OD. Abaixo de 1,5 mg/L, o gradiente de difusão de oxigênio entre a água e o sangue branquial se inverte ou cessa, provocando asfixia aguda, respiração acelerada em vão e morte por hipóxia sistêmica."
+        }
+      ],
+      "phaseNumber": 5,
+      "docsInvolved": [
+        "doc-208"
+      ],
+      "fichas": [
+        "Laudo 8"
+      ],
+      "goal": "Interpretação da curva nictemeral de oxigênio dissolvido e anóxia noturna."
+    },
+    {
+      "id": "phase-206",
+      "lessonNumber": 6,
+      "lessonTitle": "Aula 6: Mortandade Animal e Notícia Distratora (Laudos 9 e 10)",
+      "title": "Ictiopatologia & Checagem de Notícia Falsa",
+      "focus": "Sintomas de estresse respiratório vs mitos de maré vermelha",
+      "duration": "45 min",
+      "documentRefs": [
+        "doc-209",
+        "doc-210"
+      ],
+      "badge": "Etapa 6: Ictiologia & Distrator",
+      "expectedProduct": "Análise crítica de evidências e refutação científica da maré vermelha marinha",
+      "questions": [
+        {
+          "id": "p6_q1_d2",
+          "type": "textarea",
+          "label": "1. O Laudo 9 relata movimentos operculares acelerados, bocas abertas e muco nas brânquias dos peixes mortos. Esses achados permitem diferenciar asfixia anóxica de intoxicação sistêmica por microcistinas?",
+          "placeholder": "Explique por que esses sinais branquiais são reações inespecíficas de estresse respiratório...",
+          "expectedHint": "Não permitem separar conclusivamente. Opérculos abertos, respiração à tona e muco branquial são respostas fisiológicas inespecíficas a qualquer situação de asfixia aguda (seja falta de oxigênio na água ou irritação química por cianobactérias)."
+        },
+        {
+          "id": "p6_q2_d2",
+          "type": "textarea",
+          "label": "2. O Documento 10 traz a alegação de um suposto especialista afirmando que o dinoflagelado marinho Karenia brevis causou uma maré vermelha no Lago Azul após ser transportado por aves. Com base na biologia e osmorregulação, essa afirmação tem sustentação científica?",
+          "placeholder": "Discuta a tolerância à salinidade (organismos marinhos estenohalinos não sobrevivem nem se multiplicam em água doce)...",
+          "expectedHint": "Não tem sustentação científica alguma. Karenia brevis é um dinoflagelado estritamente marinho adaptado a altas salinidades (cerca de 35 g/L de sais). Em água doce pura de represa, as células sofrem lise celular osmótica imediata por entrada massiva de água e não conseguem proliferar."
+        },
+        {
+          "id": "p6_q3_d2",
+          "type": "textarea",
+          "label": "3. O que são brevetoxinas e como se diferenciam as florações marinhas de dinoflagelados (marés vermelhas) das florações de cianobactérias em lagos continentais?",
+          "placeholder": "Diferencie toxinas neurotóxicas marinhas de hepatotoxinas de cianobactérias límnicas...",
+          "expectedHint": "Brevetoxinas são neurotoxinas lipídicas de dinoflagelados marinhos que afetam canais de sódio e aerossóis marinhos. Florações de lagos continentais são protagonizadas por cianobactérias (procariontes) que produzem hepatotoxinas (microcistinas), não devendo ser chamadas de marés vermelhas."
+        },
+        {
+          "id": "p6_q4_d2",
+          "type": "textarea",
+          "label": "4. Por que a publicação de fotos de oceanos ou declarações alarmistas sem laudos laboratoriais confunde a opinião pública e atrapalha a gestão das crises ambientais?",
+          "placeholder": "Reflita sobre fake news científicas, pânico social e desvio das causas reais de poluição local...",
+          "expectedHint": "Desvia a atenção das causas reais (poluição por esgoto e fertilizantes na bacia hidrográfica) para explicações fantasiosas incontroláveis (aves marinhas), gerando pânico infundado e retardando medidas corretivas reais de saneamento."
+        }
+      ],
+      "phaseNumber": 6,
+      "docsInvolved": [
+        "doc-209",
+        "doc-210"
+      ],
+      "fichas": [
+        "Laudo 9",
+        "Laudo 10"
+      ],
+      "goal": "Ictiopatologia branquial e refutação científica do mito de maré vermelha marinha."
+    },
+    {
+      "id": "phase-207",
+      "lessonNumber": 7,
+      "lessonTitle": "Aula 7: Sedimentos, Decomposição e Cadeia Causal (Laudo 11)",
+      "title": "Decomposição Bêntica & Cadeia Causal",
+      "focus": "Papel do sedimento de fundo e encadeamento lógico",
+      "duration": "45 min",
+      "documentRefs": [
+        "doc-211"
+      ],
+      "badge": "Etapa 7: Modelo Causal",
+      "expectedProduct": "Construção da sequência causal completa numerando os 6 eventos lógicos",
+      "questions": [
+        {
+          "id": "p7_q1_d2",
+          "type": "textarea",
+          "label": "1. De que maneira o acúmulo de matéria orgânica no fundo do lago e a intensa atividade de microrganismos decompositores ampliam o déficit de oxigênio dissolvido?",
+          "placeholder": "Explique a oxidação bacteriana heterotrófica da biomassa e a demanda bioquímica de oxigênio (DBO)...",
+          "expectedHint": "As cianobactérias têm ciclo de vida curto; à medida que morrem, afundam no lodo. Bilhões de bactérias e fungos decompositores consomem vorazmente o oxigênio para quebrar essa matéria orgânica (alta DBO), criando um fundo anóxico permanente."
+        },
+        {
+          "id": "p7_q2_d2",
+          "type": "textarea",
+          "label": "2. O que é a liberação interna de compostos do sedimento (internal loading) sob condições de anóxia e altas temperaturas em reservatórios?",
+          "placeholder": "Explique como a falta de oxigênio no lodo libera fósforo ligado a ferro para a coluna de água...",
+          "expectedHint": "Sob condições anóxicas e temperatura elevada, o ferro do sedimento se reduz e libera o fósforo que estava aprisionado nos complexos minerais. Esse fósforo sobe para a superfície e alimenta novas florações, mesmo se a entrada externa for estancada."
+        },
+        {
+          "id": "p7_q3_d2",
+          "type": "textarea",
+          "label": "3. Construa a sequência lógica completa da crise numerando e descrevendo os 6 eventos causais fundamentais do Modelo Causal da investigação.",
+          "placeholder": "1. Entrada de N e P -> 2. Eutrofização -> 3. Floração -> 4. Variação diária do oxigênio -> 5. Hipóxia/Anóxia -> 6. Estresse e mortandade...",
+          "expectedHint": "1) Entrada excessiva de N e P na bacia; 2) Eutrofização artificial do lago; 3) Floração massiva de cianobactérias; 4) Variação diária de oxigênio (supersaturação de dia, colapso de noite); 5) Anóxia noturna severa (0,8 mg/L); 6) Estresse respiratório agudo e mortandade dos peixes na madrugada."
+        },
+        {
+          "id": "p7_q4_d2",
+          "type": "textarea",
+          "label": "4. Relacione quais documentos da investigação comprovam cientificamente cada uma das etapas do modelo causal que sua equipe estruturou.",
+          "placeholder": "Indique os documentos que provam nutrientes (Laudo 3), colônias (Laudo 5), toxina (Laudo 7), anóxia (Laudo 8)...",
+          "expectedHint": "Etapa 1 e 2 comprovadas pelos Laudos 3 e 4; Etapa 3 comprovada pelos Laudos 5 e 6; Etapa 4 e 5 comprovadas pelos Laudos 8 e 11; Etapa 6 comprovada pelos Laudos 7, 8, 9 e 12."
+        }
+      ],
+      "phaseNumber": 7,
+      "docsInvolved": [
+        "doc-211"
+      ],
+      "fichas": [
+        "Laudo 11"
+      ],
+      "goal": "Decomposição bêntica e estruturação dos 6 eventos lógicos do Modelo Causal."
+    },
+    {
+      "id": "phase-208",
+      "lessonNumber": 8,
+      "lessonTitle": "Aula 8: Integração Técnica dos Resultados Periciais (Documento 12)",
+      "title": "Integração Pericial & Redação do Parecer Técnico",
+      "focus": "Confronto de hipóteses e redação estruturada",
+      "duration": "45 min",
+      "documentRefs": [
+        "doc-212"
+      ],
+      "badge": "Etapa 8: Parecer Técnico",
+      "expectedProduct": "Minuta do Parecer Técnico Pericial oficial contendo os 8 itens obrigatórios",
+      "questions": [
+        {
+          "id": "p8_q1_d2",
+          "type": "textarea",
+          "label": "1. O Documento 12 confirmou a presença de microcistina-LR por LC-MS/MS e confirmou anóxia noturna severa. Como sua equipe pondera a contribuição relativa de cada um desses dois fatores na mortandade de peixes?",
+          "placeholder": "Analise a ação fulminante da anóxia na madrugada vs o efeito debilitante da cianotoxina...",
+          "expectedHint": "A anóxia noturna severa (0,8 mg/L) atuou como causa imediata direta e determinante da asfixia, pois os peixes morreram repentinamente na madrugada. A microcistina-LR exerceu contribuição adicional ou debilitante prévia, configurando letalidade por ação sinérgica."
+        },
+        {
+          "id": "p8_q2_d2",
+          "type": "textarea",
+          "label": "2. Com base na análise integrada, a crise no Lago Azul decorreu de um único poluente de uma única empresa/lavoura ou da ação sinérgica de múltiplos fatores ambientais e antrópicos na bacia hidrográfica?",
+          "placeholder": "Destaque a multicausalidade: esgoto urbano, adubação de solo exposto, dejetos e onda de calor histórica...",
+          "expectedHint": "A crise é de natureza multifatorial: esgoto residencial com fósforo, drenagem agrícola com fertilizantes, dejetos animais e lodo de fundo interagiram com uma onda de calor de 28°C e calmaria para deflagrar o desastre."
+        },
+        {
+          "id": "p8_q3_d2",
+          "type": "textarea",
+          "label": "3. Redija o Parecer Técnico Pericial da sua equipe cobrindo os 8 itens obrigatórios: 1) identificação dos organismos; 2) eutrofização e fontes; 3) ciclo do oxigênio; 4) resultado de microcistina; 5) hipóxia vs intoxicação; 6) cianobactérias vs maré vermelha; 7) plano de mitigação; 8) limitações.",
+          "placeholder": "Estruture o parecer em tópicos claros, objetivos e fundamentados cientificamente nos 12 laudos...",
+          "expectedHint": "O parecer deve consolidar cianobactérias (Microcystis/Dolichospermum), eutrofização mista pelo canal, anóxia de madrugada (0,8 mg/L), microcistina de 2,1 µg/L, desmistificação de Karenia brevis marinha, e ações como aeração noturna e reflorestamento ciliar."
+        },
+        {
+          "id": "p8_q4_d2",
+          "type": "textarea",
+          "label": "4. Responda conclusivamente à Questão Final Investigativa: A mortandade de peixes no Lago Azul foi causada por uma toxina produzida pelas cianobactérias, pela redução noturna do oxigênio dissolvido ou pela combinação dos dois fenômenos? Que evidências sustentam a conclusão e o que ainda precisaria ser investigado?",
+          "placeholder": "Formule a tese conclusiva da equipe confrontando todas as evidências analisadas...",
+          "expectedHint": "A mortandade foi provocada primariamente pela asfixia aguda por anóxia noturna combinada com a toxicidade das microcistinas. A evidência sustentadora chave é o horário das mortes (madrugada com 0,8 mg/L de OD), confirmada pela presença de microcistina e muco branquial."
+        }
+      ],
+      "phaseNumber": 8,
+      "docsInvolved": [
+        "doc-212"
+      ],
+      "fichas": [
+        "Laudo 12"
+      ],
+      "goal": "Integração analítica por LC-MS/MS e redação oficial do Parecer Técnico Pericial."
+    },
+    {
+      "id": "phase-209",
+      "lessonNumber": 9,
+      "lessonTitle": "Aula 9: Apresentação Pericial, Defesa Científica e Autoavaliação",
+      "title": "Conferência Científica & Avaliação Formativa",
+      "focus": "Apresentação oral, argumentação fundamentada e metacognição",
+      "duration": "45 min",
+      "documentRefs": [
+        "doc-201",
+        "doc-212"
+      ],
+      "badge": "Etapa 9: Defesa & Rubrica",
+      "expectedProduct": "Defesa científica oral perante a turma e autoavaliação formativa de competências",
+      "questions": [
+        {
+          "id": "p9_q1_d2",
+          "type": "textarea",
+          "label": "1. Apresentação Pericial e Defesa Oral: Sintetize o discurso de 3 minutos da sua equipe para convencer a comunidade e as autoridades sobre as causas reais do evento no Lago Azul, refutando com argumentos técnicos os boatos sobre Karenia brevis.",
+          "placeholder": "Escreva a fala de abertura da equipe defendendo a verdade científica com base nos laudos...",
+          "expectedHint": "O discurso deve explicar que o lago sofreu eutrofização por esgoto e lavouras, gerando cianobactérias de água doce que esgotaram o oxigênio na madrugada, desmentindo categoricamente a hipótese de dinoflagelados marinhos."
+        },
+        {
+          "id": "p9_q2_d2",
+          "type": "checklist",
+          "label": "2. Rubrica de Autoavaliação e Competências da 1ª Série do Ensino Médio (BNCC):",
+          "options": [
+            "Diferenciei conceitos de eutrofização, cianobactérias, microalgas e anóxia noturna",
+            "Compreendi o paradoxo nictemeral do oxigênio dissolvido (supersaturação diurna vs anóxia noturna)",
+            "Diferenciei cianobactérias límnicas de água doce de marés vermelhas marinhas por dinoflagelados",
+            "Avaliei os laudos toxicológicos de microcistina sem aceitar conclusões precipitadas de causa única",
+            "Identifiquei as estruturas de colônias e filamentos com heterócitos no microscópio",
+            "Construí a sequência do Modelo Causal de 6 etapas interligando a bacia ao lago",
+            "Redigi o Parecer Técnico Pericial cumprindo os 8 itens obrigatórios com rigor científico",
+            "Colaborei ativamente, ouvindo e respeitando os argumentos dos meus colegas de equipe"
           ]
         },
         {
-          id: 'p1_q4_d2',
-          type: 'textarea',
-          label: '4. É cientificamente correto culpar apenas uma fazenda ou apenas a estação de esgoto logo no primeiro dia? Justifique.',
-          placeholder: 'Lembre-se do método científico: investigar antes de concluir...',
-          expectedHint: 'Não. É uma correlação precipitada. Bacias hidrográficas recebem efluentes urbanos e agrícolas múltiplos que precisam ser medidos antes de apontar culpados.'
+          "id": "p9_q3_d2",
+          "type": "textarea",
+          "label": "3. Reflexão Metacognitiva Final: Por que o controle da poluição hídrica e das florações de cianobactérias exige gestão integrada de toda a bacia hidrográfica e não intervenções isoladas no espelho de água?",
+          "placeholder": "Conclua sobre a interconexão de rios, cidades, lavouras e reservatórios...",
+          "expectedHint": "Porque o lago é o receptor final de tudo o que ocorre na bacia hidrográfica: de nada adianta aplicar saneantes no espelho de água se as nascentes e afluentes continuarem recebendo esgoto e enxurradas com fertilizantes. A gestão ecológica deve ser sistêmica."
         }
-      ]
-    },
-    {
-      phaseNumber: 2,
-      lessonTitle: 'Aula 2: Fontes de Nutrientes: Esgoto Urbano vs Adubação NPK',
-      fichas: ['Ficha 3'],
-      badge: 'Fase 2: As Fontes de Nutrientes',
-      duration: '45 minutos',
-      goal: 'Investigar a contribuição do esgoto doméstico com detergentes e do escoamento agrícola de fertilizantes solúveis.',
-      docsInvolved: ['doc-203', 'doc-204'],
-      questions: [
-        {
-          id: 'p2_q1_d2',
-          type: 'textarea',
-          label: '1. O que a fiscalização agropecuária constatou nas lavouras do Córrego das Tabocas após os temporais?',
-          placeholder: 'Analise o Documento 3 sobre o arraste de adubo NPK e ausência de faixas ripárias...',
-          expectedHint: 'Fortes chuvas lavaram lavouras com excesso de adubação mineral NPK e esterco, descarregando enxurradas com nitrogênio e fósforo no afluente.'
-        },
-        {
-          id: 'p2_q2_d2',
-          type: 'textarea',
-          label: '2. Qual limitação operacional da Estação de Tratamento de Esgoto (ETE) foi revelada na auditoria do Documento 4?',
-          placeholder: 'A ETE remove fósforo? Qual a sua capacidade de atendimento?...',
-          expectedHint: 'A ETE operava 38% acima da capacidade e seu processo de lodos ativados secundários não possui tratamento terciário para remoção de fósforo e detergentes.'
-        },
-        {
-          id: 'p2_q3_d2',
-          type: 'select_concept',
-          label: '3. Qual a diferença entre fonte pontual e fonte difusa de poluição na bacia?',
-          options: [
-            'A ETE é fonte pontual (lançamento localizado por tubulação) e as lavouras são fonte difusa (escoamento espalhado pelas chuvas).',
-            'Ambas são fontes pontuais porque ocorrem no mesmo município.',
-            'A agricultura é fonte pontual e o esgoto é fonte natural sem impacto biológico.'
-          ],
-          correctIdx: 0
-        }
-      ]
-    },
-    {
-      phaseNumber: 3,
-      lessonTitle: 'Aula 3: Efeito do Clima e Estagnação Límnica',
-      fichas: ['Ficha 4'],
-      badge: 'Fase 3: O Reator Térmico',
-      duration: '45 minutos',
-      goal: 'Compreender como temperaturas extremas e ausência de ventos alteram a física e a química das águas e favorecem cianobactérias.',
-      docsInvolved: ['doc-205', 'doc-206'],
-      questions: [
-        {
-          id: 'p3_q1_d2',
-          type: 'textarea',
-          label: '1. De acordo com o Artigo Científico (Doc 5), por que o fósforo é chamado de "nutriente limitante" em águas doces?',
-          placeholder: 'Explique o princípio ecológico da limitação por nutrientes...',
-          expectedHint: 'Porque o fósforo é o elemento menos abundante naturalmente em relação à demanda biológica. Quando fornecido em excesso, destrava o crescimento exponencial das algas.'
-        },
-        {
-          id: 'p3_q2_d2',
-          type: 'textarea',
-          label: '2. Que vantagem adaptativa as cianobactérias possuem em relação às microalgas verdes comuns em águas quentes e calmas?',
-          placeholder: 'Considere as vesículas gasosas (aerótopos) e a flutuabilidade...',
-          expectedHint: 'Possuem vesículas gasosas internas que lhes permitem flutuar até a superfície para absorver luz máxima, sombreando as outras espécies e proliferando velozmente.'
-        },
-        {
-          id: 'p3_q3_d2',
-          type: 'checkbox_group',
-          label: '3. Quais efeitos a onda de calor de 35°C (Doc 6) produziu nas águas do Lago Azul?',
-          options: [
-            { text: 'Aquecimento da água para 29,4°C, acelerando as taxas de divisão celular', correct: true },
-            { text: 'Diminuição da solubilidade física do oxigênio dissolvido na água quente', correct: true },
-            { text: 'Estratificação térmica e estagnação por ausência de ventos', correct: true },
-            { text: 'Congelamento instantâneo do fundo do lago', correct: false }
-          ]
-        }
-      ]
-    },
-    {
-      phaseNumber: 4,
-      lessonTitle: 'Aula 4: Monitoramento Físico-Químico em 5 Estações',
-      fichas: ['Ficha 5'],
-      badge: 'Fase 4: Mapeamento Espacial',
-      duration: '45 minutos',
-      goal: 'Analisar o laudo oficial dos 5 pontos do sistema hidrográfico e comparar as concentrações de Fósforo Total e DBO.',
-      docsInvolved: ['doc-207'],
-      questions: [
-        {
-          id: 'p4_q1_d2',
-          type: 'chart_builder',
-          label: '1. Gráfico de Fósforo Total nas 5 Estações de Monitoramento (mg/L):',
-          chartType: 'bar',
-          dataPoints: [
-            { point: 'Ponto 1 (Controle Mata Ciliar)', value: 0.02, color: '#10b981' },
-            { point: 'Ponto 2 (Efluente ETE Urbana)', value: 0.38, color: '#3b82f6' },
-            { point: 'Ponto 3 (Agrícola NPK Tabocas)', value: 0.31, color: '#f59e0b' },
-            { point: 'Ponto 4 (Braço do Lago Azul)', value: 0.48, color: '#ef4444' },
-            { point: 'Ponto 5 (Foz / Saída do Lago)', value: 0.22, color: '#8b5cf6' }
-          ]
-        },
-        {
-          id: 'p4_q2_d2',
-          type: 'textarea',
-          label: '2. Compare o valor de Fósforo no Ponto 1 (0,02 mg/L) com o Ponto 4 (0,48 mg/L). Quantas vezes a concentração aumentou?',
-          placeholder: 'Realize o cálculo: 0,48 dividido por 0,02...',
-          expectedHint: 'Aumentou 24 vezes! Mostra uma carga maciça recebida ao longo do percurso urbano e rural.'
-        },
-        {
-          id: 'p4_q3_d2',
-          type: 'textarea',
-          label: '3. No Ponto 4, o oxigênio dissolvido foi de 10,8 mg/L às 14h, mas desabou para 1,1 mg/L às 04h. Explique essa contradição diurna/noturna.',
-          placeholder: 'Ligue fotossíntese de dia com respiração celular e decomposição bacteriana à noite...',
-          expectedHint: 'De dia a densa massa algal faz fotossíntese sob sol forte gerando supersaturação de O2. À noite, sem luz, todas as células respiram e bactérias decompõem matéria orgânica, zerando o oxigênio disponível.'
-        }
-      ]
-    },
-    {
-      phaseNumber: 5,
-      lessonTitle: 'Aula 5: Microscopia Óptica de Fitoplâncton & Necrópsia Animal',
-      fichas: ['Ficha 6'],
-      badge: 'Fase 5: Microscopia e Patologia',
-      duration: '45 minutos',
-      goal: 'Inspecionar as lâminas virtuais de cianobactérias e a histologia branquial dos peixes asfixiados.',
-      docsInvolved: ['doc-208', 'doc-209'],
-      questions: [
-        {
-          id: 'p5_q1_d2',
-          type: 'microscope_task',
-          label: '1. Atividade no Microscópio Virtual: Inspecione a Amostra do Bloom e a Lâmina Histológica dos Peixes',
-          instruction: 'Acesse o Microscópio Virtual, calibre o foco fino, observe as colônias de Microcystis e o corte das brânquias com muco espesso, e capture a foto pericial.'
-        },
-        {
-          id: 'p5_q2_d2',
-          type: 'textarea',
-          label: '2. A contagem celular de Microcystis atingiu 85.000 cél/mL. Qual o limite estabelecido pelo CONAMA e o que isso significa para a população?',
-          placeholder: 'Consulte o Documento 8 sobre a Resolução CONAMA...',
-          expectedHint: 'O limite do CONAMA é 20.000 cél/mL. A contagem foi mais de 4 vezes superior, indicando perigo crítico de intoxicação por contato primário e captação de água.'
-        },
-        {
-          id: 'p5_q3_d2',
-          type: 'textarea',
-          label: '3. A necrópsia do Documento 9 revelou duas causas simultâneas para a morte dos peixes. Quais foram elas?',
-          placeholder: 'Identifique o que ocorreu nas brânquias e o que ocorreu no fígado...',
-          expectedHint: 'Asfixia mecânica aguda por anóxia noturna (OD = 1,1 mg/L) e hemorragia/necrose hepática provocada pela toxina microcistina.'
-        }
-      ]
-    },
-    {
-      phaseNumber: 6,
-      lessonTitle: 'Aula 6: Hepatotoxinas & O Alerta Sanitário de Microcistinas',
-      fichas: ['Ficha 7'],
-      badge: 'Fase 6: Alerta Toxicológico',
-      duration: '45 minutos',
-      goal: 'Analisar o laudo imunológico ELISA, comparar os valores de microcistina com os padrões do Ministério da Saúde e entender o risco à saúde pública.',
-      docsInvolved: ['doc-210'],
-      questions: [
-        {
-          id: 'p6_q1_d2',
-          type: 'textarea',
-          label: '1. Qual foi a concentração de Microcistina-LR detectada no ensaio ELISA e qual o teto legal estabelecido pelo Ministério da Saúde?',
-          placeholder: 'Consulte o Documento 10...',
-          expectedHint: 'Concentração de 4,8 µg/L, superando quase 5 vezes o limite máximo permitido pelo Ministério da Saúde para consumo humano (1,0 µg/L).'
-        },
-        {
-          id: 'p6_q2_d2',
-          type: 'checkbox_group',
-          label: '2. Por que ferver a água da torneira NÃO elimina as microcistinas?',
-          options: [
-            { text: 'Microcistinas são toxinas peptídicas termoestáveis que não se degradam com fervura doméstica comum', correct: true },
-            { text: 'A fervura concentra as toxinas ao evaporar parte da água líquida', correct: true },
-            { text: 'Ferver a água transforma as toxinas em oxigênio puro', correct: false },
-            { text: 'Apenas processos avançados de oxidação ou adsorção em carvão ativado removem a toxina', correct: true }
-          ]
-        },
-        {
-          id: 'p6_q3_d2',
-          type: 'textarea',
-          label: '3. Quais medidas de precaução a Secretaria de Saúde adotou acertadamente para proteger os cidadãos?',
-          placeholder: 'Identifique as ações no Documento 10...',
-          expectedHint: 'Suspensão imediata da captação de água para a rede potável e interdição completa de banho, pesca e recreação na represa.'
-        }
-      ]
-    },
-    {
-      phaseNumber: 7,
-      lessonTitle: 'Aula 7: Carga Interna do Sedimento & Eficácia da Intervenção',
-      fichas: ['Ficha 8'],
-      badge: 'Fase 7: Matriz de Evidências',
-      duration: '45 minutos',
-      goal: 'Analisar o papel do lodo anaeróbio do fundo, calcular a redução percentual pós-intervenção e preencher a Matriz de Evidências.',
-      docsInvolved: ['doc-211', 'doc-212'],
-      questions: [
-        {
-          id: 'p7_q1_d2',
-          type: 'calc',
-          label: '1. Cálculo da Redução Percentual na Densidade de Microcystis (Doc 12):',
-          formula: 'Redução % = ((Valor Inicial - Valor Final) / Valor Inicial) * 100',
-          initialVal: 85000,
-          finalVal: 30600,
-          stepCalculation: '((85.000 - 30.600) / 85.000) * 100 = (54.400 / 85.000) * 100 = 64,0%',
-          result: '64,0%'
-        },
-        {
-          id: 'p7_q2_d2',
-          type: 'evidence_matrix',
-          label: '2. Matriz de Evidências Científicas do Desafio 02 (Classifique: F = Favorece | E = Enfraquece | I = Inconclusivo):',
-          hypotheses: [
-            'Esgoto Urbano e ETE',
-            'Adubação Agrícola NPK',
-            'Onda de Calor e Clima',
-            'Carga Interna do Lodo',
-            'Origem Exclusivamente Natural',
-            'Causa Multicausal Integrada'
-          ],
-          rows: [
-            { docId: 'doc-201', docTitle: '1. Alerta Verde no Lago', defaults: ['I', 'I', 'F', 'I', 'I', 'F'] },
-            { docId: 'doc-202', docTitle: '2. Mortandade de Peixes', defaults: ['I', 'I', 'I', 'I', 'I', 'F'] },
-            { docId: 'doc-203', docTitle: '3. Arraste de Adubo NPK', defaults: ['I', 'F', 'I', 'I', 'E', 'F'] },
-            { docId: 'doc-204', docTitle: '4. Fósforo da ETE Municipal', defaults: ['F', 'I', 'I', 'I', 'E', 'F'] },
-            { docId: 'doc-205', docTitle: '5. Mecânica do Fósforo', defaults: ['F', 'F', 'I', 'I', 'I', 'F'] },
-            { docId: 'doc-206', docTitle: '6. Onda de Calor (35°C)', defaults: ['I', 'I', 'F', 'I', 'I', 'F'] },
-            { docId: 'doc-207', docTitle: '7. Laudo das 5 Estações', defaults: ['F', 'F', 'I', 'I', 'E', 'F'] },
-            { docId: 'doc-208', docTitle: '8. Microcystis (85 mil)', defaults: ['I', 'I', 'F', 'I', 'I', 'F'] },
-            { docId: 'doc-209', docTitle: '9. Necrópsia Brânquias/Fígado', defaults: ['I', 'I', 'I', 'I', 'I', 'F'] },
-            { docId: 'doc-210', docTitle: '10. ELISA Microcistina (4,8)', defaults: ['I', 'I', 'I', 'I', 'I', 'F'] },
-            { docId: 'doc-211', docTitle: '11. Carga Interna do Sedimento', defaults: ['I', 'I', 'F', 'F', 'E', 'F'] },
-            { docId: 'doc-212', docTitle: '12. Eficácia da Intervenção (64%)', defaults: ['F', 'F', 'I', 'F', 'E', 'F'] }
-          ]
-        },
-        {
-          id: 'p7_q3_d2',
-          type: 'textarea',
-          label: '3. A redução de 64% na contagem e a recuperação do oxigênio para 5,4 mg/L provam que apenas uma fonte era culpada?',
-          placeholder: 'Sintetize a interação entre esgoto, lavouras e calor...',
-          expectedHint: 'Não. Provam que controlar o fósforo e oxigenar o lago conteve o colapso, mas a carga de fósforo veio tanto da ETE urbana quanto da enxurrada agrícola somada à liberação do sedimento.'
-        }
-      ]
-    },
-    {
-      phaseNumber: 8,
-      lessonTitle: 'Aula 8: Síntese Conclusiva & Plano de Gestão da Bacia',
-      fichas: ['Ficha 9'],
-      badge: 'Fase 8: Plano de Ação',
-      duration: '45 minutos',
-      goal: 'Redigir o laudo de diagnóstico final fundamentado em evidências empíricas e propor o Plano de Recuperação Límnica de Vale Verde.',
-      docsInvolved: ['doc-201', 'doc-207', 'doc-212'],
-      questions: [
-        {
-          id: 'p8_q1_d2',
-          type: 'textarea',
-          label: '1. Conclusão Pericial da Equipe: Qual foi a cadeia de causas comprovada que gerou a floração tóxica e a mortandade de peixes?',
-          placeholder: 'Estruture: Aporte de fósforo (ETE + adubos) -> onda de calor -> floração de Microcystis -> anóxia noturna e toxina microcistina -> mortandade...',
-          expectedHint: 'O evento foi multicausal: sobrecarga de fósforo pela ETE (esgoto) e lavagem de fertilizantes NPK, potencializados por onda de calor e calmaria, disparando bloom de Microcystis (85 mil cél/mL) que produziu anóxia noturna severa (1,1 mg/L) e liberação de microcistina tóxica.'
-        },
-        {
-          id: 'p8_q2_d2',
-          type: 'textarea',
-          label: '2. Qual aspecto da investigação gerou maior aprendizado ou quebrou uma ideia preconcebida da equipe?',
-          placeholder: 'Pense no ciclo noturno do oxigênio ou no papel do sedimento de fundo...',
-          expectedHint: 'A compreensão de que a floração gera oxigênio de dia mas mata por asfixia à noite, ou que o próprio lodo acumulado no fundo pode liberar fósforo mesmo sem chuva recente.'
-        },
-        {
-          id: 'p8_q3_d2',
-          type: 'intervention_plan',
-          label: '3. Plano de Recuperação Límnica Sustentável de Vale Verde:',
-          fields: [
-            { key: 'plan_d2_name', label: 'Nome do Projeto:', placeholder: 'Ex: Projeto Lago Vivo & Bacia Saudável' },
-            { key: 'plan_d2_target', label: 'Fontes Prioritárias:', placeholder: 'Ex: Tratamento terciário na ETE, recomposição de mata ciliar agrícola e aeração noturna' },
-            { key: 'plan_d2_action', label: 'Medidas Técnicas e Sociais:', placeholder: 'Descreva a precipitação de fósforo na ETE, exigência de curvas de nível nas lavouras e bio-remediação do sedimento...' },
-            { key: 'plan_d2_indicator', label: 'Indicador de Sucesso:', placeholder: 'Ex: Fósforo total < 0,05 mg/L, Microcystis < 10.000 cél/mL e oxigênio noturno > 5,0 mg/L em 12 meses' }
-          ]
-        }
-      ]
-    },
-    {
-      phaseNumber: 9,
-      lessonTitle: 'Aula 9: Conferência Científica & Autoavaliação da Turma',
-      fichas: ['Ficha 10', 'Ficha 11'],
-      badge: 'Fase 9: Conferência Final',
-      duration: '45 minutos',
-      goal: 'Preparar a defesa oral dos resultados da equipe para os gestores municipais e realizar a autoavaliação metacognitiva.',
-      docsInvolved: [],
-      questions: [
-        {
-          id: 'p9_q1_d2',
-          type: 'presentation_prep',
-          label: '1. Roteiro Sintético de Apresentação da Equipe (Conferência Científica):',
-          fields: [
-            { key: 'prep_d2_problem', label: 'O Problema Central:', placeholder: 'Resuma o colapso do Lago Azul em 2 frases...' },
-            { key: 'prep_d2_evidence', label: 'Evidência Mais Forte:', placeholder: 'Qual dado numérico (fósforo, ELISA, contagem celular) foi mais decisivo?' },
-            { key: 'prep_d2_solution', label: 'Proposta aos Cidadãos:', placeholder: 'Qual medida de intervenção garantirá água limpa e segura?' }
-          ]
-        },
-        {
-          id: 'p9_q2_d2',
-          type: 'self_assessment_rubric',
-          label: '2. Autoavaliação Individual do Pesquisador Límnico:',
-          criteria: [
-            'Diferenciei conceitos de eutrofização, cianobactérias e anóxia noturna',
-            'Analisei tabelas de qualidade da água sem aceitar culpados únicos prematuros',
-            'Compreendi a diferença entre fontes pontuais (ETE) e difusas (agricultura)',
-            'Identifiquei as alterações patológicas e morfológicas no microscópio',
-            'Calculei a taxa de redução percentual (64,0%) com exatidão',
-            'Preenchi a Matriz de Evidências com rigor lógico',
-            'Colaborei respeitosamente e ativamente com meus colegas de equipe',
-            'Ajudei a fundamentar o plano de recuperação sustentável da bacia'
-          ]
-        },
-        {
-          id: 'p9_q3_d2',
-          type: 'textarea',
-          label: '3. Reflexão Metacognitiva Final: Por que o controle da poluição hídrica exige atuação integrada em toda a bacia e não apenas no lago?',
-          placeholder: 'Conclua sobre a interconexão de rios, cidades, lavouras e reservatórios...',
-          expectedHint: 'Porque o lago é o receptor final de tudo o que ocorre na bacia hidrográfica: de nada adianta tratar as águas do reservatório se os afluentes continuarem recebendo esgoto sem remoção de fósforo e enxurradas com fertilizantes.'
-        }
-      ]
+      ],
+      "phaseNumber": 9,
+      "docsInvolved": [
+        "doc-201",
+        "doc-212"
+      ],
+      "fichas": [
+        "Parecer Técnico",
+        "Rubrica"
+      ],
+      "goal": "Apresentação oral para a turma e rubrica formativa de autoavaliação."
     }
   ],
-  slides: [
+  "slides": [
     {
-      id: 'slide_d2_1',
-      code: 'LÂMINA D2-01',
-      title: 'Lâmina D2-01: Fitoplâncton do Lago Azul (Floração de Microcystis)',
-      location: 'Lago Azul - Estação Ponto 4',
-      category: 'Arquivo Técnico Límnico',
-      src: 'assets/slides/laminas_slide1.bmp',
-      thumb: 'assets/slides/laminas_slide1.bmp',
-      count: '85.000 células/mL (Dominância de Microcystis)',
-      typeText: 'Triagem fitoplanctônica e colônias com mucilagem',
-      description: 'Amostra límnica colhida no ápice da floração. Revela densas colônias celulares de cianobactérias produtoras de hepatotoxinas.',
-      scaleMicronsPerPixel: 0.15,
-      uvFluorescence: true
+      "id": "slide_d2_1",
+      "code": "LÂMINA D2-01",
+      "title": "Lâmina D2-01: Fitoplâncton do Lago Azul (Colônias de Microcystis e Filamentos)",
+      "location": "Lago Azul - Enseada da Floração",
+      "category": "Arquivo Técnico Límnico",
+      "src": "assets/slides/laminas_slide1.bmp",
+      "thumb": "assets/slides/laminas_slide1.bmp",
+      "count": "85.000 células/mL (Dominância de cianobactérias)",
+      "typeText": "Triagem fitoplanctônica e colônias com mucilagem",
+      "description": "Amostra límnica colhida na mancha superficial. Revela densas colônias arredondadas de Microcystis e filamentos com heterócitos.",
+      "scaleMicronsPerPixel": 0.15,
+      "uvFluorescence": true
     },
     {
-      id: 'slide_d2_2',
-      code: 'LÂMINA D2-02',
-      title: 'Lâmina D2-02: Ictiopatologia Branquial e Hepática',
-      location: 'Laboratório de Ecotoxicologia e Necrópsia',
-      category: 'Arquivo Técnico Límnico',
-      src: 'assets/slides/histopatologia_peixe.jpg',
-      thumb: 'assets/slides/histopatologia_peixe.jpg',
-      count: 'Corte Histológico (H&E, 400x)',
-      typeText: 'Hiperplasia branquial obstrutiva e congestão hepática',
-      description: 'Lâmina histopatológica do tecido branquial e hepático dos espécimes mortos, demonstrando lesões por asfixia anóxica e ação de microcistinas.',
-      scaleMicronsPerPixel: 0.15,
-      uvFluorescence: true
+      "id": "slide_d2_2",
+      "code": "LÂMINA D2-02",
+      "title": "Lâmina D2-02: Ictiopatologia Branquial (Estresse Respiratório e Muco)",
+      "location": "Laboratório de Ecotoxicologia e Necrópsia",
+      "category": "Arquivo Técnico Límnico",
+      "src": "assets/slides/histopatologia_peixe.jpg",
+      "thumb": "assets/slides/histopatologia_peixe.jpg",
+      "count": "Corte Histológico Branquial (H&E, 400x)",
+      "typeText": "Fusão lamelar branquial e hipersecreção mucosa",
+      "description": "Lâmina histológica do tecido branquial dos espécimes mortos, demonstrando lesões por asfixia decorrente de anóxia noturna aguda e irritação por cianobactérias.",
+      "scaleMicronsPerPixel": 0.15,
+      "uvFluorescence": true
     }
   ],
-  teacherGuide: {
-    title: 'Orientações Pedagógicas para o Docente • Desafio 02: Floração Vermelha em Vale Verde',
-    warning: 'Conteúdo restrito ao professor: diretrizes didáticas, objetivos BNCC e gabarito orientador para a 1ª Série do Ensino Médio.',
-    pedagogicalGoals: [
-      'Alinhamento com a BNCC da 1ª Série do Ensino Médio: Habilidades EM13CNT101, EM13CNT206, EM13CNT301 e EM13CNT303.',
-      'Compreender o conceito de eutrofização artificial e o papel do fósforo como nutriente limitante em águas continentais.',
-      'Diferenciar fontes pontuais contínuas (esgoto doméstico urbano) de fontes difusas intermitentes (adubação agrícola NPK).',
-      'Desmistificar o paradoxo do oxigênio dissolvido: supersaturação diurna por fotossíntese vs anóxia noturna mortal.',
-      'Capacitar os alunos a lidar com ecotoxicologia aplicada (cianotoxinas, microcistinas e limites legais CONAMA/Ministério da Saúde).',
-      'Construir visão de bacia hidrográfica integrada para propor soluções sustentáveis sistêmicas.'
+  "evidenceMatrix": {
+    "verdadeiras": [
+      "Fósforo elevado próximo ao canal: indica enriquecimento localizado, não identifica a fonte.",
+      "Temperatura elevada e água parada: condições favoráveis, não causas únicas.",
+      "Colônias semelhantes a Microcystis: identificação preliminar.",
+      "Microcistina detectada: evidencia toxina, mas não prova causa da mortandade.",
+      "Oxigênio muito baixo de madrugada: evidência importante para hipóxia/anóxia.",
+      "Matéria orgânica acumulada: decomposição pode consumir oxigênio.",
+      "Oxigênio elevado à tarde: não exclui queda noturna."
     ],
-    timelinePacing: [
-      { week: 'Aulas 1-2', focus: 'Abertura do caso no Lago Azul, análise das queixas clínicas e rastreamento preliminar de fontes de nutrientes.' },
-      { week: 'Aulas 3-4', focus: 'Impacto da onda de calor e estagnação, leitura do laudo das 5 estações e gráfico comparativo de fósforo e DBO.' },
-      { week: 'Aulas 5-6', focus: 'Prática de microscopia de cianobactérias, contagem celular (85.000 cél/mL), patologia branquial e laudo ELISA de microcistinas.' },
-      { week: 'Aulas 7-8', focus: 'Cálculo de eficácia da precipitação de fósforo e aeração (64%), Matriz de Evidências e elaboração do plano de ação.' },
-      { week: 'Aula 9', focus: 'Conferência Científica com a turma e autoavaliação formativa.' }
+    "falsas_ou_sem_sustentacao": [
+      "Aves trouxeram Karenia brevis do mar e causaram a floração no lago.",
+      "Toda floração verde produz microcistina.",
+      "Fósforo elevado comprova contaminação agrícola.",
+      "Microcistina detectada prova que ela matou os peixes.",
+      "Fotografia de maré vermelha marinha representa o Lago Azul."
     ],
-    answerKey: {
-      eutrophicationMechanism: 'O florescimento decorreu da quebra do limite de fósforo provocada pela combinação de efluentes da ETE (ricos em detergentes com fosfatos) com enxurradas agrícolas de adubação NPK após temporais.',
-      nocturnalAnoxia: 'O paradoxo do oxigênio decorre do ciclo biológico: enquanto a luz solar promove fotossíntese maciça de dia (OD = 10,8 mg/L), a escuridão noturna cessa a produção e a respiração ininterrupta somada à oxidação bacteriana exaure o oxigênio até 1,1 mg/L, asfixiando os peixes na madrugada.',
-      multicausality: 'A crise não teve um causador único: esgoto sem tratamento terciário, adubação agrícola sem mata ciliar, onda de calor histórica e liberação de fósforo do lodo do fundo atuaram sinergicamente.'
+    "distrator_recomendado": "Apresentar somente o valor elevado de oxigênio das 14h e perguntar se isso descarta a anóxia noturna."
+  },
+  "teacherGuide": {
+    "title": "Orientações Pedagógicas e Científicas para o Docente • Desafio 02: Floração Vermelha em Vale Verde",
+    "warning": "Conteúdo restrito ao docente: orientações didáticas, BNCC, armadilhas conceituais e gabarito científico integrador.",
+    "pedagogicalGoals": [
+      "Alinhamento com a BNCC da 1ª Série do Ensino Médio: Habilidades EM13CNT101, EM13CNT206, EM13CNT301 e EM13CNT303.",
+      "Investigar as causas e consequências da floração límnica, articulando nutrientes, proliferação celular, cianotoxinas e ciclo diário do oxigênio.",
+      "Diferenciar floração de cianobactérias em água doce de marés vermelhas marinhas por dinoflagelados.",
+      "Compreender o paradoxo nictemeral do oxigênio: supersaturação diurna pela fotossíntese vs hipóxia/anóxia noturna severa.",
+      "Trabalhar com pensamento crítico: separar observações empíricas, dados laboratoriais, notícias distratoras e hipóteses causais.",
+      "Capacitar os estudantes na elaboração de um Parecer Técnico Pericial fundamentado em evidências científicas."
+    ],
+    "scientificGuidelines": [
+      "Não usar maré vermelha como sinônimo automático de floração de cianobactérias em água doce.",
+      "Nem toda floração é tóxica e nem toda linhagem de uma espécie potencialmente produtora produz toxinas.",
+      "A presença de microcistina não prova, por si só, que a toxina causou a mortandade.",
+      "Um valor alto de oxigênio durante a tarde não exclui hipóxia ou anóxia durante a madrugada.",
+      "Separar evidências observacionais, resultados analíticos, interpretações e hipóteses causais.",
+      "Manter os laudos 7 e 8 em aulas diferentes para exigir revisão das hipóteses pelos grupos.",
+      "Imagens ilustrativas não devem ser tratadas como fotografias reais das amostras nem como identificação taxonômica definitiva."
+    ],
+    "references": [
+      {
+        "instituicao": "OMS",
+        "tema": "Cianobactérias planctônicas de água doce e toxinas"
+      },
+      {
+        "instituicao": "EPA",
+        "tema": "Cianobactérias, florações e cianotoxinas"
+      },
+      {
+        "instituicao": "EPA",
+        "tema": "Nutrientes, temperatura, luz e circulação como fatores de florações"
+      },
+      {
+        "instituicao": "NOAA",
+        "tema": "Florações nocivas e marés vermelhas marinhas"
+      },
+      {
+        "instituicao": "IMA/SC",
+        "tema": "Nota Técnica Conjunta nº 001/2024 sobre floração de Karenia no litoral catarinense"
+      },
+      {
+        "instituicao": "ANA",
+        "tema": "Parâmetros de qualidade da água, oxigênio dissolvido e eutrofização"
+      },
+      {
+        "bases_de_imagens": [
+          "AlgaeBase — https://www.algaebase.org/",
+          "GBIF — https://www.gbif.org/"
+        ]
+      }
+    ],
+    "timelinePacing": [
+      {
+        "week": "Aula 1",
+        "focus": "Apresentação do evento e análise dos laudos 1 e 2 (Produto: Hipóteses iniciais)"
+      },
+      {
+        "week": "Aula 2",
+        "focus": "Análise de nutrientes e fontes — laudos 3 e 4 (Produto: Mapa de fontes possíveis)"
+      },
+      {
+        "week": "Aula 3",
+        "focus": "Microscopia e identificação — laudos 5 e 6 (Produto: Quadro comparativo de espécies)"
+      },
+      {
+        "week": "Aula 4",
+        "focus": "Investigação de cianotoxinas — laudo 7 (Produto: Explicação sobre microcistina)"
+      },
+      {
+        "week": "Aula 5",
+        "focus": "Interpretação do oxigênio dissolvido — laudo 8 (Produto: Gráfico e explicação do ciclo diário)"
+      },
+      {
+        "week": "Aula 6",
+        "focus": "Mortandade e notícia falsa — laudos 9 e 10 (Produto: Análise crítica das evidências)"
+      },
+      {
+        "week": "Aula 7",
+        "focus": "Sedimentos e decomposição — laudo 11 (Produto: Modelo explicativo)"
+      },
+      {
+        "week": "Aula 8",
+        "focus": "Integração e laudo final — documento 12 (Produto: Parecer técnico)"
+      },
+      {
+        "week": "Aula 9",
+        "focus": "Apresentação e avaliação (Produto: Defesa científica das conclusões)"
+      }
+    ],
+    "answerKey": {
+      "industrialResponsibility": "Diferentemente do Desafio 01 (microplásticos industriais), no Desafio 02 a contaminação decorre de nutrientes (nitrogênio e fósforo) provenientes da bacia hidrográfica, com destaque para a proximidade com o canal, esgoto residencial, fertilizantes e dejetos, além de matéria orgânica de fundo.",
+      "correlationVsCausality": "A presença de 2,4 µg/L de microcistina demonstra que houve produção de toxina, mas não prova isoladamente que ela foi a causa exclusiva da mortandade. A queda crítica do oxigênio dissolvido para 0,8 mg/L na madrugada aponta para hipóxia/anóxia severa como fator letal determinante, podendo ter havido sinergismo entre os dois fatores.",
+      "biomagnificationDistinction": "A alegação de maré vermelha por dinoflagelados marinhos (Karenia brevis) é uma notícia sem sustentação: organismos marinhos não proliferam em corpos de água doce límnicos, e as cianobactérias encontradas (Microcystis e Dolichospermum) são procariontes de água doce."
     }
   }
 };
 
-// ============================================================================
-// CATÁLOGO GERAL DE DESAFIOS E COMPATIBILIDADE REGRESSIVA
-// ============================================================================
 const CHALLENGES_DATABASE = {
   'desafio-1': DESAFIO_01_DATA,
   'desafio-2': DESAFIO_02_DATA

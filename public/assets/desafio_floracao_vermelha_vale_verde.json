@@ -1,0 +1,521 @@
+{
+  "projeto": {
+    "titulo": "Floração Vermelha em Vale Verde",
+    "subtitulo": "Eutrofização, cianobactérias tóxicas e anóxia noturna",
+    "contexto": "O Lago Azul apresenta uma camada verde-azulada, odor intenso e mortandade de peixes percebida durante a madrugada.",
+    "natureza_do_material": "Caso fictício para fins didáticos. Locais, notícias, personagens e resultados numéricos são simulados.",
+    "objetivo_geral": "Investigar as causas e consequências de uma floração no Lago Azul, relacionando nutrientes, proliferação de cianobactérias e microalgas, possível produção de cianotoxinas e variações diárias do oxigênio dissolvido. Analisar evidências, confrontar hipóteses e elaborar uma explicação científica para a mortandade de peixes."
+  },
+  "questoes_investigativas": [
+    "Quais organismos estão proliferando: cianobactérias, microalgas ou uma comunidade mista?",
+    "Quais nutrientes favorecem a floração e quais podem ser suas fontes?",
+    "Há produção de cianotoxinas, como microcistina?",
+    "A mortandade está relacionada à toxicidade, à falta de oxigênio ou à combinação dos dois fatores?",
+    "Por que o oxigênio pode aumentar durante o dia e cair durante a noite?",
+    "O evento no lago pode ser chamado de maré vermelha? Como se diferencia de florações marinhas?"
+  ],
+  "organismos_para_investigar": {
+    "cianobacterias_agua_doce": [
+      {
+        "nome": "Microcystis aeruginosa",
+        "pista": "Forma colônias; algumas linhagens produzem microcistinas."
+      },
+      {
+        "nome": "Dolichospermum spp.",
+        "pista": "Forma filamentos; algumas espécies/linhagens podem produzir cianotoxinas e apresentar heterócitos."
+      },
+      {
+        "nome": "Raphidiopsis raciborskii",
+        "pista": "Cianobactéria filamentosa; algumas linhagens produzem cilindrospermopsina ou saxitoxinas."
+      },
+      {
+        "nome": "Planktothrix agardhii",
+        "pista": "Forma filamentos; algumas linhagens produzem microcistinas."
+      },
+      {
+        "nome": "Aphanizomenon flos-aquae",
+        "pista": "Cianobactéria filamentosa; investigar fixação de nitrogênio e potencial tóxico."
+      }
+    ],
+    "microalgas_agua_doce": [
+      {
+        "nome": "Peridinium spp.",
+        "pista": "Dinoflagelados de água doce que podem formar florações."
+      },
+      {
+        "nome": "Euglena sanguinea",
+        "pista": "Pode apresentar pigmentação avermelhada em ambientes ricos em matéria orgânica."
+      },
+      {
+        "nome": "Chlamydomonas spp.",
+        "pista": "Algas verdes unicelulares; úteis para comparação com cianobactérias."
+      }
+    ],
+    "organismos_marinhos_para_comparacao": [
+      {
+        "nome": "Karenia brevis",
+        "pista": "Dinoflagelado marinho associado a florações nocivas e brevetoxinas."
+      },
+      {
+        "nome": "Alexandrium catenella",
+        "pista": "Dinoflagelado marinho; algumas linhagens produzem saxitoxinas."
+      },
+      {
+        "nome": "Pseudo-nitzschia spp.",
+        "pista": "Diatomáceas marinhas; algumas espécies produzem ácido domoico."
+      },
+      {
+        "nome": "Noctiluca scintillans",
+        "pista": "Dinoflagelado associado a florações coloridas e bioluminescência; não implica necessariamente produção de toxina."
+      }
+    ],
+    "observacao": "Os organismos são candidatos para pesquisa e comparação, não identificações antecipadas do Lago Azul. Nem toda floração é tóxica e nem toda linhagem de uma espécie produtora contém ou expressa genes de toxinas."
+  },
+  "cronograma_de_liberacao": [
+    {
+      "etapa": 1,
+      "foco": "Evento misterioso",
+      "documentos": [
+        1,
+        2
+      ]
+    },
+    {
+      "etapa": 2,
+      "foco": "Nutrientes e fontes de contaminação",
+      "documentos": [
+        3,
+        4
+      ]
+    },
+    {
+      "etapa": 3,
+      "foco": "Identificação dos organismos",
+      "documentos": [
+        5,
+        6
+      ]
+    },
+    {
+      "etapa": 4,
+      "foco": "Cianotoxinas e oxigênio dissolvido",
+      "documentos": [
+        7,
+        8
+      ]
+    },
+    {
+      "etapa": 5,
+      "foco": "Mortandade, notícia enganosa e hipóteses alternativas",
+      "documentos": [
+        9,
+        10
+      ]
+    },
+    {
+      "etapa": 6,
+      "foco": "Decomposição e integração dos resultados",
+      "documentos": [
+        11,
+        12
+      ]
+    }
+  ],
+  "documentos_investigativos": [
+    {
+      "numero": 1,
+      "titulo": "Lago Azul amanhece coberto por mancha verde e peixes mortos",
+      "tipo": "Registro de ocorrência / notícia",
+      "conteudo": [
+        "Mancha verde-azulada na superfície",
+        "Odor intenso",
+        "Mortandade de alevinos e peixes adultos entre 4h e 6h",
+        "Espuma próxima à saída de um canal"
+      ],
+      "investigacao": [
+        "A cor identifica o organismo?",
+        "O odor comprova toxicidade?",
+        "Por que a mortandade foi percebida de madrugada?"
+      ],
+      "classificacao": "Observações verdadeiras no cenário, mas insuficientes para determinar a causa."
+    },
+    {
+      "numero": 2,
+      "titulo": "Calor, estiagem e água parada antecederam a ocorrência",
+      "tipo": "Boletim meteorológico e hidrológico",
+      "dados": {
+        "dias_com_baixa_precipitacao": 18,
+        "temperatura_media_agua_C": 28,
+        "reducao_volume_lago_percentual": 22,
+        "ventos": "Fracos durante cinco dias"
+      },
+      "investigacao": [
+        "Como temperatura e circulação influenciam florações?",
+        "Calor é causa única ou fator favorável?"
+      ],
+      "classificacao": "Dados simulados verdadeiros; não provam causa isoladamente."
+    },
+    {
+      "numero": 3,
+      "titulo": "Concentração elevada de nutrientes próxima ao canal",
+      "tipo": "Laudo físico-químico",
+      "dados": [
+        {
+          "parametro": "Fósforo total",
+          "centro_mg_L": 0.09,
+          "canal_mg_L": 0.31
+        },
+        {
+          "parametro": "Ortofosfato",
+          "centro_mg_L": 0.03,
+          "canal_mg_L": 0.19
+        },
+        {
+          "parametro": "Nitrato",
+          "centro_mg_L": 0.42,
+          "canal_mg_L": 1.85
+        },
+        {
+          "parametro": "Amônio",
+          "centro_mg_L": 0.08,
+          "canal_mg_L": 0.72
+        }
+      ],
+      "investigacao": [
+        "O que é eutrofização?",
+        "Qual o papel do nitrogênio e fósforo?",
+        "Os dados identificam a fonte?"
+      ],
+      "classificacao": "Evidência de enriquecimento localizado; fonte não identificada."
+    },
+    {
+      "numero": 4,
+      "titulo": "Três possíveis fontes de nutrientes na bacia",
+      "tipo": "Relatório de vistoria",
+      "fontes_suspeitas": [
+        "Área agrícola com fertilizantes e solo exposto",
+        "Bairro residencial com suspeita não confirmada de ligação clandestina de esgoto",
+        "Criatório de animais com esterco armazenado próximo a afluente"
+      ],
+      "investigacao": "Criar plano de amostragem para distinguir as fontes.",
+      "classificacao": "Fontes plausíveis, nenhuma comprovada."
+    },
+    {
+      "numero": 5,
+      "titulo": "Microscopia identifica colônias e filamentos",
+      "tipo": "Laudo de microscopia",
+      "observacoes": [
+        "Células arredondadas em colônias",
+        "Material mucilaginoso",
+        "Filamentos em menor quantidade",
+        "Alta densidade de organismos fotossintetizantes"
+      ],
+      "identificacao_preliminar": "Morfologia compatível com cianobactérias, incluindo organismos semelhantes a Microcystis.",
+      "investigacao": [
+        "Como diferenciar cianobactérias de algas eucarióticas?",
+        "O que significa identificação em nível de gênero?",
+        "Todas as linhagens produzem microcistina?"
+      ],
+      "classificacao": "Evidência verdadeira, mas identificação preliminar; não confirma espécie ou toxicidade."
+    },
+    {
+      "numero": 6,
+      "titulo": "Filamentos encontrados na região profunda",
+      "tipo": "Laudo de microscopia",
+      "observacoes": [
+        "Filamentos com estruturas diferenciadas compatíveis com cianobactérias heterocistadas"
+      ],
+      "hipoteses_taxonomicas": [
+        "Dolichospermum spp.",
+        "Aphanizomenon spp.",
+        "Outros gêneros filamentosos"
+      ],
+      "investigacao": [
+        "O que é fixação biológica de nitrogênio?",
+        "O que são heterócitos?",
+        "Como diferentes cianobactérias coexistem?"
+      ],
+      "classificacao": "Observação verdadeira; identificação inconclusiva."
+    },
+    {
+      "numero": 7,
+      "titulo": "Teste preliminar detecta microcistina",
+      "tipo": "Laudo de toxicologia ambiental",
+      "dados_microcistinas_totais_ug_L": {
+        "centro": 0.35,
+        "mancha_superficial": 2.4,
+        "proximo_canal": 1.1
+      },
+      "metodo": "Ensaio imunoenzimático de triagem; confirmação analítica necessária.",
+      "investigacao": [
+        "O que são microcistinas?",
+        "A presença prova que a toxina matou os peixes?",
+        "Ainda é necessário investigar oxigênio?"
+      ],
+      "classificacao": "Triagem positiva simulada; não é confirmação definitiva nem prova da causa da mortandade."
+    },
+    {
+      "numero": 8,
+      "titulo": "Oxigênio dissolvido cai durante a madrugada",
+      "tipo": "Laudo de monitoramento",
+      "dados_oxigenio_superficie_mg_L": [
+        {
+          "horario": "06h",
+          "valor": 0.8
+        },
+        {
+          "horario": "10h",
+          "valor": 5.7
+        },
+        {
+          "horario": "14h",
+          "valor": 14.2
+        },
+        {
+          "horario": "18h",
+          "valor": 9.1
+        },
+        {
+          "horario": "22h",
+          "valor": 3.0
+        },
+        {
+          "horario": "02h",
+          "valor": 1.4
+        }
+      ],
+      "dado_fundo": {
+        "horario": "06h",
+        "valor_mg_L": 0.3
+      },
+      "investigacao": [
+        "Por que o oxigênio sobe durante o dia?",
+        "O que ocorre à noite?",
+        "Como respiração e decomposição consomem oxigênio?",
+        "Como isso afeta os peixes?"
+      ],
+      "classificacao": "Evidência-chave compatível com hipóxia severa e anóxia em algumas camadas."
+    },
+    {
+      "numero": 9,
+      "titulo": "Peixes apresentam sinais de estresse respiratório",
+      "tipo": "Relatório de ictiologia",
+      "observacoes": [
+        "Movimentos operculares acelerados em peixes moribundos",
+        "Muco nas brânquias em alguns exemplares",
+        "Ausência de lesões externas específicas",
+        "Coleta após a madrugada, sem observação contínua da morte"
+      ],
+      "investigacao": "A aparência das brânquias permite determinar a causa?",
+      "classificacao": "Achados verdadeiros, porém inespecíficos; não provam intoxicação ou anóxia isoladamente."
+    },
+    {
+      "numero": 10,
+      "titulo": "Especialista afirma que o lago sofre maré vermelha causada por dinoflagelados marinhos",
+      "tipo": "Notícia distratora",
+      "alegacao": "Karenia brevis teria chegado ao lago por aves migratórias.",
+      "investigacao": [
+        "Karenia brevis é de água doce?",
+        "O que são brevetoxinas?",
+        "Fotografia marinha comprova ocorrência no lago?",
+        "Qual a diferença entre cianobactéria e dinoflagelado?"
+      ],
+      "classificacao": "Notícia sem sustentação para o caso; imagem marinha não comprova a presença da espécie no lago."
+    },
+    {
+      "numero": 11,
+      "titulo": "Matéria orgânica acumulada pode ampliar o consumo de oxigênio",
+      "tipo": "Relatório de sedimentos",
+      "observacoes": [
+        "Acúmulo de matéria orgânica",
+        "Restos de organismos fotossintetizantes",
+        "Atividade microbiana elevada",
+        "Odor compatível com decomposição em áreas pouco circuladas"
+      ],
+      "investigacao": "Construir sequência desde o aporte de nutrientes até a mortandade.",
+      "classificacao": "Evidência verdadeira; não quantifica sozinha a contribuição da decomposição."
+    },
+    {
+      "numero": 12,
+      "titulo": "Análises confirmam cianobactérias potencialmente tóxicas e oxigenação crítica",
+      "tipo": "Relatório técnico integrado",
+      "resultados": [
+        "Análise molecular compatível com Microcystis e Dolichospermum",
+        "LC-MS/MS confirma microcistina-LR na amostra superficial",
+        "Monitoramento confirma queda noturna do oxigênio",
+        "Fósforo e nitrogênio mais elevados próximo ao canal",
+        "Origem dos nutrientes não atribuída a uma única fonte"
+      ],
+      "conclusao_preliminar": "Resultados compatíveis com eutrofização, floração de cianobactérias, presença de microcistina e episódios de hipóxia/anóxia. A contribuição relativa da toxicidade e da falta de oxigênio para a mortandade exige investigação específica.",
+      "classificacao": "Conjunto forte de evidências, com limitações sobre a causa exata e a origem dos nutrientes."
+    }
+  ],
+  "banco_de_evidencias": {
+    "verdadeiras": [
+      "Fósforo elevado próximo ao canal: indica enriquecimento localizado, não identifica a fonte.",
+      "Temperatura elevada e água parada: condições favoráveis, não causas únicas.",
+      "Colônias semelhantes a Microcystis: identificação preliminar.",
+      "Microcistina detectada: evidencia toxina, mas não prova causa da mortandade.",
+      "Oxigênio muito baixo de madrugada: evidência importante para hipóxia/anóxia.",
+      "Matéria orgânica acumulada: decomposição pode consumir oxigênio.",
+      "Oxigênio elevado à tarde: não exclui queda noturna."
+    ],
+    "falsas_ou_sem_sustentacao": [
+      "Aves trouxeram Karenia brevis do mar e causaram a floração no lago.",
+      "Toda floração verde produz microcistina.",
+      "Fósforo elevado comprova contaminação agrícola.",
+      "Microcistina detectada prova que ela matou os peixes.",
+      "Fotografia de maré vermelha marinha representa o Lago Azul."
+    ],
+    "distrator_recomendado": "Apresentar somente o valor elevado de oxigênio das 14h e perguntar se isso descarta a anóxia noturna."
+  },
+  "cronograma_9_aulas": [
+    {
+      "aula": 1,
+      "duracao_min": 45,
+      "atividade": "Apresentação do evento e análise dos laudos 1 e 2",
+      "produto": "Hipóteses iniciais"
+    },
+    {
+      "aula": 2,
+      "duracao_min": 45,
+      "atividade": "Análise de nutrientes e fontes — laudos 3 e 4",
+      "produto": "Mapa de fontes possíveis"
+    },
+    {
+      "aula": 3,
+      "duracao_min": 45,
+      "atividade": "Microscopia e identificação — laudos 5 e 6",
+      "produto": "Quadro comparativo de espécies"
+    },
+    {
+      "aula": 4,
+      "duracao_min": 45,
+      "atividade": "Investigação de cianotoxinas — laudo 7",
+      "produto": "Explicação sobre microcistina"
+    },
+    {
+      "aula": 5,
+      "duracao_min": 45,
+      "atividade": "Interpretação do oxigênio dissolvido — laudo 8",
+      "produto": "Gráfico e explicação do ciclo diário"
+    },
+    {
+      "aula": 6,
+      "duracao_min": 45,
+      "atividade": "Mortandade e notícia falsa — laudos 9 e 10",
+      "produto": "Análise crítica das evidências"
+    },
+    {
+      "aula": 7,
+      "duracao_min": 45,
+      "atividade": "Sedimentos e decomposição — laudo 11",
+      "produto": "Modelo explicativo"
+    },
+    {
+      "aula": 8,
+      "duracao_min": 45,
+      "atividade": "Integração e laudo final — documento 12",
+      "produto": "Parecer técnico"
+    },
+    {
+      "aula": 9,
+      "duracao_min": 45,
+      "atividade": "Apresentação e avaliação",
+      "produto": "Defesa científica das conclusões"
+    }
+  ],
+  "modelo_causal_a_investigar": [
+    {
+      "ordem": 1,
+      "evento": "Entrada excessiva de nitrogênio e fósforo",
+      "fontes_possiveis": [
+        "Esgoto",
+        "Fertilizantes",
+        "Dejetos animais",
+        "Outras fontes da bacia"
+      ]
+    },
+    {
+      "ordem": 2,
+      "evento": "Eutrofização",
+      "descricao": "Enriquecimento de nutrientes no ambiente aquático."
+    },
+    {
+      "ordem": 3,
+      "evento": "Floração",
+      "descricao": "Aumento da biomassa de cianobactérias e/ou microalgas."
+    },
+    {
+      "ordem": 4,
+      "evento": "Variação diária do oxigênio",
+      "dia": "Fotossíntese pode elevar o oxigênio.",
+      "noite": "Fotossíntese cessa; respiração e decomposição continuam consumindo oxigênio."
+    },
+    {
+      "ordem": 5,
+      "evento": "Hipóxia ou anóxia",
+      "descricao": "Oxigênio insuficiente para os organismos aquáticos."
+    },
+    {
+      "ordem": 6,
+      "evento": "Estresse e mortandade de peixes",
+      "descricao": "Pode haver contribuição adicional de cianotoxinas, dependendo da exposição."
+    }
+  ],
+  "produto_final_dos_alunos": {
+    "formato": "Parecer técnico e apresentação oral",
+    "itens_obrigatorios": [
+      "Identificação dos organismos e justificativa baseada nas evidências.",
+      "Explicação da eutrofização e das possíveis fontes de nutrientes.",
+      "Interpretação do ciclo diário do oxigênio.",
+      "Análise do resultado de microcistina.",
+      "Distinção entre hipóxia, anóxia e intoxicação.",
+      "Comparação entre florações de água doce e marés vermelhas marinhas.",
+      "Proposta de monitoramento e mitigação.",
+      "Indicação das limitações e das informações ainda necessárias."
+    ],
+    "questao_final": "A mortandade de peixes no Lago Azul foi causada por uma toxina produzida pelas cianobactérias, pela redução noturna do oxigênio dissolvido ou pela combinação dos dois fenômenos? Que evidências sustentam a conclusão e o que ainda precisaria ser investigado?"
+  },
+  "orientacoes_cientificas_ao_professor": [
+    "Não usar maré vermelha como sinônimo automático de floração de cianobactérias em água doce.",
+    "Nem toda floração é tóxica e nem toda linhagem de uma espécie potencialmente produtora produz toxinas.",
+    "A presença de microcistina não prova, por si só, que a toxina causou a mortandade.",
+    "Um valor alto de oxigênio durante a tarde não exclui hipóxia ou anóxia durante a madrugada.",
+    "Separar evidências observacionais, resultados analíticos, interpretações e hipóteses causais.",
+    "Manter os laudos 7 e 8 em aulas diferentes para exigir revisão das hipóteses pelos grupos.",
+    "Imagens ilustrativas não devem ser tratadas como fotografias reais das amostras nem como identificação taxonômica definitiva."
+  ],
+  "referencias_para_o_professor": [
+    {
+      "instituicao": "OMS",
+      "tema": "Cianobactérias planctônicas de água doce e toxinas"
+    },
+    {
+      "instituicao": "EPA",
+      "tema": "Cianobactérias, florações e cianotoxinas"
+    },
+    {
+      "instituicao": "EPA",
+      "tema": "Nutrientes, temperatura, luz e circulação como fatores de florações"
+    },
+    {
+      "instituicao": "NOAA",
+      "tema": "Florações nocivas e marés vermelhas marinhas"
+    },
+    {
+      "instituicao": "IMA/SC",
+      "tema": "Nota Técnica Conjunta nº 001/2024 sobre floração de Karenia no litoral catarinense"
+    },
+    {
+      "instituicao": "ANA",
+      "tema": "Parâmetros de qualidade da água, oxigênio dissolvido e eutrofização"
+    },
+    {
+      "bases_de_imagens": [
+        "AlgaeBase — https://www.algaebase.org/",
+        "GBIF — https://www.gbif.org/"
+      ]
+    }
+  ]
+}
