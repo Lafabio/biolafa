@@ -281,7 +281,7 @@ class BioLabApp {
       </div>
 
       <!-- Desafio 4 (Floração Vermelha / Maré Vermelha / Eutrofização) -->
-      <div class="challenge-card ${isCh4Active ? 'challenge-card-active border-emerald-500/50' : (isCh4Unlocked ? 'border-emerald-600/40 bg-slate-900/80' : 'challenge-card-locked')} flex flex-col justify-between">
+      <div class="challenge-card ${isCh4Active ? 'challenge-card-active border-emerald-500/50' : (isCh4Unlocked ? 'border-emerald-600/40 bg-slate-900/80' : 'border-rose-900/40 bg-slate-900/50')} flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center mb-3">
             ${isCh4Unlocked ? `
@@ -290,19 +290,19 @@ class BioLabApp {
               </span>
             ` : `
               <span class="px-2 py-0.5 rounded bg-rose-950/70 text-rose-300 border border-rose-800/60 text-[10px] font-mono font-bold">
-                🔒 BLOQUEADO PELO PROFESSOR
+                DESAFIO 04 • 🔒 BLOQUEADO
               </span>
             `}
             <span class="text-xs ${isCh4Unlocked ? 'text-emerald-400' : 'text-slate-500'} font-mono font-bold">9 Aulas • PBL</span>
           </div>
-          <h3 class="text-lg font-bold ${isCh4Unlocked ? 'text-white' : 'text-slate-300'} mb-2">Floração Vermelha em Vale Verde</h3>
+          <h3 class="text-lg font-bold ${isCh4Unlocked ? 'text-white' : 'text-slate-200'} mb-2">Desafio 04: Floração Vermelha em Vale Verde</h3>
           <p class="text-xs ${isCh4Unlocked ? 'text-emerald-300' : 'text-amber-400/90'} font-semibold mb-3">Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna (Maré Vermelha)</p>
           <p class="text-xs ${isCh4Unlocked ? 'text-slate-300' : 'text-slate-400'} leading-relaxed mb-4">
             O Lago Azul amanhece com uma camada verde-azulada e odor característico. Mortandade de alevinos e peixes adultos é observada na madrugada. Os alunos investigarão descarte de fósforo, nitrogênio, cianotoxinas (microcistina) e o ciclo noturno de oxigênio.
           </p>
           <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
             <span class="px-2 py-0.5 rounded bg-slate-800">12 Laudos & Notícias</span>
-            <span class="px-2 py-0.5 rounded bg-slate-800">Cianobactérias</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800">Lâminas Ópticas</span>
             <span class="px-2 py-0.5 rounded bg-slate-800">Anóxia Noturna</span>
           </div>
         </div>
@@ -324,14 +324,18 @@ class BioLabApp {
               </button>
             ` : ''}
           ` : `
-            <button class="btn-secondary w-full justify-center opacity-70 cursor-pointer" onclick="window.app.alertChallengeLocked()">
-              🔒 Desafio Bloqueado (Aguarde o Professor)
+            <button class="btn-secondary w-full justify-center py-2.5 text-xs text-rose-300 border-rose-500/40 hover:bg-rose-950/40 font-bold cursor-pointer" onclick="window.app.alertChallengeLocked()">
+              🔒 Desafio 04 Bloqueado (Clique para Liberar)
             </button>
             ${this.teacherAuth ? `
               <button class="btn-primary w-full justify-center py-2 bg-emerald-600 hover:bg-emerald-500 border-emerald-400 text-white font-bold text-xs" onclick="window.app.toggleChallenge04Lock()">
-                🔓 Liberar Desafio 04 para a Turma
+                🔓 Liberar Desafio 04 para a Turma Agora
               </button>
-            ` : ''}
+            ` : `
+              <button class="text-[11px] text-amber-400 hover:text-amber-300 underline mt-1 w-full text-center block cursor-pointer" onclick="window.app.openTeacherLoginModal()">
+                É professor? Faça login para liberar o Desafio 04 para a turma
+              </button>
+            `}
           `}
         </div>
       </div>
@@ -423,7 +427,9 @@ class BioLabApp {
 
   alertChallengeLocked() {
     this.playSound('tab');
-    alert('🔒 Desafio Bloqueado pelo Professor\n\nEste desafio pedagógico está bloqueado para garantir a progressão didática da turma.\n\nO acesso será liberado no momento adequado pelo professor através do Modo Professor.');
+    if (confirm('🔒 O Desafio 04 (Floração Vermelha em Vale Verde) está bloqueado pelo professor para a turma.\n\nSe você é o professor (usuário: biolafa), deseja fazer login agora para liberar este desafio para os estudantes?')) {
+      this.openTeacherLoginModal();
+    }
   }
 
   switchTab(tabId, playFx = true) {
@@ -1237,6 +1243,10 @@ class BioLabApp {
         let added = false;
         if (!this.currentData.slides) this.currentData.slides = [];
         data.slides.forEach(filename => {
+          // Isolamento rigoroso entre desafios: não vazar lâminas do Desafio 1 para o Desafio 4 e vice-versa
+          if ((this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2') && (filename.includes('slide1.bmp') || filename.includes('slide2.bmp'))) return;
+          if (this.activeChallengeId === 'desafio-1' && (filename.includes('microcystis') || filename.includes('ictiopatologia'))) return;
+
           const slidePath = 'assets/slides/' + filename;
           const exists = this.currentData.slides.some(s => s.src.toLowerCase() === slidePath.toLowerCase() || s.src.includes(filename));
           if (!exists) {
@@ -1271,7 +1281,11 @@ class BioLabApp {
   loadSlideIntoMicroscope(slideId) {
     this.playSound('click');
     if (!this.currentData || !this.currentData.slides) return;
-    const slide = this.currentData.slides.find(s => s.id === slideId);
+    const slide = this.currentData.slides.find(s => s.id === slideId || 
+      (slideId === 'slide_d4_1' && (s.id === 'slide_d4_1' || s.id === 'slide_d2_1')) ||
+      (slideId === 'slide_d2_1' && (s.id === 'slide_d4_1' || s.id === 'slide_d2_1')) ||
+      (slideId === 'slide_d4_2' && (s.id === 'slide_d4_2' || s.id === 'slide_d2_2')) ||
+      (slideId === 'slide_d2_2' && (s.id === 'slide_d4_2' || s.id === 'slide_d2_2')));
     if (slide && window.microscope) {
       window.microscope.loadSlide(slide);
       this.renderSlidesShelf();

@@ -188,28 +188,33 @@
         </div>
 
         <!-- Desafio 4 (Floração Vermelha / Maré Vermelha / Eutrofização) -->
-        <div class="challenge-card challenge-card-locked flex flex-col justify-between">
+        <div class="challenge-card border-rose-900/40 bg-slate-900/50 flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-center mb-3">
               <span class="px-2 py-0.5 rounded bg-rose-950/70 text-rose-300 border border-rose-800/60 text-[10px] font-mono font-bold">
-                🔒 BLOQUEADO PELO PROFESSOR
+                DESAFIO 04 • 🔒 BLOQUEADO
               </span>
               <span class="text-xs text-slate-500 font-mono font-bold">9 Aulas • PBL</span>
             </div>
-            <h3 class="text-lg font-bold text-slate-300 mb-2">Floração Vermelha em Vale Verde</h3>
+            <h3 class="text-lg font-bold text-slate-200 mb-2">Desafio 04: Floração Vermelha em Vale Verde</h3>
             <p class="text-xs text-amber-400/90 font-semibold mb-3">Eutrofização, Cianobactérias Tóxicas e Anóxia Noturna (Maré Vermelha)</p>
             <p class="text-xs text-slate-400 leading-relaxed mb-4">
               O Lago Azul amanhece com uma camada verde-azulada e odor característico. Mortandade de alevinos e peixes adultos é observada na madrugada. Os alunos investigarão descarte de fósforo, nitrogênio, cianotoxinas (microcistina) e o ciclo noturno de oxigênio.
             </p>
             <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
               <span class="px-2 py-0.5 rounded bg-slate-800">12 Laudos & Notícias</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800">Cianobactérias</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800">Lâminas Ópticas</span>
               <span class="px-2 py-0.5 rounded bg-slate-800">Anóxia Noturna</span>
             </div>
           </div>
-          <button class="btn-secondary w-full justify-center opacity-70 cursor-pointer" onclick="window.app.alertChallengeLocked()">
-            🔒 Desafio Bloqueado (Aguarde o Professor)
-          </button>
+          <div class="mt-2 space-y-2">
+            <button class="btn-secondary w-full justify-center py-2.5 text-xs text-rose-300 border-rose-500/40 hover:bg-rose-950/40 font-bold cursor-pointer" onclick="window.app.alertChallengeLocked()">
+              🔒 Desafio 04 Bloqueado (Clique para Liberar)
+            </button>
+            <button class="text-[11px] text-amber-400 hover:text-amber-300 underline mt-1 w-full text-center block cursor-pointer" onclick="window.app.openTeacherLoginModal()">
+              É professor? Faça login para liberar o Desafio 04 para a turma
+            </button>
+          </div>
         </div>
 
       </div>
@@ -658,10 +663,10 @@
   </div>
 
   <!-- Scripts da Aplicação -->
-  <script src="js/data.js"></script>
-  <script src="js/microscope.js"></script>
-  <script src="js/microfilm.js"></script>
-  <script src="js/trophic-sim.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/data.js?v=20261109c"></script>
+  <script src="js/microscope.js?v=20261109c"></script>
+  <script src="js/microfilm.js?v=20261109c"></script>
+  <script src="js/trophic-sim.js?v=20261109c"></script>
+  <script src="js/app.js?v=20261109c"></script>
 </body>
 </html>
