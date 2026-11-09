@@ -750,10 +750,10 @@ class BioLabApp {
             <div class="lab-report-figure-box">
               <div class="lab-report-img-wrapper">
                 <img src="${doc.imageSrc}" alt="${doc.title}" class="lab-report-img">
-                <span class="lab-magnification-stamp">EVIDÊNCIA ÓPTICA OFICIAL</span>
+                <span class="lab-magnification-stamp">${doc.style === 'inspection-report' ? 'VISTORIA TÉCNICA OFICIAL' : 'EVIDÊNCIA ÓPTICA OFICIAL'}</span>
               </div>
               <div class="lab-report-caption">
-                🔬 <strong>Registro Citomorfológico:</strong> ${doc.imageCaption || 'Partículas retidas na malha de triagem analisadas sob microscópio.'}
+                ${doc.imageLabel ? `${doc.imageLabel}:` : '🔬 <strong>Registro Citomorfológico:</strong>'} ${doc.imageCaption || 'Partículas retidas na malha de triagem analisadas sob microscópio.'}
               </div>
             </div>
           ` : ''}

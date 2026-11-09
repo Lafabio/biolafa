@@ -1120,7 +1120,8 @@ const DESAFIO_04_DATA = {
       "title": "Três possíveis fontes de nutrientes na bacia",
       "type": "Relatório de vistoria",
       "imageSrc": "assets/slides/Gemini_Generated_Image_fa1yxefa1yxefa1y.jfif",
-      "imageCaption": "Vistoria técnica nas três fontes antrópicas suspeitas da bacia hidrográfica.",
+      "imageLabel": "📸 <strong>Registro de Vistoria de Campo</strong>",
+      "imageCaption": "Vistoria técnica nas três fontes antrópicas suspeitas da bacia hidrográfica (agricultura, efluente doméstico e pecuária).",
       "fontes_suspeitas": [
         "Área agrícola com fertilizantes e solo exposto",
         "Bairro residencial com suspeita não confirmada de ligação clandestina de esgoto",
@@ -1163,6 +1164,9 @@ const DESAFIO_04_DATA = {
       "tag": "Laudo de Microscopia Óptica • Camada Profunda",
       "title": "Filamentos encontrados na região profunda",
       "type": "Laudo de microscopia",
+      "imageSrc": "assets/slides/citomorfologico_perfil.jfif",
+      "imageLabel": "🔬 <strong>Registro Citomorfológico</strong>",
+      "imageCaption": "Perfil citomorfológico de camada profunda: filamentos heterocistados de cianobactérias e morfologia celular diferenciada.",
       "observacoes": [
         "Filamentos com estruturas diferenciadas compatíveis com cianobactérias heterocistadas"
       ],
@@ -1830,6 +1834,20 @@ const DESAFIO_04_DATA = {
       "count": "Corte Histológico Branquial (H&E, 400x)",
       "typeText": "Hiperplasia epitelial, fusão de lamelas respiratórias e hipersecreção de muco",
       "description": "Lâmina histológica do tecido branquial de espécimes de peixes recolhidos mortos na madrugada no Lago Azul. Apresenta colapso e fusão lamelar severa, compatível com asfixia aguda por anóxia noturna (oxigênio dissolvido em 0,8 mg/L) e estresse tóxico/mecânico por biomassa algal.",
+      "scaleMicronsPerPixel": 0.15,
+      "uvFluorescence": true
+    },
+    {
+      "id": "slide_d4_3",
+      "code": "LÂMINA D4-03",
+      "title": "Lâmina D4-03: Perfil Citomorfológico das Fontes da Bacia",
+      "location": "Bacia Hidrográfica do Lago Azul - Pontos de Vistoria de Campo",
+      "category": "Arquivo Técnico Citomorfológico",
+      "src": "assets/slides/citomorfologico_perfil.jfif",
+      "thumb": "assets/slides/citomorfologico_perfil.jfif",
+      "count": "Triagem Citomorfológica Comparativa",
+      "typeText": "Perfil morfológico e caracterização ambiental das amostras",
+      "description": "Lâmina pericial com perfil citomorfológico comparativo das amostragens coletadas na bacia hidrográfica, permitindo aos pesquisadores correlacionar as partículas, nutrientes e microrganismos às três fontes antrópicas suspeitas da vistoria.",
       "scaleMicronsPerPixel": 0.15,
       "uvFluorescence": true
     }
