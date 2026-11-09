@@ -1077,6 +1077,9 @@ const DESAFIO_04_DATA = {
       "tag": "Laudo Físico-Químico • Amostragem de Água",
       "title": "Concentração elevada de nutrientes próxima ao canal",
       "type": "Laudo físico-químico",
+      "imageSrc": "assets/slides/laudo_fisico_quimico_nutrientes.jfif",
+      "imageLabel": "🧪 <strong>Laudo Hidroquímico Oficial</strong>",
+      "imageCaption": "Relatório analítico pericial de ensaios físico-químicos: gradiente de fósforo, nitrogênio e formas amoniacais.",
       "dados": [
         {
           "parametro": "Fósforo total",
@@ -1266,8 +1269,9 @@ const DESAFIO_04_DATA = {
       "tag": "Relatório de Ictiopatologia e Necrópsia Animal",
       "title": "Peixes apresentam sinais de estresse respiratório",
       "type": "Relatório de ictiologia",
-      "imageSrc": "assets/slides/doente.jfif",
-      "imageCaption": "Exame macroscópico pericial de espécime com opérculos dilatados e lesão lamelar.",
+      "imageSrc": "assets/slides/necropsia_exemplares_coletados.jfif",
+      "imageLabel": "🐟 <strong>Laudo de Necrópsia Ictiológica</strong>",
+      "imageCaption": "Exame pericial de exemplares coletados no Lago Azul: opérculos abertos, muco branquial e sinais de asfixia por anóxia noturna.",
       "observacoes": [
         "Movimentos operculares acelerados em peixes moribundos",
         "Muco nas brânquias em alguns exemplares",
