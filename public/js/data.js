@@ -1191,6 +1191,9 @@ const DESAFIO_04_DATA = {
       "tag": "Laudo de Toxicologia Ambiental • Ensaio Imunoenzimático",
       "title": "Teste preliminar detecta microcistina",
       "type": "Laudo de toxicologia ambiental",
+      "imageSrc": "assets/slides/laudo_ecotoxicologico_elisa.jfif",
+      "imageLabel": "🧪 <strong>Laudo Toxicológico Oficial</strong>",
+      "imageCaption": "Resultado do ensaio imunoenzimático ELISA: quantificação de microcistinas totais na enseada e pontos amostrais do Lago Azul.",
       "dados_microcistinas_totais_ug_L": {
         "centro": 0.35,
         "mancha_superficial": 2.4,
@@ -1213,6 +1216,9 @@ const DESAFIO_04_DATA = {
       "tag": "Laudo de Monitoramento Nictemeral de Oxigênio Dissolvido",
       "title": "Oxigênio dissolvido cai durante a madrugada",
       "type": "Laudo de monitoramento",
+      "imageSrc": "assets/slides/monitoramento_oxigenio_dissolvido.jfif",
+      "imageLabel": "📊 <strong>Curva Nictemeral Contínua</strong>",
+      "imageCaption": "Registro telemétrico contínuo de Oxigênio Dissolvido (OD) ao longo de 24 horas, evidenciando anóxia crítica (0,8 mg/L) na madrugada.",
       "dados_oxigenio_superficie_mg_L": [
         {
           "horario": "06h",
@@ -1282,6 +1288,9 @@ const DESAFIO_04_DATA = {
       "tag": "Notícia Distratora / Boato Sem Sustentação",
       "title": "Especialista afirma que o lago sofre maré vermelha causada por dinoflagelados marinhos",
       "type": "Notícia distratora",
+      "imageSrc": "assets/slides/materia_sensacionalista_internet.jfif",
+      "imageLabel": "📰 <strong>Post Sensacionalista Viral</strong>",
+      "imageCaption": "Publicação em rede social alegando maré vermelha costeira no Lago Azul, ilustrada com foto da costa da Flórida.",
       "alegacao": "Karenia brevis teria chegado ao lago por aves migratórias.",
       "investigacao": [
         "Karenia brevis é de água doce?",

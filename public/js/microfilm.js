@@ -199,9 +199,11 @@ class MicrofilmReader {
                   <h2 class="film-headline">${f.headline}</h2>
 
                   <!-- Foto Escaneada no Microfilme -->
-                  <div class="film-image-container">
-                    <img src="${f.img}" alt="${f.headline}" class="film-scanned-photo">
-                  </div>
+                  ${f.img ? `
+                    <div class="film-image-container">
+                      <img src="${f.img}" alt="${f.headline}" class="film-scanned-photo">
+                    </div>
+                  ` : ''}
 
                   <!-- Sinopse Histórica Registrada -->
                   <div class="film-summary-box">
