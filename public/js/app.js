@@ -750,7 +750,7 @@ class BioLabApp {
             <div class="lab-report-figure-box">
               <div class="lab-report-img-wrapper">
                 <img src="${doc.imageSrc}" alt="${doc.title}" class="lab-report-img">
-                <span class="lab-magnification-stamp">${doc.style === 'inspection-report' ? 'VISTORIA TÉCNICA OFICIAL' : 'EVIDÊNCIA ÓPTICA OFICIAL'}</span>
+                <span class="lab-magnification-stamp">${doc.style === 'inspection-report' ? 'VISTORIA TÉCNICA OFICIAL' : (doc.style === 'veterinary-report' ? 'NECRÓPSIA ICTIOLÓGICA' : (doc.style === 'toxicology-report' ? 'LAUDO TOXICOLÓGICO' : (doc.style === 'monitoring-report' ? 'MONITORAMENTO CONTÍNUO' : 'EVIDÊNCIA ÓPTICA OFICIAL')))}</span>
               </div>
               <div class="lab-report-caption">
                 ${doc.imageLabel ? `${doc.imageLabel}:` : '🔬 <strong>Registro Citomorfológico:</strong>'} ${doc.imageCaption || 'Partículas retidas na malha de triagem analisadas sob microscópio.'}
@@ -766,7 +766,7 @@ class BioLabApp {
           <!-- Rodapé com Assinatura Técnica e Ressalva -->
           <div class="lab-report-footer">
             <div class="lab-footer-meta">
-              <strong>Procedimento:</strong> Triagem Óptica Padronizada (Rede 300 µm)<br>
+              <strong>Procedimento:</strong> ${doc.metodo || (doc.style === 'veterinary-report' ? 'Necrópsia Ictiológica e Análise Macroscópica Branquial' : (doc.style === 'monitoring-report' ? 'Sonda Multiparâmetros Telemétrica Contínua' : (doc.style === 'toxicology-report' ? 'Ensaio Imunoenzimático ELISA de Triagem' : 'Triagem Óptica Padronizada (Rede 300 µm)')))}<br>
               ${this.teacherMode ? `
                 <strong class="text-amber-800">🎓 Análise Pedagógica Docente:</strong> <span class="text-amber-900 font-bold">${doc.sourceHint}</span>
               ` : `
