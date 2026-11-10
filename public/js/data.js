@@ -1994,7 +1994,7 @@ const DESAFIO_02_DATA = {
     "methodology": "PBL – Aprendizagem Baseada em Problemas",
     "totalLessons": 9,
     "lessonDuration": "45 minutos cada",
-    "estimatedTime": "9 aulas de 45 min (405 min)",
+    "estimatedTime": "9 aulas de 45 min (405 minutos)",
     "badge": "Bio-Ecologista Planetário (AECP)",
     "agencia": "AECP — Agência Espacial de Controle Planetário",
     "operacao": "ÉDEN",
@@ -2003,16 +2003,7 @@ const DESAFIO_02_DATA = {
     "pergunta_central": "Como restaurar o equilíbrio ecológico de um planeta após uma bioinvasão provocada pela exploração humana, sem causar um segundo desastre ambiental?",
     "context": "No ano de 2189, operações de mineração e exploração de recursos naturais em Nébula-7 provocaram alterações ambientais inesperadas. Durante o transporte de água e sedimentos entre diferentes regiões do planeta, organismos de uma área pantanosa foram introduzidos em um ecossistema florestal isolado.",
     "natureza_do_material": "Caso simulado de astrobiologia e ecologia para fins didáticos (BNCC: EM13CNT101, EM13CNT206, EM13CNT301, EM13CNT303, EM13CNT306).",
-    "generalObjective": "Investigar cientificamente a bioinvasão de Nexovora rapidans na Floresta Cristalina de Nébula-7, mapear a rota de transporte, demonstrar a exclusão competitiva de produtores e o colapso trófico, avaliar os riscos de controle biológico com Veyrathus e projetar um plano consistente de restauração ecológica.",
-    "questoes_investigativas": [
-      "Quais características morfológicas e ecológicas diferenciam Nexovora rapidans de uma espécie exótica inofensiva?",
-      "Qual rota de transporte logístico entre Veyra e a Floresta Cristalina permitiu a introdução acidental do bioinvasor?",
-      "Como o princípio da exclusão competitiva de Gause explica o declínio de Lumivora no ensaio de bancada?",
-      "De que forma o colapso do produtor primário desencadeou um efeito cascata em herbívoros, polinizadores e predadores de topo?",
-      "Por que a ampla amplitude térmica euritérmica de Nexovora confere vantagem adaptativa frente às espécies nativas?",
-      "Como a perda de alelos (12 para 4) e queda de heterozigosidade (0,72 para 0,28) atestam o efeito fundador na floresta?",
-      "Quais os riscos ecológicos de introduzir Veyrathus sem protocolos rigorosos de quarentena e avaliação de espécies não-alvo?"
-    ]
+    "generalObjective": "Investigar cientificamente a bioinvasão de Nexovora rapidans na Floresta Cristalina de Nébula-7, mapear a rota de transporte, demonstrar a exclusão competitiva de produtores e o colapso trófico, avaliar os riscos de controle biológico com Veyrathus e projetar um plano consistente de restauração ecológica."
   },
   "narrativa": {
     "contexto": "No ano de 2189, operações de mineração e exploração de recursos naturais em Nébula-7 provocaram alterações ambientais inesperadas. Durante o transporte de água e sedimentos entre diferentes regiões do planeta, organismos de uma área pantanosa foram introduzidos em um ecossistema florestal isolado.",
@@ -2258,66 +2249,405 @@ const DESAFIO_02_DATA = {
       "conclusao_da_missao": true
     }
   },
+  "documents": [
+    {
+      "id": "doc-e01",
+      "number": 1,
+      "style": "lab-report",
+      "labName": "AECP — POSTO AVANÇADO DA FLORESTA CRISTALINA",
+      "protocolNumber": "AECP-EDEN-2189-DOC01",
+      "tag": "Relatório de Emergência Pericial",
+      "title": "Alerta de Biofilme na Floresta Cristalina",
+      "type": "Relatório de Emergência",
+      "imageSrc": "assets/eden/04_floresta_bioinvasao.png",
+      "imageCaption": "Registro pericial: proliferação rápida de biofilme adesivo cobrindo quartzo luminescente e base vegetal nativa.",
+      "imageLabel": "🛰️ Registro Pericial de Campo (Nébula-7)",
+      "dados": {
+        "ambiente": "Floresta Cristalina",
+        "temperatura_ambiente_C": 22,
+        "cobertura_substrato_mineral_pct": 68,
+        "espessura_biofilme_mm": "1,5 a 3,2 mm"
+      },
+      "evidencia": "Formação de estruturas superficiais desconhecidas sobre substratos minerais e vegetais na Floresta Cristalina.",
+      "guidingQuestion": "Quais características morfológicas e ecológicas permitem suspeitar de uma alteração ambiental severa?",
+      "fullText": "COMUNICADO DE EMERGÊNCIA — AECP SETOR 7:\nDurante inspeção de rotina na Floresta Cristalina, equipes de monitoramento constataram o surgimento de uma camada viscosa desconhecida, formando extensos biofilmes sobre os minerais luminescentes de quartzo e o colo de plantas nativas.\nA proliferação avança a uma taxa de aproximadamente 15 metros lineares por ciclo solar. O biofilme bloqueia as trocas gasosas da rizosfera e recobre brotos jovens de Lumivora, impedindo a captação de luz. Nenhum organismo nativo catalogado na floresta possui essa capacidade de aderência mineral contínua.",
+      "sourceHint": "O biofilme indica presença de espécie exótica com alta taxa de secreção polimérica (EPS), mas a confirmação de bioinvasão exige demonstrar dano ecológico nas populações nativas."
+    },
+    {
+      "id": "doc-e02",
+      "number": 2,
+      "style": "lab-report",
+      "labName": "AECP — DIVISÃO DE BIOMETRIA & DINÂMICA POPULACIONAL",
+      "protocolNumber": "AECP-EDEN-2189-DOC02",
+      "tag": "Relatório Populacional & Censo Ecológico",
+      "title": "Censo Populacional dos Organismos Nativos de Nébula-7",
+      "type": "Relatório Populacional",
+      "imageSrc": "assets/eden/16_painel_dados_evidencias.png",
+      "imageCaption": "Painel biométrico comparativo: densidade populacional relativa antes e após a chegada de Nexovora.",
+      "imageLabel": "📊 Painel Telemétrico de Populações",
+      "dados": {
+        "Lumivora_Produtor": {
+          "antes": 1000,
+          "depois": 280,
+          "variacao_pct": -72
+        },
+        "Virex_Herbivoro": {
+          "antes": 420,
+          "depois": 95,
+          "variacao_pct": -77.4
+        },
+        "Aerion_Polinizador": {
+          "antes": 180,
+          "depois": 42,
+          "variacao_pct": -76.7
+        },
+        "Drakon_Predador": {
+          "antes": 65,
+          "depois": 21,
+          "variacao_pct": -67.7
+        },
+        "Mycora_Decompositor": {
+          "antes": 300,
+          "depois": 470,
+          "variacao_pct": 56.7
+        },
+        "Nexovora_Invasora": {
+          "antes": 0,
+          "depois": 1250,
+          "variacao_pct": "SURTO EXPLOSIVO"
+        }
+      },
+      "evidencia": "Redução maciça de Lumivora, Virex, Aerion e Drakon, acompanhada do aumento expressivo de Mycora e Nexovora.",
+      "guidingQuestion": "Quais populações foram mais afetadas e quais relações ecológicas explicam por que os decompositores aumentaram enquanto todos os outros caíram?",
+      "fullText": "LAUDO BIOMÉTRICO CONSOLIDADO:\nO levantamento censitário realizado pela sonda AECP comparou a abundância das populações antes e após o estabelecimento de Nexovora rapidans.\nResultados Numéricos:\n• Lumivora (Produtor Primário): despencou de 1.000 para 280 (-72%)\n• Virex (Herbívoro consumidor de Lumivora): caiu de 420 para 95 (-77%)\n• Aerion (Polinizador e dispersor): caiu de 180 para 42 (-77%)\n• Drakon (Predador de topo): reduziu de 65 para 21 (-68%)\n• Mycora (Decompositor de matéria orgânica): aumentou de 300 para 470 (+57%)\n• Nexovora rapidans: saltou de 0 para 1.250 unidades relativas.\nA queda generalizada em todos os níveis tróficos dos consumidores nativos contrasta com a expansão de Mycora, sugerindo acúmulo repentino de necromassa vegetal e animal.",
+      "sourceHint": "O aumento de Mycora decorre do excesso de matéria orgânica morta gerada pela mortalidade dos produtores e herbívoros."
+    },
+    {
+      "id": "doc-e03",
+      "number": 3,
+      "style": "lab-report",
+      "labName": "AECP — DEPARTAMENTO DE LOGÍSTICA & TRÁFEGO PLANETÁRIO",
+      "protocolNumber": "AECP-EDEN-2189-DOC03",
+      "tag": "Relatório de Transporte & Rastreamento de Vetores",
+      "title": "Rastreamento Logístico entre Ecossistemas",
+      "type": "Relatório de Transporte",
+      "imageSrc": "assets/eden/14_mapa_ecologico_nebula7.png",
+      "imageCaption": "Mapeamento das rotas terrestres de mineração conectando o Pântano de Veyra à Floresta Cristalina.",
+      "imageLabel": "🗺️ Rota Logística de Nébula-7",
+      "dados": {
+        "origem": "Pântano de Veyra (Bacia Sul)",
+        "destino": "Floresta Cristalina (Setor Norte)",
+        "distancia_km": 185,
+        "volume_agua_bruta_transportada_L_dia": 15000,
+        "toneladas_cascalho_transportado_dia": 40,
+        "protocolo_desinfeccao": "INEXISTENTE (Falha operacional)"
+      },
+      "evidencia": "Registros de movimentação contínua de água e sedimentos entre o Pântano de Veyra e a Floresta Cristalina pelas mineradoras.",
+      "guidingQuestion": "Qual rota e atividade humana explicam a introdução do organismo?",
+      "fullText": "AUDITORIA DE BIOSSEGURANÇA DE TRANSPORTE:\nA auditoria nos registros de navegação e esteiras terrestres identificou que, durante a expansão das minas no setor norte, veículos pesados transportaram diariamente milhares de litros de água bruta e sedimentos do Pântano de Veyra para refrigeração de brocas na Floresta Cristalina.\nAs carretas trafegaram sem barreira sanitária ou tratamento de desinfecção UV, criando um corredor ecológico artificial entre dois ambientes historicamente separados por cadeias montanhosas intransponíveis.",
+      "sourceHint": "O transporte antrópico sem biossegurança quebrou o isolamento biogeográfico da Floresta Cristalina, atuando como vetor primário da introdução."
+    },
+    {
+      "id": "doc-e04",
+      "number": 4,
+      "style": "lab-report",
+      "labName": "AECP — LABORATÓRIO DE MICROSCOPIA & CITOPATOLOGIA",
+      "protocolNumber": "AECP-EDEN-2189-DOC04",
+      "tag": "Laudo Biológico Citomorfológico",
+      "title": "Caracterização Morfológica Preliminar de Nexovora rapidans",
+      "type": "Laudo Biológico",
+      "imageSrc": "assets/eden/06_laboratorio_aecp.png",
+      "imageCaption": "Micrografia eletrônica: células flageladas, estruturas de ancoragem e cistos de resistência à dessecação.",
+      "imageLabel": "🔬 Análise Citomorfológica Ultrafina",
+      "dados": {
+        "dimensao_celular_microns": "8 a 14 µm",
+        "morfologia": "Células esferoidais com fímbrias adesivas mineralotróficas",
+        "camada_extracelular": "Mucilagem densa rica em polissacarídeos sulfatados",
+        "estruturas_resistencia": "Cistos esporulados com parede dupla espessa",
+        "tempo_viabilidade_dessecacao_dias": "> 45 dias"
+      },
+      "evidencia": "Estruturas aderentes a minerais, secreção de biofilmes e formas reprodutivas resistentes à dessecação e ao calor.",
+      "guidingQuestion": "Quais características morfológicas e fisiológicas favorecem a sobrevivência e a dispersão de Nexovora?",
+      "fullText": "LAUDO CITOMORFOLÓGICO DE NEXOVORA:\nA análise citológica revela que Nexovora rapidans possui fímbrias proteicas com alta atração eletrostática por sílica e óxidos minerais, permitindo ancoragem firme mesmo sob vento e chuva.\nEm condições de estresse hídrico ou térmico, as células sofrem diferenciação encistada, secretando uma espessa parede de esporopolenina exótica que mantém o material genético viável por mais de 45 dias sem água. Essa adaptação explica perfeitamente como os organismos sobreviveram à poeira das caçambas mineradoras durante o trajeto rodoviário.",
+      "sourceHint": "Cistos de dessecação + biofilme adesivo conferem a Nexovora a tríade perfeita de uma espécie invasora pioneira."
+    },
+    {
+      "id": "doc-e05",
+      "number": 5,
+      "style": "lab-report",
+      "labName": "AECP — DIVISÃO DE ECOLOGIA EXPERIMENTAL & MESOBAIRROS",
+      "protocolNumber": "AECP-EDEN-2189-DOC05",
+      "tag": "Experimento Controlado de Competição",
+      "title": "Ensaio Experimental de Competição Interespecífica",
+      "type": "Experimento Controlado",
+      "imageSrc": "assets/eden/16_painel_dados_evidencias.png",
+      "imageCaption": "Resultados do ensaio de co-cultivo em mesocosmos controlados: crescimento isolado vs. competição direta.",
+      "imageLabel": "🧪 Ensaio de Bancada Controlado",
+      "dados": {
+        "Lumivora_isolada": 95,
+        "Nexovora_isolada": 120,
+        "Lumivora_em_competicao": 18,
+        "Nexovora_em_competicao": 105,
+        "reducao_lumivora_pct": -81,
+        "recurso_limitante_disputado": "Espaço de fixação em quartzo e incidência de luz"
+      },
+      "evidencia": "Queda de 81% de Lumivora quando cultivada na mesma câmara que Nexovora, demonstrando exclusão competitiva de Gause.",
+      "guidingQuestion": "Os resultados são compatíveis com competição interespecífica? Quais são os limites de extrapolar esse experimento de bancada para o ecossistema aberto?",
+      "fullText": "RELATÓRIO EXPERIMENTAL DE GAUSE:\nEm câmaras de cultivo com suprimento idêntico de nutrientes e luz:\n1. Quando cultivada isoladamente, Lumivora atinge densidade de 95 unidades, crescendo de forma saudável.\n2. Quando cultivada isoladamente, Nexovora atinge 120 unidades.\n3. Quando colocadas em cultivo conjunto (mesma placa), Nexovora mantém 105 unidades, enquanto Lumivora tem sua biomassa reduzida a míseras 18 unidades (-81%).\nObservou-se sombreamento rápido de Lumivora pelas colônias superiores de Nexovora e liberação de exsudatos que inibem o crescimento vegetal.",
+      "sourceHint": "Aplicação direta do Princípio de Gause (Exclusão Competitiva): duas espécies disputando exatamente os mesmos recursos limitantes no mesmo nicho não conseguem coexistir indefinidamente."
+    },
+    {
+      "id": "doc-e06",
+      "number": 6,
+      "style": "lab-report",
+      "labName": "AECP — COORDENAÇÃO DE TEIAS TRÓFICAS & FLUXO ENERGÉTICO",
+      "protocolNumber": "AECP-EDEN-2189-DOC06",
+      "tag": "Relatório Ecológico Integrado",
+      "title": "Alterações na Rede Alimentar da Floresta Cristalina",
+      "type": "Relatório Ecológico",
+      "imageSrc": "assets/eden/14_mapa_ecologico_nebula7.png",
+      "imageCaption": "Diagrama do fluxo de energia na teia trófica: interrupção do nível produtor e efeito dominó.",
+      "imageLabel": "🕸️ Teia Trófica Desestruturada",
+      "dados": {
+        "nivel_1_produtor": "Lumivora (Fonte basal de carboidratos) -> Desabastecimento de 72%",
+        "nivel_2_herbivoro": "Virex (Consumo exclusivo de Lumivora) -> Inanição de 77%",
+        "nivel_polinizador": "Aerion (Néctar e abrigo em Lumivora) -> Perda de habitat de 77%",
+        "nivel_3_carnivoro": "Drakon (Predador de Virex e pequenos animais) -> Fome aguda (-68%)",
+        "nivel_decompositor": "Mycora (Consumo de carcaças e restos vegetais) -> Expansão de +57%"
+      },
+      "evidencia": "Mudanças na disponibilidade de produtores causando colapso sucessivo nos níveis tróficos superiores (cascata trófica).",
+      "guidingQuestion": "Como a alteração na população basal de um produtor repercute sucessivamente em diferentes níveis tróficos?",
+      "fullText": "ANÁLISE DE CASCATA TRÓFICA:\nA teia trófica da Floresta Cristalina possui estrutura dependente da produtividade de Lumivora. Como Lumivora foi sufocada por Nexovora, o aporte de biomassa vegetal caiu 72%.\nO herbívoro Virex não digere o biofilme de Nexovora (que contém sílica e toxinas) e entrou em colapso nutricional. Sem presas herbívoras saudáveis, o predador de topo Drakon sofreu drástica redução de fertilidade e aumento de mortalidade infantil (-68%). Apenas Mycora aumentou, metabolizando os milhares de indivíduos que pereceram.",
+      "sourceHint": "O fenômeno é uma clássica cascata trófica 'bottom-up' (de baixo para cima), originada no nível do produtor primário."
+    },
+    {
+      "id": "doc-e07",
+      "number": 7,
+      "style": "lab-report",
+      "labName": "AECP — INSTITUTO DE ECOFISIOLOGIA COMPARADA",
+      "protocolNumber": "AECP-EDEN-2189-DOC07",
+      "tag": "Experimento Fisiológico de Termorregulação",
+      "title": "Teste de Tolerância Térmica e Amplitude de Nicho",
+      "type": "Experimento Fisiológico",
+      "imageSrc": "assets/eden/16_painel_dados_evidencias.png",
+      "imageCaption": "Curvas de atividade fisiológica em função da temperatura (10 °C a 40 °C).",
+      "imageLabel": "🌡️ Termorregulação e Sobrevivência",
+      "dados": {
+        "temperaturas_testadas_C": [
+          10,
+          20,
+          30,
+          40
+        ],
+        "Lumivora_atividade_pct": [
+          15,
+          85,
+          70,
+          5
+        ],
+        "Nexovora_atividade_pct": [
+          78,
+          95,
+          98,
+          82
+        ],
+        "Lumivora_classificacao": "Estenotérmica (Ótimo estreito entre 18°C e 24°C)",
+        "Nexovora_classificacao": "Euritérmica (Ampla tolerância estável de 10°C a 40°C)"
+      },
+      "evidencia": "Nexovora mantém mais de 78% de atividade entre 10°C e 40°C, enquanto Lumivora sofre colapso a 10°C (15%) e a 40°C (5%).",
+      "guidingQuestion": "Como a amplitude de tolerância ambiental influencia a distribuição geográfica e a invasibilidade das espécies?",
+      "fullText": "LAUDO ECOFISIOLÓGICO COMPARADO:\nTestes de sobrevivência e taxa mitótica em gradiente térmico de 10°C a 40°C:\n• A 10 °C (frio matinal): Lumivora opera com apenas 15% de atividade, enquanto Nexovora mantém vigorosos 78%.\n• A 20 °C: Lumivora atinge seu pico (85%), mas Nexovora opera a 95%.\n• A 30 °C: Lumivora cai para 70%; Nexovora atinge seu ápice de 98%.\n• A 40 °C (calor extremo das minas): Lumivora sofre desnaturação de membranas e quase morre (5%), enquanto Nexovora mantém impressionantes 82%.\nNexovora é uma espécie euritérmica generalista com nicho ecológico térmico significativamente mais amplo que Lumivora.",
+      "sourceHint": "Espécies com ampla tolerância ambiental colonizam microclimas variados onde espécies nativas sensíveis não conseguem resistir."
+    },
+    {
+      "id": "doc-e08",
+      "number": 8,
+      "style": "lab-report",
+      "labName": "AECP — CENTRO DE GENÔMICA & BIOLOGIA MOLECULAR",
+      "protocolNumber": "AECP-EDEN-2189-DOC08",
+      "tag": "Laudo Genético Populacional",
+      "title": "Diversidade Genética das Populações de Nexovora",
+      "type": "Laudo Genético",
+      "imageSrc": "assets/eden/06_laboratorio_aecp.png",
+      "imageCaption": "Sequenciamento de marcadores moleculares microssatélites: comparação alélica e heterozigosidade.",
+      "imageLabel": "🧬 Perfil Eletroforético Molecular",
+      "dados": {
+        "populacao_origem_Pantano_Veyra": {
+          "amostra_individuos": 120,
+          "numero_alelos_identificados": 12,
+          "heterozigosidade_esperada_H": 0.72,
+          "variabilidade_genetica": "Alta (População ancestral equilibrada)"
+        },
+        "populacao_invasora_Floresta_Cristalina": {
+          "amostra_individuos": 80,
+          "numero_alelos_identificados": 4,
+          "heterozigosidade_esperada_H": 0.28,
+          "variabilidade_genetica": "Baixíssima (Subamostra clonal)"
+        }
+      },
+      "evidencia": "Queda de 12 para 4 alelos e redução de heterozigosidade de 0,72 para 0,28 na população que invadiu a Floresta Cristalina.",
+      "guidingQuestion": "Os resultados genéticos são compatíveis com o Efeito Fundador? Quais outras explicações precisam ser consideradas?",
+      "fullText": "LAUDO DE GENÉTICA DE POPULAÇÕES:\nO sequenciamento de 10 loci microssatélites polimórficos de Nexovora revelou contraste genético marcante:\nNo Pântano de Veyra, há 12 alelos distintos e alta heterozigosidade (H = 0,72), típica de populações estabelecidas há milênios.\nNa Floresta Cristalina, foram encontrados apenas 4 alelos (os mesmos mais abundantes de Veyra) e heterozigosidade despencou para 0,28.\nEsse perfil é evidência irrefutável de **Efeito Fundador (Deriva Genética)**: um número muito pequeno de propágulos transportados nos caminhões deu origem a toda a população invasora da floresta.",
+      "sourceHint": "O Efeito Fundador comprova que a invasão foi recente e iniciada por um pequeno contingente transportado pelo ser humano."
+    },
+    {
+      "id": "doc-e09",
+      "number": 9,
+      "style": "lab-report",
+      "labName": "AECP — DIVISÃO DE ASTROBIOLOGIA EVOLUTIVA",
+      "protocolNumber": "AECP-EDEN-2189-DOC09",
+      "tag": "Relatório de Morfologia Comparada & Evolução",
+      "title": "Análise de Convergência Evolutiva em Nébula-7",
+      "type": "Relatório Evolutivo",
+      "imageSrc": "assets/eden/17_base_cientifica_eden.png",
+      "imageCaption": "Esquema anatômico comparativo: estruturas análogas de adesão e resistência em diferentes filos.",
+      "imageLabel": "🔬 Homoplasia & Adaptação Funcional",
+      "dados": {
+        "caracteristica_1": "Secreção de adesivos glicoproteicos em rochas (Convergente com briozoários marinhos terrestres)",
+        "caracteristica_2": "Cistos com esporopolenina exótica (Convergente com fungos e pólens terrestres)",
+        "ancestralidade": "Filogenias distintas sem ancestral comum imediato",
+        "classificacao_evolutiva": "Estruturas Análogas (Homoplasias formadas por pressões seletivas similares)"
+      },
+      "evidencia": "Comparação de características funcionais entre organismos de linhagens distintas de Nébula-7 que enfrentam ambientes turbulentos.",
+      "guidingQuestion": "Como características anatômicas semelhantes podem surgir independentemente em linhagens biologicamente distintas?",
+      "fullText": "ESTUDO DE HOMOPLASIA E ADAPTAÇÃO:\nA morfologia comparativa entre Nexovora e outros organismos de Nébula-7 revela que a capacidade de adesão extrema a rochas não é uma característica herdada de um ancestral comum recente, mas sim o produto de **convergência evolutiva**.\nOrganismos de diferentes linhagens que habitam zonas com correntezas e tempestades foram selecionados independentemente para produzir substâncias poliméricas viscosas similares. Isso demonstra que a semelhança morfológica ou funcional não implica necessariamente parentesco filogenético.",
+      "sourceHint": "Convergência evolutiva (estruturas análogas) difere de homologia (estruturas com mesma origem embrionária)."
+    },
+    {
+      "id": "doc-e10",
+      "number": 10,
+      "style": "lab-report",
+      "labName": "AECP — COMITÊ DE BIOSSEGURANÇA & QUARENTENA",
+      "protocolNumber": "AECP-EDEN-2189-DOC10",
+      "tag": "Proposta de Intervenção Agro-Ecológica",
+      "title": "Proposta de Controle Biológico com Veyrathus",
+      "type": "Proposta de Intervenção",
+      "imageSrc": "assets/eden/13_organismo_veyrathus.png",
+      "imageCaption": "Espécime de Veyrathus: invertebrado pantanoso proposto pelo consórcio minerador para controle de Nexovora.",
+      "imageLabel": "⚠️ Proposta de Controle Biológico (Alto Risco)",
+      "dados": {
+        "agente_proposto": "Veyrathus (Consumidor pantanoso especializado)",
+        "quantidade_proposta_soltura": 50000,
+        "habito_alimentar_em_Veyra": "Consome propágulos jovens de Nexovora",
+        "resultado_triagem_floresta": "Consome também brotos tenros de Lumivora e ovos de pequenos artrópodes",
+        "risco_predacao_nao_alvo": "ALTÍSSIMO (Risco de extinção secundária de Virex e Aerion)"
+      },
+      "evidencia": "Organismo do Pântano de Veyra capaz de consumir Nexovora, mas sem testes conclusivos de especificidade na Floresta Cristalina.",
+      "guidingQuestion": "A introdução de um consumidor especializado seria uma solução segura ou provocaria um desastre ambiental secundário?",
+      "fullText": "AVALIAÇÃO DE RISCO DE BIOSSEGURANÇA:\nO consórcio minerador formalizou pedido de autorização para soltar 50.000 espécimes de Veyrathus na Floresta Cristalina para devorar Nexovora.\nContudo, o Comitê de Biossegurança alerta: em ensaios laboratoriais fechados, quando os biofilmes de Nexovora endurecem, Veyrathus rapidamente migra para atacar os brotos jovens sobreviventes de Lumivora e ovos de Virex e Aerion.\nIntroduzir um predador exótico generalista na floresta fragilizada pode acelerar a extinção dos organismos nativos.",
+      "sourceHint": "O controle biológico clássico exige testes exaustivos de especificidade alimentar; a introdução precipitada de predadores é historicamente catastrófica."
+    },
+    {
+      "id": "doc-e11",
+      "number": 11,
+      "style": "lab-report",
+      "labName": "AECP — DIVISÃO DE MONITORAMENTO DE FAUNA & ECOLIDERANÇA",
+      "protocolNumber": "AECP-EDEN-2189-DOC11",
+      "tag": "Relatório Complementar de Biossegurança",
+      "title": "Relatório de Predação e Equilíbrio Ecológico no Pântano",
+      "type": "Relatório Complementar",
+      "imageSrc": "assets/eden/05_pantano_veyra.png",
+      "imageCaption": "Pântano de Veyra: ecossistema equilibrado com múltiplos fatores reguladores de Nexovora.",
+      "imageLabel": "🌿 Ecossistema de Origem (Pântano)",
+      "dados": {
+        "status_predadores_em_Veyra": "PRESENTES E ATIVOS (Boato desmentido)",
+        "fatores_controle_Veyra": [
+          "Sazonalidade hídrica extrema (períodos de seca regulam biofilmes)",
+          "Competição com macrófitas pantanosas adaptadas",
+          "Presença de múltiplos consumidores (incluindo Veyrathus e bactérias líticas)",
+          "Predadores de topo regulam a população de Veyrathus"
+        ]
+      },
+      "evidencia": "Desmentida a afirmação de que todos os predadores naturais de Nexovora foram eliminados; o equilíbrio em Veyra é multifatorial.",
+      "guidingQuestion": "Quais evidências científicas demonstram que um ecossistema equilibrado depende de múltiplos fatores e não de uma única espécie milagrosa?",
+      "fullText": "DESMISTIFICAÇÃO DO EQUILÍBRIO PANTANOSO:\nRelatório investigativo desmentiu a alegação da mineradora de que no Pântano de Veyra Nexovora é controlada unicamente por Veyrathus.\nA densidade de Nexovora em seu habitat natural é mantida sob controle por uma rede de fatores: variações hídricas sazonais, vírus líticos bacterianos, competição com algas locais e predadores aquáticos que devoram o próprio Veyrathus.\nRetirar Veyrathus de seu contexto ecológico e soltá-lo na floresta (onde ele não tem predadores) criará uma segunda espécie bioinvasora descontrolada.",
+      "sourceHint": "O equilíbrio ecológico nunca depende de uma relação linear simples, mas de uma teia intrincada de interações bióticas e abióticas."
+    },
+    {
+      "id": "doc-e12",
+      "number": 12,
+      "style": "lab-report",
+      "labName": "AECP — GABINETE DO INSPETOR-GERAL & COMISSÃO PERICIAL",
+      "protocolNumber": "AECP-EDEN-2189-DOC12",
+      "tag": "Laudo Conclusivo de Perícia Ecológica Integrada",
+      "title": "Laudo Integrado de Confirmação e Diagnóstico da AECP",
+      "type": "Relatório Conclusivo",
+      "imageSrc": "assets/eden/15_dossie_projeto_eden.png",
+      "imageCaption": "Dossiê conclusivo consolidando a rota logística, o mecanismo de competição e a proposta de restauração.",
+      "imageLabel": "📑 Dossiê Conclusivo Oficial da AECP",
+      "dados": {
+        "diagnostico_final": "Bioinvasão antrópica por Nexovora rapidans comprovada",
+        "vetor_confirmado": "Transporte rodoviário de água e cascalho mineral sem esterilização",
+        "mecanismo_impacto": "Exclusão competitiva (Gause) de Lumivora gerando cascata trófica de inanição",
+        "parecer_sobre_Veyrathus": "REJEITADO (Risco inaceitável de desastre secundário)",
+        "plano_recomendado": "Manejo integrado em 3 fases (Biossegurança + Remoção Seletiva + Reintrodução Ativa)"
+      },
+      "evidencia": "Identificação de linhagem clonal compatível entre o Pântano de Veyra e a Floresta Cristalina, registros de transporte e ensaios de exclusão competitiva.",
+      "guidingQuestion": "Quais conclusões periciais podem ser sustentadas perante o Conselho da AECP e quais incertezas ainda exigem monitoramento contínuo?",
+      "fullText": "PARECER TÉCNICO PERICIAL OFICIAL — PROJETO ÉDEN:\nA Comissão de Investigação Científica da AECP conclui:\n1. Causa Primária: Abertura irresponsável de rotas logísticas de mineração sem barreiras sanitárias, introduzindo propágulos resistentes de Nexovora rapidans na Floresta Cristalina.\n2. Mecanismo Ecológico: Exclusão competitiva violenta (Princípio de Gause) sufocando Lumivora, o que deflagrou colapso trófico em cascata sobre herbívoros (Virex) e predadores (Drakon).\n3. Rejeição de Veyrathus: A proposta de soltura biológica foi vetada por ameaçar a biodiversidade nativa sobrevivente.\n4. Plano de Ação: Barreiras sanitárias imediatas, remoção física de biofilmes com radiação ultravioleta pulsada e reintrodução assistida de mudas nativas de Lumivora.",
+      "sourceHint": "O laudo integra todas as evidências e formula o plano de restauração ambiental fundamentado em evidências empíricas."
+    },
+    {
+      "id": "doc-sintese",
+      "number": 13,
+      "style": "lab-report",
+      "labName": "AECP — CONSELHO CIENTÍFICO SUPREMO DE NÉBULA-7",
+      "protocolNumber": "AECP-EDEN-2189-CONSELHO",
+      "tag": "Dossiê Consolidado de Julgamento",
+      "title": "Dossiê do Conselho Científico da Operação ÉDEN",
+      "type": "Dossiê Pericial Final",
+      "imageSrc": "assets/eden/00_prancha_completa_referencia.png",
+      "imageCaption": "Prancha pericial completa de referência: ambientes, organismos, evidências e plano de restauração.",
+      "imageLabel": "🏛️ Tribunal Científico Oficial da AECP",
+      "dados": {
+        "sessao": "Tribunal Científico da Operação ÉDEN",
+        "banca_examinadora": "Diretoria Científica da AECP, Ministério de Recursos Naturais de Nébula-7 e Defensoria Planetária",
+        "meta": "Julgamento dos Pareceres Técnicos das Equipes Investigadoras"
+      },
+      "evidencia": "Síntese dos 12 Laudos Técnicos Analisados ao Longo da Missão.",
+      "guidingQuestion": "Como fundamentar a restauração do equilíbrio ecológico sem provocar um segundo desastre ambiental?",
+      "fullText": "CONSELHO CIENTÍFICO SUPREMO DA AECP:\nNesta sessão solene de encerramento da Operação ÉDEN, cada equipe de pesquisadores periciais apresentará sua defesa científica perante a diretoria da AECP.\nOs alunos deverão argumentar com base em evidências numéricas, justificar o veto à introdução de Veyrathus e apresentar o plano detalhado de restauração ecológica da Floresta Cristalina.",
+      "sourceHint": "Momento culminante da metodologia PBL: defesa oral, comunicação científica e entrega do Parecer Técnico Final."
+    }
+  ],
   "phases": [
     {
       "id": "phase-d2-01",
       "lessonNumber": 1,
       "lessonTitle": "Aula 1: Alerta ÉDEN: Emergência na Floresta Cristalina",
       "title": "Biofilme Misterioso & Censo Populacional de Nébula-7",
-      "focus": "Apresentação da missão e formulação de hipóteses iniciais",
+      "focus": "Apresentação da missão espacial e formulação de hipóteses iniciais",
       "duration": "45 min",
-      "documentRefs": [
-        "relatorio-01",
-        "relatorio-02"
+      "expectedProduct": "Matriz de Hipóteses Iniciais",
+      "docsInvolved": [
+        "doc-e01",
+        "doc-e02"
       ],
-      "documents": [
-        {
-          "id": "relatorio-01",
-          "code": "DOC-E01",
-          "title": "Relatório 01: Alerta de Biofilme na Floresta Cristalina",
-          "type": "Relatório de Emergência Pericial",
-          "date": "Ciclo Planetário 2189.102",
-          "origin": "AECP — Posto Avançado da Floresta Cristalina",
-          "summary": "Identificação de biofilmes sobre substratos minerais e vegetais.",
-          "content": "Operários e técnicos ambientais da Floresta Cristalina relataram a formação de uma espessa camada mucosa de coloração desconhecida sobre rochas de quartzo luminescente e na base do estrato vegetal nativo. A aderência é extrema e apresenta taxa de expansão diária alarmante.",
-          "evidence": "Formação de estruturas superficiais desconhecidas sobre substratos minerais e vegetais.",
-          "guidingQuestion": "Quais características permitem suspeitar de uma alteração ecológica?",
-          "image": "assets/eden/04_floresta_bioinvasao.png"
-        },
-        {
-          "id": "relatorio-02",
-          "code": "DOC-E02",
-          "title": "Relatório 02: Censo Populacional dos Organismos Nativos",
-          "type": "Relatório Ecológico Quantitativo",
-          "date": "Ciclo Planetário 2189.115",
-          "origin": "Divisão de Biometria Planetária da AECP",
-          "summary": "Censo populacional comparativo pré e pós-invasão.",
-          "content": "Índice populacional relativo antes e após a ocorrência do biofilme:\n• Lumivora (Produtor): de 1.000 para 280 (-72%)\n• Virex (Herbívoro): de 420 para 95 (-77%)\n• Aerion (Polinizador): de 180 para 42 (-77%)\n• Drakon (Predador de Topo): de 65 para 21 (-68%)\n• Mycora (Decompositor): de 300 para 470 (+57%)\n• Nexovora rapidans: de 0 para 1.250 (SURTO DESCONTROLADO)",
-          "evidence": "Redução de Lumivora, Virex, Aerion e Drakon, acompanhada do aumento de Mycora e Nexovora.",
-          "guidingQuestion": "Quais populações foram mais afetadas e quais relações ecológicas podem explicar os resultados?",
-          "image": "assets/eden/16_painel_dados_evidencias.png"
-        }
+      "documentRefs": [
+        "doc-e01",
+        "doc-e02"
       ],
       "questions": [
         {
           "id": "d2_q1_1",
-          "prompt": "Com base no Relatório 01, quais características observadas na Floresta Cristalina permitem suspeitar de uma grave alteração ecológica provocada por organismo invasor?",
-          "guidance": "Considere a formação de biofilmes adesivos, rápida taxa de cobertura sobre minerais nativos e bloqueio mecânico da luz.",
-          "rubric": "O estudante deve destacar a novidade do biofilme, a velocidade de dispersão e o sufocamento do substrato."
+          "type": "textarea",
+          "label": "Questão 1: Quais características observadas na Floresta Cristalina (Relatório 01) permitem suspeitar de uma grave alteração ecológica provocada por organismo invasor?",
+          "placeholder": "Analise a formação de biofilmes adesivos, a velocidade de cobertura sobre minerais nativos e o sufocamento das bases vegetais...",
+          "expectedHint": "O biofilme não pertencia à flora nativa catalogada, possui alta taxa de expansão diária e forma barreira física sobre rochas luminescentes e raízes de Lumivora."
         },
         {
           "id": "d2_q1_2",
-          "prompt": "Analisando o censo do Relatório 02, quais grupos foram mais severamente prejudicados e qual relação ecológica explica o aumento exclusivo dos decompositores (Mycora)?",
-          "guidance": "Relacione a mortalidade em massa de produtores e herbívoros com a disponibilidade de matéria orgânica morta para decomposição.",
-          "rubric": "Deve notar que Lumivora e herbívoros despencaram em mais de 70%, gerando um excedente de necromassa que alimentou Mycora."
+          "type": "textarea",
+          "label": "Questão 2: Analisando a tabela do censo populacional (Relatório 02), quais populações nativas foram mais afetadas e por que os decompositores (Mycora) foram os únicos a aumentar?",
+          "placeholder": "Compare a queda percentual de Lumivora, Virex, Aerion e Drakon com o aumento de +57% de Mycora...",
+          "expectedHint": "Lumivora caiu 72%, Virex 77%, Aerion 77% e Drakon 68%. Mycora aumentou 57% porque se alimenta do excedente de matéria orgânica morta decorrente da mortalidade generalizada."
         }
       ],
       "learningObjectives": [
-        "Compreender a diferença entre organismo nativo e espécie invasora.",
-        "Interpretar censos quantitativos populacionais em tabelas ecológicas.",
-        "Formular hipóteses periciais sobre desequilíbrios ecossistêmicos."
-      ],
-      "studentDeliverable": "Matriz de Hipóteses Investigativas Iniciais da Equipe."
+        "Diferenciar espécie nativa de espécie exótica e invasora.",
+        "Interpretar tabelas quantitativas de censos ecológicos populacionais.",
+        "Formular hipóteses periciais sobre causas de desequilíbrio ecossistêmico."
+      ]
     },
     {
       "id": "phase-d2-02",
@@ -2326,57 +2656,35 @@ const DESAFIO_02_DATA = {
       "title": "Rastreamento Logístico & Morfologia de Nexovora",
       "focus": "Introdução de espécies, vetores antrópicos e estruturas de dispersão",
       "duration": "45 min",
-      "documentRefs": [
-        "relatorio-03",
-        "relatorio-04"
+      "expectedProduct": "Mapa da Rota de Dispersão",
+      "docsInvolved": [
+        "doc-e03",
+        "doc-e04"
       ],
-      "documents": [
-        {
-          "id": "relatorio-03",
-          "code": "DOC-E03",
-          "title": "Relatório 03: Rastreamento Logístico entre Ecossistemas",
-          "type": "Relatório de Transporte e Logística",
-          "date": "Ciclo Planetário 2189.120",
-          "origin": "Departamento de Tráfego Minerador de Nébula-7",
-          "summary": "Registros de circulação de veículos de carga e cisternas de água.",
-          "content": "Auditoria nos registros de transporte pesado revelou que, para abastecer as brocas de perfuração mineral na Floresta Cristalina, foram transferidas diariamente 40 toneladas de cascalho e 15.000 litros de água bruta captada diretamente no Pântano de Veyra, sem nenhum protocolo de esterilização ou quarentena biológica.",
-          "evidence": "Registros de movimentação de água e sedimentos entre o Pântano de Veyra e a Floresta Cristalina.",
-          "guidingQuestion": "Qual rota pode explicar a introdução do organismo?",
-          "image": "assets/eden/14_mapa_ecologico_nebula7.png"
-        },
-        {
-          "id": "relatorio-04",
-          "code": "DOC-E04",
-          "title": "Relatório 04: Caracterização Morfológica Preliminar",
-          "type": "Laudo Biológico de Laboratório",
-          "date": "Ciclo Planetário 2189.125",
-          "origin": "Laboratório de Microscopia e Citologia da AECP",
-          "summary": "Morfologia e estruturas resistentes de Nexovora rapidans.",
-          "content": "A análise microscópica revelou células unicelulares ciliadas dotadas de apêndices proteicos altamente adesivos a superfícies ricas em sílica e quartzo. Em condições desfavoráveis de umidade, as células formam cistos arredondados com parede espessa de esporopolenina exótica, suportando dessecação por semanas e facilitando a dispersão pelo ar e caminhões.",
-          "evidence": "Estruturas aderentes, biofilmes e formas reprodutivas resistentes.",
-          "guidingQuestion": "Quais características podem favorecer a sobrevivência e a dispersão?",
-          "image": "assets/eden/06_laboratorio_aecp.png"
-        }
+      "documentRefs": [
+        "doc-e03",
+        "doc-e04"
       ],
       "questions": [
         {
           "id": "d2_q2_1",
-          "prompt": "A partir dos registros logísticos do Relatório 03, qual rota e vetor humano explicam a chegada de Nexovora na Floresta Cristalina?",
-          "guidance": "Aponte o transporte de água bruta e cascalho do Pântano de Veyra sem tratamento de biossegurança.",
-          "rubric": "O estudante deve identificar o papel da mineração como vetor antrópico que rompeu o isolamento biogeográfico da floresta."
+          "type": "textarea",
+          "label": "Questão 1: A partir dos registros logísticos de mineração (Relatório 03), qual rota e atividade humana explicam a introdução de Nexovora na Floresta Cristalina?",
+          "placeholder": "Identifique o transporte de água bruta e cascalho mineral do Pântano de Veyra para o setor norte sem protocolo de biossegurança...",
+          "expectedHint": "Caminhões pesados de mineração transportavam 15.000 L de água e 40 t de cascalho diariamente de Veyra para a floresta sem tratamento de esterilização UV ou quarentena."
         },
         {
           "id": "d2_q2_2",
-          "prompt": "Quais atributos morfológicos e fisiológicos de Nexovora (Laudo 04) explicam sua capacidade de sobreviver à viagem e colonizar o novo ambiente com tamanha eficácia?",
-          "guidance": "Destaque a formação de cistos resistentes à dessecação e a síntese de biofilmes adesivos.",
-          "rubric": "Deve relacionar estruturas de dormência e adesão mineral à dispersão passiva bem-sucedida."
+          "type": "textarea",
+          "label": "Questão 2: Quais atributos morfológicos e fisiológicos de Nexovora (Laudo 04) explicam sua capacidade de sobreviver à viagem e colonizar a floresta com sucesso?",
+          "placeholder": "Destaque a formação de cistos resistentes à dessecação e fímbrias adesivas mineralotróficas...",
+          "expectedHint": "Cistos esporulados resistentes à dessecação por >45 dias permitiram sobrevivência na poeira mineral, enquanto fímbrias adesivas garantiram fixação imediata ao quartzo."
         }
       ],
       "learningObjectives": [
-        "Identificar como atividades humanas funcionam como vetores de bioinvasão.",
-        "Relacionar estruturas celulares de resistência à sobrevivência em transporte."
-      ],
-      "studentDeliverable": "Mapa da Rota de Dispersão Logística e Análise Morfológica."
+        "Identificar o papel das atividades econômicas como vetores de dispersão acidental.",
+        "Relacionar estruturas celulares de resistência à colonização biológica pioneira."
+      ]
     },
     {
       "id": "phase-d2-03",
@@ -2385,88 +2693,68 @@ const DESAFIO_02_DATA = {
       "title": "Ensaio Experimental de Competição Interespecífica",
       "focus": "Competição por recursos e o Princípio da Exclusão Competitiva de Gause",
       "duration": "45 min",
-      "documentRefs": [
-        "relatorio-05"
+      "expectedProduct": "Curva de Exclusão de Gause",
+      "docsInvolved": [
+        "doc-e05"
       ],
-      "documents": [
-        {
-          "id": "relatorio-05",
-          "code": "DOC-E05",
-          "title": "Relatório 05: Ensaio Experimental de Competição",
-          "type": "Experimento Controlado de Bancada",
-          "date": "Ciclo Planetário 2189.140",
-          "origin": "Divisão de Ecologia Experimental da AECP",
-          "summary": "Cultivo isolado versus co-cultivo de Lumivora e Nexovora.",
-          "content": "Experimento conduzido em câmaras de crescimento controladas (mesocosmos):\n• Lumivora em cultivo isolado: 95 unidades\n• Nexovora em cultivo isolado: 120 unidades\n• Lumivora em co-cultivo (competição direta): 18 unidades (-81%)\n• Nexovora em co-cultivo (competição direta): 105 unidades (-12%)\nObservou-se rápido sombreamento de Lumivora pelo biofilme de Nexovora e secreção de metabólitos inibidores secundários.",
-          "evidence": "Ensaio laboratorial controlado com medição de biomassa celular.",
-          "guidingQuestion": "Os resultados são compatíveis com competição interespecífica? Quais são os limites dessa conclusão?",
-          "image": "assets/eden/16_painel_dados_evidencias.png"
-        }
+      "documentRefs": [
+        "doc-e05"
       ],
       "questions": [
         {
           "id": "d2_q3_1",
-          "prompt": "Como os dados do Laudo 05 comprovam a ocorrência do Princípio da Exclusão Competitiva de Gause entre Lumivora e Nexovora?",
-          "guidance": "Lembre que espécies com sobreposição excessiva de nicho não coexistem estavelmente se disputam o mesmo recurso limitante (luz/espaço).",
-          "rubric": "Deve contrastar o bom rendimento isolado de Lumivora (95) com seu colapso sob competição (18)."
+          "type": "textarea",
+          "label": "Questão 1: Como os dados numéricos do experimento de bancada (Relatório 05) comprovam a ocorrência do Princípio da Exclusão Competitiva de Gause?",
+          "placeholder": "Confronte os dados de Lumivora isolada (95) vs. Lumivora em co-cultivo (18), relacionando com a disputa de espaço e luz...",
+          "expectedHint": "Lumivora atinge 95 isoladamente, mas despenca para 18 (-81%) na presença de Nexovora, demonstrando que não coexistem estavelmente pelo mesmo nicho limitante."
         },
         {
           "id": "d2_q3_2",
-          "prompt": "Quais são as limitações de extrapolar os resultados desse experimento de bancada diretamente para o ecossistema aberto da Floresta Cristalina?",
-          "guidance": "Considere a ausência de chuva, variações de relevo, presença de outros organismos e refúgios espaciais na natureza.",
-          "rubric": "O estudante deve demonstrar pensamento crítico, reconhecendo que ensaios in vitro simplificam fatores ecológicos."
+          "type": "textarea",
+          "label": "Questão 2: Quais são os limites metodológicos de extrapolar os resultados desse ensaio de bancada para o ecossistema aberto da Floresta Cristalina?",
+          "placeholder": "Lembre da Regra Científica 3: câmara de laboratório vs. heterogeneidade espacial, microclimas e refúgios ecológicos...",
+          "expectedHint": "Em laboratório não há variações de umidade, relevo ou predadores naturais; na floresta aberta existem refúgios e nichos secundários que podem permitir persistência."
         }
       ],
       "learningObjectives": [
         "Compreender e aplicar o Princípio da Exclusão Competitiva de Gause.",
-        "Reconhecer as limitações metodológicas de experimentos laboratoriais controlados."
-      ],
-      "studentDeliverable": "Gráfico e Interpretação dos Dados de Exclusão Competitiva."
+        "Analisar criticamente os limites da extrapolação de experimentos in vitro para a natureza."
+      ]
     },
     {
       "id": "phase-d2-04",
       "lessonNumber": 4,
       "lessonTitle": "Aula 4: O Colapso da Rede Ecológica",
       "title": "Dinâmica da Teia Alimentar & Cascata Trófica",
-      "focus": "Fluxo de matéria e energia, relações tróficas e efeitos indiretos",
+      "focus": "Fluxo de matéria e energia, teias alimentares e efeitos indiretos",
       "duration": "45 min",
-      "documentRefs": [
-        "relatorio-06"
+      "expectedProduct": "Rede Trófica Reorganizada",
+      "docsInvolved": [
+        "doc-e06"
       ],
-      "documents": [
-        {
-          "id": "relatorio-06",
-          "code": "DOC-E06",
-          "title": "Relatório 06: Alterações na Rede Alimentar",
-          "type": "Relatório Ecológico Integrado",
-          "date": "Ciclo Planetário 2189.155",
-          "origin": "Coordenação de Dinâmica Trófica da AECP",
-          "summary": "Impacto da redução de produtores nos níveis tróficos superiores.",
-          "content": "A redução de 72% na biomassa de Lumivora privou o herbívoro Virex de sua principal fonte calórica. Sem herbívoros abundantes, o predador de topo Drakon sofreu estresse nutricional agudo. Por sua vez, o polinizador Aerion perdeu sítios de nidificação e florescência, provocando um efeito dominó de desarticulação em toda a teia.",
-          "evidence": "Mudanças na disponibilidade de produtores e nas relações entre consumidores.",
-          "guidingQuestion": "Como a alteração de uma população pode repercutir em diferentes níveis tróficos?",
-          "image": "assets/eden/14_mapa_ecologico_nebula7.png"
-        }
+      "documentRefs": [
+        "doc-e06"
       ],
       "questions": [
         {
           "id": "d2_q4_1",
-          "prompt": "Explique como o sufocamento de um único produtor primário (Lumivora) resultou no declínio simultâneo de herbívoros (Virex), polinizadores (Aerion) e predadores de topo (Drakon).",
-          "guidance": "Descreva o conceito de cascata trófica de baixo para cima (bottom-up control).",
-          "rubric": "O estudante deve traçar a rota energética da cadeia: produtor -> herbívoro -> predador, destacando a perda de energia química basal."
+          "type": "textarea",
+          "label": "Questão 1: Explique passo a passo como o declínio do produtor primário Lumivora resultou no colapso simultâneo de herbívoros (Virex), polinizadores (Aerion) e carnívoros de topo (Drakon).",
+          "placeholder": "Descreva a rota de energia trófica 'bottom-up': produtor -> herbívoro -> predador, e a perda de sítios de nidificação de Aerion...",
+          "expectedHint": "Lumivora fornece energia basal; sua queda privou Virex de alimento e Aerion de néctar/abrigo. Sem presas herbívoras saudáveis, Drakon sofreu inanição aguda."
         },
         {
           "id": "d2_q4_2",
-          "prompt": "Alguns moradores de Nébula-7 afirmaram que Nexovora é um predador carnívoro de Drakon. Como os dados ecológicos desmentem essa teoria conspiratória?",
-          "guidance": "Lembre da Regra Científica 2: correlação temporal não implica causalidade direta.",
-          "rubric": "Deve esclarecer que Drakon diminuiu por inanição decorrente da perda de presas, e não por predação direta de Nexovora."
+          "type": "textarea",
+          "label": "Questão 2: Boatos na colônia mineradora alegaram que Nexovora devorou Drakon. Com base na Regra Científica 2, como os dados desmentem essa teoria conspiratória?",
+          "placeholder": "Diferencie correlação temporal de causalidade biológica direta...",
+          "expectedHint": "A correlação temporal entre o aumento de Nexovora e a queda de Drakon é indireta (cascata trófica mediada por herbívoros); Nexovora é biofilme séssil e não ataca predadores carnívoros."
         }
       ],
       "learningObjectives": [
-        "Mapear e representar redes tróficas sob distúrbio ecológico.",
-        "Diferenciar efeito cascata de predação direta."
-      ],
-      "studentDeliverable": "Diagrama Comparativo da Teia Trófica Pré e Pós-Invasão."
+        "Representar o fluxo de biomassa e energia em cadeias e teias tróficas.",
+        "Distinguir efeitos indiretos de cascata trófica de interações diretas."
+      ]
     },
     {
       "id": "phase-d2-05",
@@ -2475,43 +2763,33 @@ const DESAFIO_02_DATA = {
       "title": "Fisiologia Térmica & Amplitude de Nicho Ecológico",
       "focus": "Nicho ecológico, amplitude de tolerância e adaptações ambientais",
       "duration": "45 min",
-      "documentRefs": [
-        "relatorio-07"
+      "expectedProduct": "Curvas de Tolerância Térmica",
+      "docsInvolved": [
+        "doc-e07"
       ],
-      "documents": [
-        {
-          "id": "relatorio-07",
-          "code": "DOC-E07",
-          "title": "Relatório 07: Teste de Tolerância Térmica",
-          "type": "Experimento Fisiológico Comparativo",
-          "date": "Ciclo Planetário 2189.170",
-          "origin": "Laboratório de Ecofisiologia Planetária da AECP",
-          "summary": "Curvas de atividade fisiológica em diferentes temperaturas.",
-          "content": "Percentual de atividade metabólica / sobrevivência celular:\n• A 10 °C: Lumivora 15% | Nexovora 78%\n• A 20 °C: Lumivora 85% (ótimo nativo) | Nexovora 95%\n• A 30 °C: Lumivora 70% | Nexovora 98% (ótimo de invasão)\n• A 40 °C: Lumivora 5% (desnaturação letal) | Nexovora 82% (estabilidade enzimática)",
-          "evidence": "Ensaios termorregulados de 10°C a 40°C.",
-          "guidingQuestion": "Como a amplitude de tolerância ambiental pode influenciar a distribuição das espécies?",
-          "image": "assets/eden/16_painel_dados_evidencias.png"
-        }
+      "documentRefs": [
+        "doc-e07"
       ],
       "questions": [
         {
           "id": "d2_q5_1",
-          "prompt": "Comparando as curvas de temperatura do Laudo 07, classifique Lumivora e Nexovora em estenotérmica ou euritérmica, justificando com os percentuais numéricos.",
-          "guidance": "Estenotérmica tem faixa estreita de tolerância; euritérmica mantém alta atividade em ampla variação térmica.",
-          "rubric": "Deve classificar Lumivora como estenotérmica (colapso a 10°C e 40°C) e Nexovora como euritérmica (acima de 78% em todas)."
+          "type": "textarea",
+          "label": "Questão 1: Com base nas curvas de atividade (Relatório 07), classifique Lumivora e Nexovora em estenotérmica ou euritérmica, fundamentando com percentuais numéricos.",
+          "placeholder": "Compare o desempenho a 10°C, 20°C, 30°C e 40°C de cada espécie...",
+          "expectedHint": "Lumivora é estenotérmica (ótimo a 20°C com 85%, colapso a 10°C com 15% e a 40°C com 5%). Nexovora é euritérmica (mantém >78% em todas as temperaturas, com pico de 98% a 30°C)."
         },
         {
           "id": "d2_q5_2",
-          "prompt": "Como a ampla tolerância térmica de Nexovora facilita sua expansão pela Floresta Cristalina, mesmo em áreas com microclimas extremos?",
-          "guidance": "Relacione com o nicho ecológico fundamental e a capacidade de colonizar locais onde a espécie nativa não consegue germinar.",
-          "rubric": "O estudante deve explicar que Nexovora domina micro-habitats frios e quentes sem concorrência."
+          "type": "textarea",
+          "label": "Questão 2: De que maneira a ampla amplitude térmica euritérmica de Nexovora lhe confere vantagem competitiva decisiva sobre as espécies nativas de Nébula-7?",
+          "placeholder": "Relacione amplitude térmica com colonização de microclimas frios e quentes sem competição...",
+          "expectedHint": "Nexovora consegue germinar e crescer nos horários frios da manhã e em áreas aquecidas pelas mineradoras, onde Lumivora fica inerte ou morre."
         }
       ],
       "learningObjectives": [
-        "Definir e diferenciar espécies estenotérmicas e euritérmicas.",
-        "Relacionar limites fisiológicos de tolerância à amplitude do nicho ecológico."
-      ],
-      "studentDeliverable": "Curvas Gráficas de Tolerância Térmica e Parecer de Nicho."
+        "Classificar organismos segundo sua valência ecológica térmica (estenotérmicos vs. euritérmicos).",
+        "Correlacionar limites de tolerância fisiológica à capacidade de invasão ecológica."
+      ]
     },
     {
       "id": "phase-d2-06",
@@ -2520,56 +2798,35 @@ const DESAFIO_02_DATA = {
       "title": "Genética Populacional & Convergência Evolutiva",
       "focus": "Diversidade genética, heterozigosidade, efeito fundador e homoplasia",
       "duration": "45 min",
-      "documentRefs": [
-        "relatorio-08",
-        "relatorio-09"
+      "expectedProduct": "Parecer Genético-Evolutivo",
+      "docsInvolved": [
+        "doc-e08",
+        "doc-e09"
       ],
-      "documents": [
-        {
-          "id": "relatorio-08",
-          "code": "DOC-E08",
-          "title": "Relatório 08: Diversidade Genética das Populações",
-          "type": "Laudo de Genética Molecular e Marcadores Microssatélites",
-          "date": "Ciclo Planetário 2189.185",
-          "origin": "Instituto de Genômica Planetária da AECP",
-          "summary": "Comparação alélica entre o Pântano de Veyra e a Floresta Cristalina.",
-          "content": "Resultados do sequenciamento de marcadores polimórficos de Nexovora:\n• Pântano de Veyra (Origem): Amostra de 120 indivíduos | 12 alelos distintos | Heterozigosidade esperada H = 0,72\n• Floresta Cristalina (Invasão): Amostra de 80 indivíduos | 4 alelos distintos | Heterozigosidade esperada H = 0,28\nOs alelos encontrados na floresta são um subconjunto restrito e idêntico aos alelos mais comuns da bacia sul de Veyra.",
-          "guidingQuestion": "Os resultados são compatíveis com efeito fundador? Quais outras explicações precisam ser consideradas?",
-          "image": "assets/eden/06_laboratorio_aecp.png"
-        },
-        {
-          "id": "relatorio-09",
-          "code": "DOC-E09",
-          "title": "Relatório 09: Análise de Convergência Evolutiva",
-          "type": "Relatório de Morfologia Comparada e Evolução",
-          "date": "Ciclo Planetário 2189.190",
-          "origin": "Divisão de Astrobiologia Evolutiva da AECP",
-          "summary": "Estruturas análogas entre organismos de linhagens filogenéticas distintas.",
-          "content": "O estudo comparativo demonstrou que as estruturas de ancoragem de Nexovora e certos briozoários terrestres possuem mecanismos proteicos semelhantes de síntese de biofilme, embora pertençam a reinos completamente diferentes. Trata-se de um caso marcante de convergência adaptativa diante de pressões seletivas similares em ambientes aquáticos turbulentos.",
-          "evidence": "Comparação de características funcionais entre organismos de diferentes linhagens.",
-          "guidingQuestion": "Como características semelhantes podem surgir independentemente em linhagens distintas?",
-          "image": "assets/eden/17_base_cientifica_eden.png"
-        }
+      "documentRefs": [
+        "doc-e08",
+        "doc-e09"
       ],
       "questions": [
         {
           "id": "d2_q6_1",
-          "prompt": "Como os dados de alelos (de 12 para 4) e heterozigosidade (de 0,72 para 0,28) do Laudo 08 comprovam a ocorrência do Efeito Fundador em Nexovora?",
-          "guidance": "Explique o mecanismo da deriva genética quando uma nova população é estabelecida por uma pequena fração de indivíduos da população-mãe.",
-          "rubric": "Deve indicar que poucos propágulos transportados nos caminhões carregavam apenas uma fração da variabilidade genética original."
+          "type": "textarea",
+          "label": "Questão 1: Como a redução no número de alelos (12 para 4) e da heterozigosidade (0,72 para 0,28) atesta cabalmente a ocorrência do Efeito Fundador em Nexovora?",
+          "placeholder": "Explique o mecanismo da deriva genética quando uma nova população é iniciada por poucos propágulos...",
+          "expectedHint": "Poucos indivíduos transportados nos caminhões carregaram apenas um subconjunto da variabilidade genética ancestral de Veyra, resultando em forte depleção de alelos na floresta."
         },
         {
           "id": "d2_q6_2",
-          "prompt": "Diferencie homologia de convergência evolutiva com base no Relatório 09. Por que estruturas semelhantes não provam parentesco próximo?",
-          "guidance": "Convergência resulta de pressões seletivas parecidas em linhagens distintas, sem ancestral comum recente dotado daquela característica.",
-          "rubric": "O aluno deve esclarecer que pressões ambientais semelhantes moldam adaptações análogas em linhagens independentes."
+          "type": "textarea",
+          "label": "Questão 2: Diferencie homologia de convergência evolutiva com base no Relatório 09. Por que a semelhança entre biofilmes de diferentes espécies não comprova parentesco próximo?",
+          "placeholder": "Explique o conceito de estruturas análogas formadas por pressões seletivas idênticas...",
+          "expectedHint": "Convergência evolutiva (estruturas análogas) decorre de pressões ambientais semelhantes em linhagens independentes, enquanto homologia exige mesma origem embriológica ancestral."
         }
       ],
       "learningObjectives": [
-        "Compreender o conceito de deriva genética e efeito fundador.",
-        "Diferenciar convergência evolutiva (estruturas análogas) de homologia."
-      ],
-      "studentDeliverable": "Parecer Genético-Evolutivo e Laudo de Ancestralidade."
+        "Compreender o papel do Efeito Fundador na genética de populações invasoras.",
+        "Diferenciar estruturas análogas (convergência) de estruturas homólogas."
+      ]
     },
     {
       "id": "phase-d2-07",
@@ -2578,57 +2835,35 @@ const DESAFIO_02_DATA = {
       "title": "Controle Biológico & Riscos de Biossegurança",
       "focus": "Avaliação de riscos de intervenção biológica e predação não-alvo",
       "duration": "45 min",
-      "documentRefs": [
-        "relatorio-10",
-        "relatorio-11"
+      "expectedProduct": "Matriz de Risco de Controle Biológico",
+      "docsInvolved": [
+        "doc-e10",
+        "doc-e11"
       ],
-      "documents": [
-        {
-          "id": "relatorio-10",
-          "code": "DOC-E10",
-          "title": "Relatório 10: Proposta de Controle Biológico com Veyrathus",
-          "type": "Proposta de Intervenção Agro-Ecológica",
-          "date": "Ciclo Planetário 2189.200",
-          "origin": "Consórcio de Mineração de Nébula-7",
-          "summary": "Proposta de introdução maciça de Veyrathus para erradicar Nexovora.",
-          "content": "O consórcio propõe soltar 50.000 espécimes do invertebrado pantanoso Veyrathus na Floresta Cristalina, argumentando que no Pântano de Veyra ele atua como consumidor voraz das estruturas reprodutivas de Nexovora. Contudo, laudos de triagem preliminar mostram que, na ausência de propágulos maduros, Veyrathus consome brotos tenros e ovos de pequenos artrópodes.",
-          "evidence": "Organismo do Pântano de Veyra capaz de consumir estruturas reprodutivas de Nexovora.",
-          "guidingQuestion": "A introdução de um consumidor especializado seria uma solução segura?",
-          "image": "assets/eden/13_organismo_veyrathus.png"
-        },
-        {
-          "id": "relatorio-11",
-          "code": "DOC-E11",
-          "title": "Relatório 11: Relatório de Predação e Equilíbrio Ecológico",
-          "type": "Relatório Complementar de Biossegurança",
-          "date": "Ciclo Planetário 2189.205",
-          "origin": "Comitê de Ética e Biossegurança da AECP",
-          "summary": "Verificação da alegação de que todos os predadores haviam sido eliminados.",
-          "content": "Investigação pericial comprovou que o boato de que todos os predadores naturais de Nexovora haviam desaparecido é infundado. No pântano de origem, o controle populacional é multifatorial (envolve sazonalidade hídrica, patógenos específicos e predadores múltiplos), e não uma ação exclusiva de Veyrathus.",
-          "evidence": "Afirmação não comprovada de que todos os predadores naturais de Nexovora foram eliminados.",
-          "guidingQuestion": "Quais evidências seriam necessárias para validar essa afirmação?",
-          "image": "assets/eden/05_pantano_veyra.png"
-        }
+      "documentRefs": [
+        "doc-e10",
+        "doc-e11"
       ],
       "questions": [
         {
           "id": "d2_q7_1",
-          "prompt": "Com base nas evidências dos Relatórios 10 e 11, a introdução de Veyrathus na Floresta Cristalina é recomendada ou oferece risco de desastre secundário?",
-          "guidance": "Considere o risco de predação não-alvo sobre as espécies já combalidas (como Virex e Aerion).",
-          "rubric": "O estudante deve emitir parecer desfavorável ou com restrições severas de quarentena, justificando com os riscos à fauna nativa."
+          "type": "textarea",
+          "label": "Questão 1: A proposta da mineradora de introduzir 50.000 espécimes de Veyrathus na Floresta Cristalina deve ser aprovada ou rejeitada pela AECP? Justifique com dados de biossegurança.",
+          "placeholder": "Analise o risco de predação não-alvo sobre brotos tenros de Lumivora e ovos de Virex e Aerion...",
+          "expectedHint": "Deve ser REJEITADA ou suspensa: Veyrathus ataca brotos jovens de Lumivora e ovos de Virex/Aerion quando o biofilme endurece, podendo extinguir a fauna nativa remanescente."
         },
         {
           "id": "d2_q7_2",
-          "prompt": "Quais testes científicos e protocolos de biossegurança deveriam ter sido realizados antes que a mineradora formulasse essa proposta de intervenção?",
-          "guidance": "Testes de especificidade alimentar em laboratório fechado (mesocosmos) e ensaios de preferência de presas.",
-          "rubric": "Deve citar testes de espectro alimentar, quarentena e análise de risco ecológico rigorosa."
+          "type": "textarea",
+          "label": "Questão 2: Com base no Relatório 11, por que o equilíbrio no Pântano de Veyra não depende exclusivamente de Veyrathus, mas de múltiplos fatores ecológicos integrados?",
+          "placeholder": "Mencione a sazonalidade hídrica, vírus líticos, competição vegetal e predadores de Veyrathus...",
+          "expectedHint": "O controle em Veyra é multifatorial (seca sazonal, patógenos líticos, competição e predadores de Veyrathus); soltá-lo na floresta sem esses freios criará uma segunda praga."
         }
       ],
       "learningObjectives": [
-        "Avaliar riscos ambientais associados ao controle biológico clássico.",
-        "Aplicar o princípio da precaução e biossegurança em ecologia."
-      ],
-      "studentDeliverable": "Matriz de Avaliação de Risco de Controle Biológico."
+        "Avaliar criticamente os riscos ambientais de introdução de agentes de controle biológico.",
+        "Aplicar o princípio da precaução e regras de biossegurança ecológica."
+      ]
     },
     {
       "id": "phase-d2-08",
@@ -2637,43 +2872,33 @@ const DESAFIO_02_DATA = {
       "title": "Plano Integrado de Manejo & Restauração Ecológica",
       "focus": "Planejamento de intervenção ambiental integrada e monitoramento",
       "duration": "45 min",
-      "documentRefs": [
-        "relatorio-12"
+      "expectedProduct": "Plano Oficial de Restauração Ecológica",
+      "docsInvolved": [
+        "doc-e12"
       ],
-      "documents": [
-        {
-          "id": "relatorio-12",
-          "code": "DOC-E12",
-          "title": "Relatório 12: Laudo Integrado de Confirmação",
-          "type": "Relatório Conclusivo de Perícia Ecológica",
-          "date": "Ciclo Planetário 2189.215",
-          "origin": "Gabinete do Inspetor-Geral da AECP",
-          "summary": "Consolidação de evidências: transporte, competição e dano ecológico.",
-          "content": "O Laudo Oficial confirma:\n1. Nexovora rapidans foi introduzida na Floresta Cristalina pelos caminhões da mineradora que transportaram água e sedimentos do Pântano de Veyra.\n2. O colapso de Lumivora (-72%) decorre de exclusão competitiva por espaço e luz e produção de biofilmes inibidores.\n3. O efeito dominó desarticulou Virex, Aerion e Drakon.\n4. A proposta de Veyrathus representa risco iminente de predação não-alvo sobre a fauna nativa.\n5. A restauração exige contenção imediata dos vetores e manejo ativo.",
-          "evidence": "Identificação de linhagem compatível entre organismos do Pântano de Veyra e da Floresta Cristalina, registros da rota de transporte e resultados experimentais de competição.",
-          "guidingQuestion": "Quais conclusões podem ser sustentadas e quais incertezas permanecem?",
-          "image": "assets/eden/15_dossie_projeto_eden.png"
-        }
+      "documentRefs": [
+        "doc-e12"
       ],
       "questions": [
         {
           "id": "d2_q8_1",
-          "prompt": "Desenhe uma proposta de intervenção em 3 etapas para conter a expansão de Nexovora rapidans sem recorrer à liberação descontrolada de predadores exóticos.",
-          "guidance": "Divida em: (1) Contenção e biossegurança nas frotas de mineração; (2) Remoção mecânica/bioquímica seletiva de biofilmes; (3) Reintrodução assistida de Lumivora.",
-          "rubric": "O estudante deve propor medidas práticas, sequenciais e ecologicamente fundamentadas."
+          "type": "textarea",
+          "label": "Questão 1: Estruture o plano de intervenção ecológica da sua equipe em 3 etapas integradas para conter Nexovora sem gerar novos desastres ambientais.",
+          "placeholder": "Divida em: (1) Contenção e barreira no transporte; (2) Remoção física de biofilmes; (3) Reintrodução assistida de Lumivora...",
+          "expectedHint": "1. Contenção: barreiras sanitárias e esterilização UV nas frotas de mineração. 2. Remoção física/química seletiva de biofilmes nos setores críticos. 3. Restauração ativa: reintrodução de plântulas de Lumivora e monitoramento."
         },
         {
           "id": "d2_q8_2",
-          "prompt": "Por que a simples remoção de Nexovora não garante a recuperação imediata e espontânea da Floresta Cristalina?",
-          "guidance": "Lembre da Regra 6: ecossistemas sob estresse severo sofrem histerese ecológica e perda de banco de sementes nativas.",
-          "rubric": "Deve explicar que o solo degradado e as baixas populações nativas necessitam de restauração ativa e monitoramento contínuo."
+          "type": "textarea",
+          "label": "Questão 2: Por que a Regra Científica 6 alerta que 'eliminar a espécie invasora não garante a recuperação automática do ecossistema'?",
+          "placeholder": "Explique a histerese ecológica, a degradação do solo e a perda de banco de sementes nativas...",
+          "expectedHint": "Mesmo sem o invasor, as populações nativas estão com números criticamente baixos (risco de vórtice de extinção) e o solo perdeu nutrientes, exigindo reintrodução e manejo ativo."
         }
       ],
       "learningObjectives": [
-        "Elaborar planos de intervenção ambiental com base em evidências.",
-        "Compreender a diferença entre erradicação de invasor e restauração ecológica."
-      ],
-      "studentDeliverable": "Plano Oficial de Restauração Ecológica da Floresta Cristalina."
+        "Desenhar planos de manejo ecológico e restauração ambiental integrados.",
+        "Reconhecer a necessidade de intervenção ativa e monitoramento pós-erradicação."
+      ]
     },
     {
       "id": "phase-d2-09",
@@ -2682,94 +2907,29 @@ const DESAFIO_02_DATA = {
       "title": "Tribunal Pericial e Defesa Científica Oficial da AECP",
       "focus": "Comunicação científica, defesa de conclusões periciais e julgamento",
       "duration": "45 min",
-      "documentRefs": [
-        "relatorio-01",
-        "relatorio-02",
-        "relatorio-03",
-        "relatorio-04",
-        "relatorio-05",
-        "relatorio-06",
-        "relatorio-07",
-        "relatorio-08",
-        "relatorio-09",
-        "relatorio-10",
-        "relatorio-11",
-        "relatorio-12"
+      "expectedProduct": "Parecer Técnico Pericial Conclusivo",
+      "docsInvolved": [
+        "doc-sintese"
       ],
-      "documents": [
-        {
-          "id": "relatorio-sintese",
-          "code": "DOC-SINTESE",
-          "title": "Dossiê Consolidado da Operação ÉDEN (AECP)",
-          "type": "Dossiê Pericial Final",
-          "date": "Ciclo Planetário 2189.225",
-          "origin": "Mesa Diretora do Conselho Científico da AECP",
-          "summary": "Avaliação final das evidências, pareceres e planos de restauração.",
-          "content": "As equipes de estudantes periciais apresentam seu Parecer Técnico Final ao Conselho Científico Supremo da AECP. Cada equipe defenderá suas conclusões contra a mineradora e apresentará as medidas de contenção, restauração e monitoramento ecológico para Nébula-7.",
-          "evidence": "Síntese dos 12 Laudos Técnicos Analisados ao Longo da Missão.",
-          "guidingQuestion": "Como fundamentar a restauração do equilíbrio ecológico sem provocar um segundo desastre ambiental?",
-          "image": "assets/eden/00_prancha_completa_referencia.png"
-        }
+      "documentRefs": [
+        "doc-sintese"
       ],
       "questions": [
         {
           "id": "d2_q9_1",
-          "prompt": "Redija o Parecer Técnico Conclusivo da sua equipe para o Conselho Científico da AECP: sintetize a rota de introdução comprovada, os mecanismos ecológicos do colapso e o plano definitivo de restauração.",
-          "guidance": "Estruture em: Diagnóstico Pericial, Avaliação de Riscos de Biossegurança e Recomendações de Manejo e Restauração.",
-          "rubric": "Avaliação da clareza argumentativa, rigor conceitual e articulação coerente de todas as evidências dos laudos."
+          "type": "textarea",
+          "label": "Questão Conclusiva: Redija o Parecer Técnico Final da sua equipe pericial para o Conselho da AECP: resuma o vetor de transporte, o mecanismo ecológico do colapso e as medidas de restauração aprovadas.",
+          "placeholder": "Estruture seu parecer em: (1) Diagnóstico Pericial Conclusivo; (2) Avaliação de Riscos de Biossegurança; (3) Recomendações e Plano de Restauração...",
+          "expectedHint": "Articulação completa e fundamentada em dados empíricos: vetor minerador, exclusão de Gause, rejeição do predador Veyrathus e protocolo de manejo em 3 etapas."
         }
       ],
       "learningObjectives": [
-        "Desenvolver competências de comunicação e argumentação científica.",
-        "Defender conclusões baseadas em evidências empíricas e pensamento crítico."
-      ],
-      "studentDeliverable": "Parecer Técnico Conclusivo e Apresentação Oral no Conselho AECP."
+        "Sintetizar evidências periciais em relatório técnico conclusivo.",
+        "Defender conclusões científicas com clareza argumentativa perante bancas examinadoras."
+      ]
     }
   ],
-  "slides": [
-    {
-      "id": "slide_d2_1",
-      "code": "LÂMINA D2-01",
-      "title": "Lâmina D2-01: Biofilme de Nexovora rapidans sobre Quartzo",
-      "location": "Floresta Cristalina — Setor Mineral Norte (Rochas de Quartzo)",
-      "category": "Arquivo Técnico de Astrobiologia AECP",
-      "src": "assets/eden/04_floresta_bioinvasao.png",
-      "thumb": "assets/eden/04_floresta_bioinvasao.png",
-      "count": "120.000 células/cm² (Camada mucosa densa)",
-      "typeText": "Células ciliadas exóticas em matriz polimérica extracelular (EPS)",
-      "description": "Amostra obtida por raspagem do biofilme que recobre os cristais luminescentes. Revela células esferoidais com filamentos adesivos de alta afinidade por sílica, formando redes entrelaçadas que impedem a passagem de fótons e trocas gasosas das raízes superficiais de Lumivora.",
-      "scaleMicronsPerPixel": 0.15,
-      "uvFluorescence": true
-    },
-    {
-      "id": "slide_d2_2",
-      "code": "LÂMINA D2-02",
-      "title": "Lâmina D2-02: Ecossistema Nativo de Lumivora (Controle)",
-      "location": "Floresta Cristalina — Zona Intacta (Reserva AECP)",
-      "category": "Botânica Planetária Comparada",
-      "src": "assets/eden/03_floresta_cristalina_nativa.png",
-      "thumb": "assets/eden/03_floresta_cristalina_nativa.png",
-      "count": "População vegetal equilibrada e sadia",
-      "typeText": "Parênquima clorofiliano íntegro com luminescência basal",
-      "description": "Células fotossintetizantes saudáveis de Lumivora em seu estado prístino. Parênquima túrgido, alta densidade de plastos luminescentes e ausência de contaminação por biofilme mucoso de Nexovora.",
-      "scaleMicronsPerPixel": 0.18,
-      "uvFluorescence": true
-    },
-    {
-      "id": "slide_d2_3",
-      "code": "LÂMINA D2-03",
-      "title": "Lâmina D2-03: Triagem Citomorfológica de Veyrathus em Laboratório",
-      "location": "Estação Científica ÉDEN — Laboratório Central de Biossegurança",
-      "category": "Ecotoxicologia & Controle Biológico",
-      "src": "assets/eden/06_laboratorio_aecp.png",
-      "thumb": "assets/eden/06_laboratorio_aecp.png",
-      "count": "Ensaio de especificidade de presas em mesocosmo",
-      "typeText": "Avaliação histopatológica e teste de voracidade",
-      "description": "Análise do aparelho bucal raspador de Veyrathus. Demonstra capacidade de triturar cistos de Nexovora, mas também revela afinidade oportunista por tecidos tenros de brotos jovens de Lumivora e ovos de pequenos herbívoros nativos.",
-      "scaleMicronsPerPixel": 0.12,
-      "uvFluorescence": false
-    }
-  ],
+  "slides": [],
   "teacherGuide": {
     "title": "Guia Pedagógico da Operação ÉDEN (Desafio 02)",
     "warning": "ACESSO EXCLUSIVO DO PROFESSOR (AECP): Contém orientações didáticas, armadilhas epistemológicas dos alunos e matriz de avaliação do Conselho Científico.",

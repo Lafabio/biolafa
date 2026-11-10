@@ -2,7 +2,10 @@
 class BioLabApp {
   constructor() {
     this.currentTab = 'desafios'; // 'desafios', 'investigacao', 'microscopio', 'mapa', 'simulador', 'professor'
-    this.currentPhaseIndex = 0; // 0 a 8 (9 fases)
+    this.currentPhaseIndex = 0;
+    if (challengeId === 'desafio-2' && this.currentTab === 'microscopio') {
+      this.currentTab = 'investigacao';
+    } // 0 a 8 (9 fases)
     
     // Autenticação Exclusiva do Professor (login: biolafa / senha: lilica10)
     this.teacherAuth = (localStorage.getItem('biolafa_teacher_auth') === 'true');
@@ -41,10 +44,9 @@ class BioLabApp {
     // Sistema Multi-Desafios e Controle Pedagógico Docente
     this.activeChallengeId = localStorage.getItem('biolafa_active_challenge_id') || 'desafio-1';
     this.isChallenge04Unlocked = (localStorage.getItem('biolafa_challenge_04_unlocked') === 'true');
-    this.isChallenge02Unlocked = (localStorage.getItem('biolafa_challenge_02_unlocked') !== 'false');
-
-    // Se o Desafio 04/02 estiver ativo mas estiver bloqueado e o usuário não for professor, reverte para Desafio 01
-    if ((this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2') && !this.isChallenge04Unlocked && !this.teacherAuth) {
+    this.isChallenge02Unlocked = true; // Desafio 02 (Projeto ÉDEN) é totalmente desbloqueado
+    // Se o Desafio 04 estiver ativo mas estiver bloqueado e o usuário não for professor, reverte para Desafio 01
+    if (this.activeChallengeId === 'desafio-4' && !this.isChallenge04Unlocked && !this.teacherAuth) {
       this.activeChallengeId = 'desafio-1';
       localStorage.setItem('biolafa_active_challenge_id', 'desafio-1');
     }
@@ -63,11 +65,8 @@ class BioLabApp {
 
   get currentData() {
     const id = this.activeChallengeId;
-    if (typeof window !== 'undefined' && window.CHALLENGES_DATABASE) {
-      if (window.CHALLENGES_DATABASE[id]) return window.CHALLENGES_DATABASE[id];
-      if ((id === 'desafio-4' || id === 'desafio-2') && (window.CHALLENGES_DATABASE['desafio-4'] || window.CHALLENGES_DATABASE['desafio-2'])) {
-        return window.CHALLENGES_DATABASE['desafio-4'] || window.CHALLENGES_DATABASE['desafio-2'];
-      }
+    if (typeof window !== 'undefined' && window.CHALLENGES_DATABASE && window.CHALLENGES_DATABASE[id]) {
+      return window.CHALLENGES_DATABASE[id];
     }
     if (typeof window !== 'undefined' && window.BIO_DATA) {
       return window.BIO_DATA;
@@ -507,6 +506,12 @@ class BioLabApp {
       activeSec.classList.remove('hidden');
     }
 
+    if (tabId === 'microscopio' && this.activeChallengeId === 'desafio-2') {
+      alert('🔬 O Microscópio Óptico não se aplica ao Projeto ÉDEN (Nébula-7).\n\nEste desafio é uma investigação macroecológica e pericial de bioinvasão. Utilize o Caderno Pericial, o Mapa Ecológico, a Teia Alimentar Interativa e o Terminal AECP.');
+      this.switchTab('investigacao');
+      return;
+    }
+
     if (tabId === 'desafios') {
       this.renderChallengesHub();
     } else if (tabId === 'investigacao') {
@@ -536,6 +541,34 @@ class BioLabApp {
   }
 
   renderHeader() {
+    // Ajustar visibilidade e títulos das abas conforme o Desafio ativo
+    const microTabBtn = document.querySelector('button[data-tab="microscopio"]');
+    const microfilmTabBtn = document.querySelector('button[data-tab="microfilme"]');
+    const mapaTabBtn = document.querySelector('button[data-tab="mapa"]');
+    const simTabBtn = document.querySelector('button[data-tab="simulador"]');
+
+    if (this.activeChallengeId === 'desafio-2') {
+      if (microTabBtn) microTabBtn.style.display = 'none'; // Desafio 02 NÃO TEM microscópio
+      if (microfilmTabBtn) microfilmTabBtn.innerHTML = '<span>🛰️</span> Terminal AECP';
+      if (mapaTabBtn) mapaTabBtn.innerHTML = '<span>🪐</span> Mapa Nébula-7';
+      if (simTabBtn) simTabBtn.innerHTML = '<span>🕸️</span> Teia Ecológica';
+    } else if (this.activeChallengeId === 'desafio-4') {
+      if (microTabBtn) {
+        microTabBtn.style.display = '';
+        microTabBtn.innerHTML = '<span>🔬</span> Microscópio (Fitoplâncton)';
+      }
+      if (microfilmTabBtn) microfilmTabBtn.innerHTML = '<span>📑</span> Laudos Periciais';
+      if (mapaTabBtn) mapaTabBtn.innerHTML = '<span>🗺️</span> Bacia do Lago Azul';
+      if (simTabBtn) simTabBtn.innerHTML = '<span>📉</span> Dinâmica de Anóxia';
+    } else {
+      if (microTabBtn) {
+        microTabBtn.style.display = '';
+        microTabBtn.innerHTML = '<span>🔬</span> Microscópio Virtual';
+      }
+      if (microfilmTabBtn) microfilmTabBtn.innerHTML = '<span>🎞️</span> Hemeroteca';
+      if (mapaTabBtn) mapaTabBtn.innerHTML = '<span>🗺️</span> Rio das Palmeiras';
+      if (simTabBtn) simTabBtn.innerHTML = '<span>📊</span> Simulador Trófico';
+    }
     
     const chalInfo = document.getElementById('global-challenge-info');
     if (chalInfo && this.currentData && this.currentData.challenge) {
@@ -649,7 +682,10 @@ class BioLabApp {
 
     // Documentos da fase
     const phaseDocIds = phase.docsInvolved || phase.documentRefs || [];
-    const docs = (this.currentData.documents || []).filter(d => phaseDocIds.includes(d.id));
+    let docs = (this.currentData.documents || []).filter(d => phaseDocIds.includes(d.id));
+    if (docs.length === 0 && phase.documents && phase.documents.length > 0) {
+      docs = phase.documents;
+    }
 
     const contentEl = document.getElementById('phase-content-container');
     if (contentEl) {
@@ -813,27 +849,44 @@ class BioLabApp {
           <h3 class="lab-report-title">${doc.title}</h3>
 
           <!-- Imagem Técnica da Lâmina Anexada ao Laudo -->
-          ${doc.imageSrc ? `
+          ${(doc.imageSrc || doc.image) ? `
             <div class="lab-report-figure-box">
               <div class="lab-report-img-wrapper">
-                <img src="${doc.imageSrc}" alt="${doc.title}" class="lab-report-img">
-                <span class="lab-magnification-stamp">${doc.style === 'inspection-report' ? 'VISTORIA TÉCNICA OFICIAL' : (doc.style === 'veterinary-report' ? 'NECRÓPSIA ICTIOLÓGICA' : (doc.style === 'toxicology-report' ? 'LAUDO TOXICOLÓGICO' : (doc.style === 'monitoring-report' ? 'MONITORAMENTO CONTÍNUO' : 'EVIDÊNCIA ÓPTICA OFICIAL')))}</span>
+                <img src="${doc.imageSrc || doc.image}" alt="${doc.title}" class="lab-report-img">
+                <span class="lab-magnification-stamp">${doc.style === 'inspection-report' ? 'VISTORIA TÉCNICA OFICIAL' : (doc.style === 'veterinary-report' ? 'NECRÓPSIA ICTIOLÓGICA' : (doc.style === 'toxicology-report' ? 'LAUDO TOXICOLÓGICO' : (doc.style === 'monitoring-report' ? 'MONITORAMENTO CONTÍNUO' : (doc.labName && doc.labName.includes('AECP') ? 'DOSSIÊ PERICIAL AECP' : 'EVIDÊNCIA ÓPTICA OFICIAL'))))}</span>
               </div>
               <div class="lab-report-caption">
-                ${doc.imageLabel ? `${doc.imageLabel}:` : '🔬 <strong>Registro Citomorfológico:</strong>'} ${doc.imageCaption || 'Partículas retidas na malha de triagem analisadas sob microscópio.'}
+                ${doc.imageLabel ? `${doc.imageLabel}:` : '🔬 <strong>Registro Pericial:</strong>'} ${doc.imageCaption || doc.title}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Tabela de Dados e Evidências Numéricas (quando houver) -->
+          ${doc.dados ? `
+            <div class="my-3 p-3 rounded-lg bg-slate-950/80 border border-cyan-500/30 font-mono text-xs">
+              <div class="text-[10px] uppercase font-bold text-cyan-400 mb-1 flex items-center gap-1.5">
+                <span>📊</span> Registros & Dados Telemétricos Oficiais:
+              </div>
+              <div class="space-y-1 text-slate-300">
+                ${Object.entries(doc.dados).map(([k, v]) => `
+                  <div class="flex flex-wrap justify-between border-b border-slate-800/80 pb-0.5">
+                    <span class="text-slate-400">${k.replace(/_/g, ' ')}:</span>
+                    <strong class="text-cyan-200">${typeof v === 'object' ? JSON.stringify(v) : v}</strong>
+                  </div>
+                `).join('')}
               </div>
             </div>
           ` : ''}
 
           <!-- Conteúdo Analítico do Laudo -->
           <div class="lab-report-text">
-            ${doc.fullText.replace(/\n\s+/g, '<br><br>')}
+            ${(doc.fullText || doc.content || doc.summary || '').replace(/\n\s+/g, '<br><br>')}
           </div>
 
           <!-- Rodapé com Assinatura Técnica e Ressalva -->
           <div class="lab-report-footer">
             <div class="lab-footer-meta">
-              <strong>Procedimento:</strong> ${doc.metodo || (doc.style === 'veterinary-report' ? 'Necrópsia Ictiológica e Análise Macroscópica Branquial' : (doc.style === 'monitoring-report' ? 'Sonda Multiparâmetros Telemétrica Contínua' : (doc.style === 'toxicology-report' ? 'Ensaio Imunoenzimático ELISA de Triagem' : 'Triagem Óptica Padronizada (Rede 300 µm)')))}<br>
+              <strong>Procedimento:</strong> ${doc.metodo || (doc.labName && doc.labName.includes('AECP') ? 'Protocolo Pericial AECP • Nébula-7' : (doc.style === 'veterinary-report' ? 'Necrópsia Ictiológica e Análise Macroscópica Branquial' : (doc.style === 'monitoring-report' ? 'Sonda Multiparâmetros Telemétrica Contínua' : (doc.style === 'toxicology-report' ? 'Ensaio Imunoenzimático ELISA de Triagem' : 'Triagem Óptica Padronizada (Rede 300 µm)'))))}<br>
               ${this.teacherMode ? `
                 <strong class="text-amber-800">🎓 Análise Pedagógica Docente:</strong> <span class="text-amber-900 font-bold">${doc.sourceHint}</span>
               ` : `
@@ -842,8 +895,8 @@ class BioLabApp {
             </div>
             <div class="lab-signature-box">
               <div class="lab-sign-line"></div>
-              <div class="text-[10px] font-bold text-slate-900">Dra. M. V. Sampaio</div>
-              <div class="text-[9px] text-slate-600 font-mono">Bióloga Responsável • CRBio 42.119</div>
+              <div class="text-[10px] font-bold text-slate-900">${(doc.labName && doc.labName.includes('AECP')) ? 'Cmdte. V. Kaelen' : 'Dra. M. V. Sampaio'}</div>
+              <div class="text-[9px] text-slate-600 font-mono">${(doc.labName && doc.labName.includes('AECP')) ? 'Inspetor Científico • AECP 2189' : 'Bióloga Responsável • CRBio 42.119'}</div>
             </div>
           </div>
         </article>
@@ -1051,7 +1104,20 @@ class BioLabApp {
       `;
     }
 
-    return '';
+    // Fallback universal para qualquer formato de questão
+    return `
+      <div class="question-block" id="block-${q.id}">
+        <label class="question-label">${q.label || q.prompt || `Questão ${qIdx + 1}`}</label>
+        <textarea class="lab-textarea" rows="4" 
+          placeholder="${q.placeholder || q.guidance || 'Digite a resposta fundamentada da sua equipe...'}"
+          oninput="window.app.saveAnswer('${q.id}', this.value)">${savedVal}</textarea>
+        ${this.teacherMode && (q.expectedHint || q.rubric) ? `
+          <div class="teacher-answer-peek mt-2 p-2 rounded bg-amber-950/60 border border-amber-600/40 text-xs text-amber-200">
+            <strong>Gabarito Esperado:</strong> ${q.expectedHint || q.rubric}
+          </div>
+        ` : ''}
+      </div>
+    `;
   }
 
   toggleChecklistOption(questionId, optIndex) {
@@ -1302,47 +1368,8 @@ class BioLabApp {
   }
 
   async checkServerForNewSlides() {
-    try {
-      const res = await fetch('/api/slides');
-      if (!res.ok || !this.currentData) return;
-      const data = await res.json();
-      if (data && Array.isArray(data.slides)) {
-        let added = false;
-        if (!this.currentData.slides) this.currentData.slides = [];
-        data.slides.forEach(filename => {
-          // Isolamento rigoroso entre desafios: não vazar lâminas do Desafio 1 para o Desafio 4 e vice-versa
-          if ((this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2') && (filename.includes('slide1.bmp') || filename.includes('slide2.bmp'))) return;
-          if (this.activeChallengeId === 'desafio-1' && (filename.includes('microcystis') || filename.includes('ictiopatologia'))) return;
-
-          const slidePath = 'assets/slides/' + filename;
-          const exists = this.currentData.slides.some(s => s.src.toLowerCase() === slidePath.toLowerCase() || s.src.includes(filename));
-          if (!exists) {
-            const num = this.currentData.slides.length + 1;
-            const newSlide = {
-              id: 'slide_auto_' + filename.replace(/[^a-zA-Z0-9]/g, '_'),
-              code: `LÂMINA 0${num}`,
-              title: `Lâmina 0${num}: ${filename}`,
-              location: 'Pasta de Arquivos /assets/slides',
-              category: 'Lâmina Detectada',
-              src: slidePath,
-              thumb: slidePath,
-              count: 'Arquivo Local',
-              typeText: 'Lâmina escaneada adicionada',
-              description: `Arquivo ${filename} detectado automaticamente na pasta de lâminas.`,
-              scaleMicronsPerPixel: 0.15,
-              uvFluorescence: true
-            };
-            this.currentData.slides.push(newSlide);
-            added = true;
-          }
-        });
-        if (added) {
-          this.renderSlidesShelf();
-        }
-      }
-    } catch(e) {
-      // Offline ou estático
-    }
+    // Isolamento estrito entre packs de missão: nenhum arquivo arbitrário do servidor é injetado nas lâminas oficiais.
+    return;
   }
 
   loadSlideIntoMicroscope(slideId) {
@@ -1415,8 +1442,9 @@ class BioLabApp {
   // MAPA CARTOGRÁFICO INTERATIVO
   // ==========================================
   renderInteractiveMap() {
-    const isDesafio4 = (this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2');
-    if (isDesafio4) {
+    if (this.activeChallengeId === 'desafio-2') {
+      this.renderInteractiveMapDesafio2();
+    } else if (this.activeChallengeId === 'desafio-4') {
       this.renderInteractiveMapDesafio4();
     } else {
       this.renderInteractiveMapDesafio1();
@@ -1658,6 +1686,35 @@ class BioLabApp {
     if (!dossier) return;
 
     const mapData = {
+      // Pontos do Desafio 02 (Projeto ÉDEN - Nébula-7)
+      floresta_cristalina: {
+        title: '🌲 Floresta Cristalina • Zona de Bioinvasão Crítica',
+        count: 'Nexovora: 62% cobertura do dossel • Declínio Lumivora: -58% • Bioma sob Risco',
+        slideId: null,
+        docId: 'doc-e01',
+        text: 'Ecossistema outrora equilibrado com alta diversidade trófica. A proliferação descontrolada do biofilme epifítico de Nexovora rapidans causou sombreamento e asfixia mecânica em Lumivora, desencadeando colapso trófico em cascata sobre Virex, Thalor e Aerion.'
+      },
+      pantano_veyra: {
+        title: '🌾 Pântano de Veyra • Ecossistema Nativo de Origem',
+        count: 'Nexovora: 8% (Estável) • Veyrathus: 42 ind/ha (Controle Natural) • Salinidade Moderada',
+        slideId: null,
+        docId: 'doc-e04',
+        text: 'Bioma nativo de onde Nexovora se originou há milênios. No pântano úmido, Nexovora coexiste em equilíbrio com o consumidor biológico especializado Veyrathus, além de estar adaptada a águas ricas em ferro e silicato.'
+      },
+      rota_mineracao: {
+        title: '🚚 Rota de Mineração Veyra-Cristalina • Vetor de Dispersão Antrópica',
+        count: '185 km de extensão terrestre • 24 comboios/dia • Biofilmes em rodas, eixos e tanques de lama',
+        slideId: null,
+        docId: 'doc-e03',
+        text: 'Caminhões pesados e tanques de transbordo de águas minerais entre a mineradora de Veyra e as fundições da Floresta Cristalina transportaram esporos e fragmentos viáveis de Nexovora sem qualquer protocolo de contenção ou quarentena.'
+      },
+      base_aecp: {
+        title: '🛰️ Base Científica ÉDEN • Agência Espacial de Controle Planetário (AECP)',
+        count: 'Operação ÉDEN • 12 Relatórios Técnicos • 9 Fases Ativas • Carga Horária: 405 min',
+        slideId: null,
+        docId: 'doc-e02',
+        text: 'Quartel-general das equipes de investigação da AECP. Equipada com cromatógrafos, microscópios de varredura planetária e simuladores de perturbação trófica para desenhar a intervenção ecológica de restauração.'
+      },
       // Pontos do Desafio 01
       ponto_a: {
         title: 'Estação de Monitoramento A • Montante (Controle)',
@@ -3489,6 +3546,68 @@ class BioLabApp {
         </div>
       `;
     }
+  }
+
+  
+  renderInteractiveMapDesafio2() {
+    const mapContainer = document.getElementById('interactive-map-container');
+    if (!mapContainer) return;
+
+    mapContainer.innerHTML = `
+      <div class="map-wrapper relative overflow-hidden rounded-2xl border border-cyan-500/40 bg-slate-950 p-6 shadow-2xl">
+        <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge-tag-cyan bg-cyan-950 text-cyan-300 border-cyan-500/40 font-mono text-xs px-2.5 py-0.5 rounded border">AECP • SISTEMA CARTOGRÁFICO NÉBULA-7</span>
+              <span class="text-xs font-mono text-emerald-400">Escala: 1:500.000</span>
+            </div>
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🗺️</span> Mapa Ecológico & Rotas de Dispersão • Desafio 02 (Projeto ÉDEN)
+            </h3>
+            <p class="text-xs text-slate-300">
+              Clique nos pontos geográficos de Nébula-7 para inspecionar os dossiês ambientais, rotas mineradoras e zonas afetadas.
+            </p>
+          </div>
+          <div class="map-legend flex flex-wrap gap-3 text-xs font-mono">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500 inline-block animate-ping"></span> Zona de Invasão (Floresta)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> Pântano de Veyra (Origem)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span> Base AECP / Posto Avançado</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-orange-400 inline-block"></span> Rota de Mineração</span>
+          </div>
+        </div>
+
+        <div class="relative w-full aspect-[16/9] max-h-[500px] bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-inner">
+          <img src="assets/eden/14_mapa_ecologico_nebula7.png" alt="Mapa Ecológico de Nébula-7" class="w-full h-full object-cover opacity-85">
+          
+          <!-- Hotspot 1: Floresta Cristalina -->
+          <button class="absolute top-[35%] left-[28%] -translate-x-1/2 -translate-y-1/2 p-2.5 rounded-xl bg-rose-600/90 text-white font-bold text-xs hover:scale-110 transition shadow-[0_0_20px_rgba(244,63,94,0.9)] border-2 border-white flex items-center gap-1.5 cursor-pointer z-10"
+            onclick="window.app.openMapPopup('floresta_cristalina')" title="Inspecionar Floresta Cristalina">
+            <span>🌲</span> Floresta Cristalina (Bioinvasão)
+          </button>
+
+          <!-- Hotspot 2: Pântano de Veyra -->
+          <button class="absolute top-[68%] left-[72%] -translate-x-1/2 -translate-y-1/2 p-2.5 rounded-xl bg-amber-600/90 text-white font-bold text-xs hover:scale-110 transition shadow-[0_0_20px_rgba(245,158,11,0.9)] border-2 border-white flex items-center gap-1.5 cursor-pointer z-10"
+            onclick="window.app.openMapPopup('pantano_veyra')" title="Inspecionar Pântano de Veyra">
+            <span>🌾</span> Pântano de Veyra (Origem)
+          </button>
+
+          <!-- Hotspot 3: Rota dos Caminhões -->
+          <button class="absolute top-[48%] left-[50%] -translate-x-1/2 -translate-y-1/2 p-2 rounded-xl bg-orange-500/90 text-white font-bold text-[11px] hover:scale-110 transition shadow-lg border border-white flex items-center gap-1 cursor-pointer z-10"
+            onclick="window.app.openMapPopup('rota_mineracao')" title="Inspecionar Rota de Mineração">
+            <span>🚚</span> Rota de Transporte (185 km)
+          </button>
+
+          <!-- Hotspot 4: Base da AECP -->
+          <button class="absolute top-[20%] left-[65%] -translate-x-1/2 -translate-y-1/2 p-2 rounded-xl bg-cyan-600/90 text-white font-bold text-[11px] hover:scale-110 transition shadow-lg border border-white flex items-center gap-1 cursor-pointer z-10"
+            onclick="window.app.openMapPopup('base_aecp')" title="Inspecionar Base Científica AECP">
+            <span>🛰️</span> Base Científica ÉDEN
+          </button>
+        </div>
+
+        <!-- Dossiê do Ponto Clicado -->
+        <div id="map-popup-dossier" class="hidden mt-4 p-4 rounded-xl border border-cyan-500/40 bg-slate-900/95 shadow-xl transition-all"></div>
+      </div>
+    `;
   }
 
   printReport() {

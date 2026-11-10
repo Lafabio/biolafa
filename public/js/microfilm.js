@@ -119,18 +119,20 @@ class MicrofilmReader {
     this.render();
   }
 
-  initFrames() {
+    initFrames() {
+    const isDesafio2 = (window.app && window.app.activeChallengeId === 'desafio-2');
+    const isDesafio4 = (window.app && window.app.activeChallengeId === 'desafio-4');
     const currentDb = (window.app && window.app.currentData) || (window.BIO_DATA);
     if (currentDb && currentDb.documents && currentDb.documents.length > 0) {
       this.frames = currentDb.documents.map((doc, idx) => ({
         id: `frame-${doc.id}`,
-        reel: `ROLO 0${Math.floor(idx / 3) + 1} • BOBINA ${(idx % 3 === 0 ? 'A' : (idx % 3 === 1 ? 'B' : 'C'))}`,
-        newspaper: doc.newspaperName || doc.labName || 'ARQUIVO MUNICIPAL',
-        date: doc.tag || doc.edition || 'Registro Oficial',
+        reel: isDesafio2 ? `AECP-EDEN • REGISTRO 0${idx + 1}` : `ROLO 0${Math.floor(idx / 3) + 1} • BOBINA ${(idx % 3 === 0 ? 'A' : (idx % 3 === 1 ? 'B' : 'C'))}`,
+        newspaper: isDesafio2 ? (doc.labName || 'AECP — DIVISÃO CIENTÍFICA') : (doc.newspaperName || doc.labName || (isDesafio4 ? 'LAUDO PERICIAL OFICIAL' : 'GAZETA REGIONAL')),
+        date: doc.tag || doc.edition || (isDesafio2 ? 'Ciclo Planetário 2189' : 'Registro Oficial'),
         headline: doc.title,
         img: doc.imageSrc,
-        archiveRef: `Arquivo Público Municipal • Gaveta 0${Math.floor(idx / 2) + 1} • Doc ${doc.number || (idx + 1)}`,
-        synopsis: doc.imageCaption || (doc.fullText ? doc.fullText.slice(0, 120) + '...' : ''),
+        archiveRef: isDesafio2 ? `AECP Setor 7 • Dossiê ÉDEN • Doc 0${doc.number || (idx + 1)}` : (isDesafio4 ? `Arquivo Ambiental • Processo Lago Azul • Doc 0${doc.number || (idx + 1)}` : `Biblioteca Pública Municipal • Gaveta 0${Math.floor(idx / 2) + 1} • Doc 0${doc.number || (idx + 1)}`),
+        synopsis: doc.imageCaption || (doc.fullText ? doc.fullText.slice(0, 140) + '...' : ''),
         docId: doc.id
       }));
       if (this.currentFrameIdx >= this.frames.length) {
@@ -160,8 +162,8 @@ class MicrofilmReader {
             </div>
             
             <div class="microfilm-model-badge">
-              <span class="badge-brand">BELL & HOWELL • HEMEROTECA HISTÓRICA</span>
-              <span class="badge-system">LEITOR ÓPTICO DE MICROFICHAS • ARQUIVO PÚBLICO</span>
+              <span class="badge-brand">${(window.app && window.app.activeChallengeId === 'desafio-2') ? 'AECP • SISTEMA PERICIAL HOLOGRÁFICO' : ((window.app && window.app.activeChallengeId === 'desafio-4') ? 'ARQUIVO TÉCNICO • BACIA DO LAGO AZUL' : 'BELL & HOWELL • HEMEROTECA HISTÓRICA')}</span>
+              <span class="badge-system">${(window.app && window.app.activeChallengeId === 'desafio-2') ? 'TERMINAL CENTRAL DE DADOS • OPERAÇÃO ÉDEN 2189' : ((window.app && window.app.activeChallengeId === 'desafio-4') ? 'LEITOR DE LAUDOS HIDROQUÍMICOS & ICTIOPATOLOGIA' : 'LEITOR ÓPTICO DE MICROFICHAS • ARQUIVO PÚBLICO')}</span>
             </div>
 
             <div class="spool-wheel spool-right ${this.currentFrameIdx < this.frames.length - 1 ? 'spool-spinning' : ''}">
@@ -207,7 +209,7 @@ class MicrofilmReader {
 
                   <!-- Sinopse Histórica Registrada -->
                   <div class="film-summary-box">
-                    <strong>REGISTRO DA HEMEROTECA:</strong> ${f.synopsis}
+                    <strong>${(window.app && window.app.activeChallengeId === 'desafio-2') ? 'REGISTRO CIENTÍFICO PERICIAL AECP:' : ((window.app && window.app.activeChallengeId === 'desafio-4') ? 'LAUDO TÉCNICO OFICIAL:' : 'REGISTRO DA HEMEROTECA:')}</strong> ${f.synopsis}
                   </div>
                 </div>
               </div>
@@ -265,7 +267,7 @@ class MicrofilmReader {
         <!-- Seletor Rápido de Bobinas no Rodapé -->
         <div class="mt-4 p-3 bg-slate-900 border border-slate-800 rounded-xl">
           <div class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-2">
-            <span>🗄️</span> Fichário de Microfilmes da Hemeroteca Municipal:
+            <span>🗄️</span> ${(window.app && window.app.activeChallengeId === 'desafio-2') ? 'Terminal de Documentos e Evidências da Missão ÉDEN (Nébula-7):' : ((window.app && window.app.activeChallengeId === 'desafio-4') ? 'Arquivo de Laudos Oficiais & Notícias do Lago Azul:' : 'Fichário de Microfilmes da Hemeroteca Municipal:')}
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
             ${this.frames.map((fr, idx) => `
