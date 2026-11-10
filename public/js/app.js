@@ -2,13 +2,28 @@
 class BioLabApp {
   constructor() {
     this.currentTab = 'desafios'; // 'desafios', 'investigacao', 'microscopio', 'mapa', 'simulador', 'professor'
-    this.currentPhaseIndex = 0;
-    if (challengeId === 'desafio-2' && this.currentTab === 'microscopio') {
-      this.currentTab = 'investigacao';
-    } // 0 a 8 (9 fases)
+    this.currentPhaseIndex = 0; // 0 a 8 (9 fases)
     
     // Autenticação Exclusiva do Professor (login: biolafa / senha: lilica10)
-    this.teacherAuth = (localStorage.getItem('biolafa_teacher_auth') === 'true');
+    // Permite login via URL (?professor, ?biolafa, ?prof=1), sessionStorage ou localStorage
+    const urlParams = (typeof window !== 'undefined' && window.location && window.location.search) 
+      ? new URLSearchParams(window.location.search) 
+      : null;
+    const hasProfParam = urlParams && (urlParams.has('professor') || urlParams.has('biolafa') || urlParams.has('prof') || urlParams.get('auth') === 'biolafa');
+    
+    if (hasProfParam) {
+      this.teacherAuth = true;
+      try {
+        localStorage.setItem('biolafa_teacher_auth', 'true');
+        sessionStorage.setItem('biolafa_teacher_auth', 'true');
+      } catch(e) {}
+    } else {
+      let isTeacher = false;
+      try {
+        isTeacher = (localStorage.getItem('biolafa_teacher_auth') === 'true' || sessionStorage.getItem('biolafa_teacher_auth') === 'true');
+      } catch(e) {}
+      this.teacherAuth = isTeacher;
+    }
     this.teacherMode = this.teacherAuth;
     
     // Lista de Avatares disponíveis para as Equipes
@@ -2994,6 +3009,7 @@ class BioLabApp {
       this.teacherAuth = true;
       this.teacherMode = true;
       localStorage.setItem('biolafa_teacher_auth', 'true');
+      try { sessionStorage.setItem('biolafa_teacher_auth', 'true'); } catch(e) {}
       this.closeModal('teacher-login-modal');
       this.renderHeader();
       this.renderChallengesHub();
@@ -3010,6 +3026,7 @@ class BioLabApp {
     this.teacherAuth = false;
     this.teacherMode = false;
     localStorage.removeItem('biolafa_teacher_auth');
+    try { sessionStorage.removeItem('biolafa_teacher_auth'); } catch(e) {}
     this.renderHeader();
     this.renderChallengesHub();
     if (this.currentTab === 'professor') {
