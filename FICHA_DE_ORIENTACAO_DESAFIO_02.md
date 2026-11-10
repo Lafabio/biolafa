@@ -1,138 +1,115 @@
 # 🔬 GUIA DE ORIENTAÇÃO DO ESTUDANTE INVESTIGADOR
-## BioLafa • Desafio 02: Floração Vermelha em Vale Verde
-**Subtítulo:** Eutrofização, cianobactérias tóxicas e anóxia noturna  
+## BioLafa • Desafio 02: Projeto ÉDEN — A Bioinvasão de Nébula-7
+**Subtítulo:** Uma investigação científica sobre desequilíbrio ecológico e restauração ambiental  
 **Componente Curricular:** Biologia & Ciências da Natureza • **Série:** 1ª Série do Ensino Médio  
 **Metodologia:** PBL (Aprendizagem Baseada em Problemas) & Investigação Científica Escolar  
-**Competências BNCC:** EM13CNT101, EM13CNT206, EM13CNT301, EM13CNT303  
+**Competências BNCC:** EM13CNT101, EM13CNT206, EM13CNT301, EM13CNT303, EM13CNT306  
 **Plataforma Online:** [https://biolafa.vercel.app](https://biolafa.vercel.app)
 
 ---
 
-## 🎯 1. Contexto e Objetivo Geral
+## 🎯 1. Contexto e Enigma Pericial
 
-> **Contexto da Ocorrência:**  
-> O Lago Azul apresenta uma camada verde-azulada na superfície, odor intenso e mortandade de alevinos e peixes adultos percebida durante a madrugada (entre 4h e 6h).  
-> *(Caso fictício para fins didáticos. Locais, notícias, personagens e resultados numéricos são simulados).*
+> **Registro de Emergência da AECP (Ano 2189):**  
+> Durante as operações de mineração e exploração mineral no planeta Nébula-7, a movimentação de veículos pesados e o transporte de água e sedimentos interligaram inadvertidamente o inóspito **Pântano de Veyra** à equilibrada e isolada **Floresta Cristalina**.  
+> Semanas após a abertura da rota logística, técnicos de campo relataram a proliferação agressiva de um organismo desconhecido (*Nexovora rapidans*), capaz de formar extensos biofilmes sobre rochas e troncos. As populações de espécies vegetais nativas (*Lumivora*) despencaram em mais de 70%, arrastando consigo os herbívoros (*Virex*), polinizadores (*Aerion*) e predadores de topo (*Drakon*). Enquanto isso, decompositores (*Mycora*) proliferam em decorrência da grande quantidade de matéria orgânica morta.  
+> A comunidade mineradora exige uma solução rápida: a introdução imediata de *Veyrathus*, um consumidor voraz trazido do pântano para erradicar a praga.
 
-**Objetivo Geral da Sua Equipe:**  
-Investigar as causas e consequências de uma floração no Lago Azul, relacionando nutrientes, proliferação de cianobactérias e microalgas, possível produção de cianotoxinas e variações diárias do oxigênio dissolvido. Analisar evidências, confrontar hipóteses e elaborar uma explicação científica para a mortandade de peixes.
-
----
-
-## ❓ 2. As 6 Questões Investigativas Centrais
-
-1. **Quais organismos estão proliferando:** cianobactérias, microalgas ou uma comunidade mista?
-2. **Quais nutrientes favorecem a floração** e quais podem ser suas fontes na bacia hidrográfica?
-3. **Há produção de cianotoxinas**, como microcistina?
-4. **A mortandade está relacionada à toxicidade**, à falta de oxigênio ou à combinação dos dois fatores?
-5. **Por que o oxigênio pode aumentar durante o dia** (fotossíntese) e cair drasticamente durante a noite (anóxia noturna)?
-6. **O evento no lago pode ser chamado de maré vermelha?** Como se diferencia de florações marinhas?
+**Missão Oficial da Equipe de Pesquisadores da AECP:**  
+Investigar cientificamente a rota de introdução, os mecanismos ecológicos e fisiológicos que permitiram a invasão de *Nexovora rapidans*, avaliar se a proposta de controle biológico com *Veyrathus* é uma solução viável ou um risco iminente de colapso irreversível, e desenhar um plano fundamentado de restauração ecológica da Floresta Cristalina.
 
 ---
 
-## 🧬 3. Organismos Candidatos para Pesquisa e Comparação
+## ❓ 2. As 7 Questões Investigativas Centrais
 
-> ⚠️ *Observação importante: Os organismos abaixo são candidatos para pesquisa e comparação teórica, não identificações antecipadas do Lago Azul. Nem toda floração é tóxica e nem toda linhagem de uma espécie produtora contém ou expressa genes de toxinas.*
-
-### A. Cianobactérias de Água Doce
-- **Microcystis aeruginosa:** Forma colônias microscópicas arredondadas imersas em mucilagem; algumas linhagens produzem microcistinas (hepatotoxinas).
-- **Dolichospermum spp. (antigo Anabaena):** Forma filamentos; algumas linhagens produzem cianotoxinas e apresentam heterócitos (células especializadas em fixação biológica de nitrogênio N₂).
-- **Raphidiopsis raciborskii:** Cianobactéria filamentosa; linhagens podem produzir cilindrospermopsina ou saxitoxinas.
-- **Planktothrix agardhii:** Forma filamentos; algumas linhagens produzem microcistinas.
-- **Aphanizomenon flos-aquae:** Cianobactéria filamentosa; investigar fixação de nitrogênio e potencial tóxico.
-
-### B. Microalgas de Água Doce
-- **Peridinium spp.:** Dinoflagelados de água doce que podem formar florações límnicas.
-- **Euglena sanguinea:** Pode apresentar pigmentação avermelhada em ambientes ricos em matéria orgânica.
-- **Chlamydomonas spp.:** Algas verdes unicelulares; úteis para comparação com cianobactérias procariontes.
-
-### C. Organismos Marinhos para Comparação (Desmistificação)
-- **Karenia brevis:** Dinoflagelado estritamente **marinho** associado a florações nocivas e brevetoxinas no oceano. *Não sobrevive em água doce!*
-- **Alexandrium catenella:** Dinoflagelado marinho; algumas linhagens produzem saxitoxinas.
-- **Pseudo-nitzschia spp.:** Diatomáceas marinhas produtoras de ácido domoico.
-- **Noctiluca scintillans:** Dinoflagelado marinho bioluminescente.
+1. **Identificação e Caracterização:** Quais atributos morfológicos e fisiológicos permitem suspeitar que *Nexovora rapidans* seja de fato uma espécie invasora e não apenas um organismo exótico inofensivo?
+2. **Rota e Vetores:** Qual foi a rota exata de introdução antrópica entre o Pântano de Veyra e a Floresta Cristalina? Como sedimentos e água transportados serviram de veículo de dispersão?
+3. **Mecanismo de Deslocamento de Nicho:** Os dados laboratoriais comprovam que a queda drástica de *Lumivora* é causada por competição interespecífica direta por espaço/luz (Princípio da Exclusão Competitiva de Gause)?
+4. **Cascata Trófica:** Como o colapso de um único produtor primário (*Lumivora*) repercute sucessivamente na redução de herbívoros, polinizadores e predadores de topo, enquanto os decompositores aumentam?
+5. **Amplitude de Tolerância Ambiental:** De que forma a tolerância euritérmica de *Nexovora* (10 °C a 40 °C) confere vantagem adaptativa frente a organismos nativos estenotérmicos?
+6. **Genética de Populações:** A drástica redução de heterozigosidade (de 0,72 para 0,28) e de alelos (de 12 para 4) na Floresta Cristalina comprova o **Efeito Fundador**? O que isso revela sobre o histórico da bioinvasão?
+7. **O Dilema do Controle Biológico:** A introdução do consumidor especializado *Veyrathus* resolverá o problema ou trará o perigo de predação de espécies não-alvo e desequilíbrio secundário?
 
 ---
 
-## 📅 4. Cronograma de Liberação das 9 Aulas (45 min cada)
+## 🧬 3. Catálogo dos Organismos e Parâmetros Populacionais
 
-| Aula | Foco Investigativo | Documentos Analisados | Produto Esperado da Equipe |
-| :---: | :--- | :---: | :--- |
-| **Aula 1** | Apresentação do evento misterioso e boletim meteorológico | Laudos 1 e 2 | Hipóteses iniciais sobre a mancha e a mortandade |
-| **Aula 2** | Análise de nutrientes e rastreamento de fontes na bacia | Laudos 3 e 4 | Mapa de fontes possíveis e plano de amostragem |
-| **Aula 3** | Microscopia óptica e identificação taxonômica | Laudos 5 e 6 | Quadro comparativo de espécies e citologia |
-| **Aula 4** | Investigação ecotoxicológica de cianotoxinas | Laudo 7 | Explicação técnica sobre microcistina e ELISA |
-| **Aula 5** | Interpretação do oxigênio dissolvido e ciclo diário | Laudo 8 | Gráfico e modelo explicativo do ciclo nictemeral |
-| **Aula 6** | Mortandade animal e análise crítica de notícia distratora | Laudos 9 e 10 | Refutação científica do mito de maré vermelha marinha |
-| **Aula 7** | Sedimentos de fundo, decomposição bêntica e internal loading | Laudo 11 | Sequência lógica completa dos 6 passos do Modelo Causal |
-| **Aula 8** | Integração analítica (LC-MS/MS) e laudo pericial final | Documento 12 | Minuta do Parecer Técnico Pericial (8 itens obrigatórios) |
-| **Aula 9** | Apresentação pericial, defesa científica e avaliação | Doc 1 a 12 | Apresentação oral para a turma e rubrica de autoavaliação |
-
----
-
-## 📑 5. Os 12 Documentos Investigativos do Caso
-
-1. **Documento 1 (Notícia / Registro de Ocorrência):** *Lago Azul amanhece coberto por mancha verde e peixes mortos* (Superfície manchada, odor intenso, mortandade na madrugada entre 4h e 6h).
-2. **Documento 2 (Boletim Meteorológico e Hidrológico):** *Calor, estiagem e água parada antecederam a ocorrência* (18 dias de estiagem, 28°C de média, ventos fracos).
-3. **Documento 3 (Laudo Físico-Químico):** *Concentração elevada de nutrientes próxima ao canal* (Fósforo total de 0,31 mg/L e Nitrato de 1,85 mg/L próximo ao canal vs centro).
-4. **Documento 4 (Relatório de Vistoria de Campo):** *Três possíveis fontes de nutrientes na bacia* (Lavoura com fertilizantes NPK, esgoto residencial clandestino e dejetos animais).
-5. **Documento 5 (Laudo de Microscopia Óptica):** *Microscopia identifica colônias e filamentos* (Colônias arredondadas com mucilagem, semelhantes a *Microcystis*).
-6. **Documento 6 (Laudo de Microscopia de Profundidade):** *Filamentos encontrados na região profunda* (Tricomas com heterócitos fixadores de nitrogênio, semelhantes a *Dolichospermum*).
-7. **Documento 7 (Laudo de Toxicologia Ambiental):** *Teste preliminar detecta microcistina* (Ensaio ELISA indicando 2,4 µg/L na mancha superficial e 0,35 µg/L no centro).
-8. **Documento 8 (Laudo de Monitoramento Horário):** *Oxigênio dissolvido cai durante a madrugada* (Oscilação de 14,2 mg/L às 14h para 0,8 mg/L na superfície e 0,3 mg/L no fundo às 06h).
-9. **Documento 9 (Relatório de Ictiopatologia):** *Peixes apresentam sinais de estresse respiratório* (Opérculos abertos, respiração à tona, muco branquial inespecífico).
-10. **Documento 10 (Notícia Distratora / Boato):** *Especialista afirma que o lago sofre maré vermelha causada por dinoflagelados marinhos* (Alegação sem base sobre *Karenia brevis* transportada por aves).
-11. **Documento 11 (Relatório de Sedimentos):** *Matéria orgânica acumulada pode ampliar o consumo de oxigênio* (Atividade microbiana intensa no lodo, sumidouro de oxigênio e *internal loading*).
-12. **Documento 12 (Relatório Técnico Integrado Final):** *Análises confirmam cianobactérias potencialmente tóxicas e oxigenação crítica* (LC-MS/MS confirma microcistina-LR, PCR confirma genes *mcy*, e laudo atesta anóxia e multifatorialidade).
+| Organismo | Nível Trófico / Grupo | Papel Ecológico Fundamental | Densidade Pré-Invasão | Densidade Pós-Invasão | Tendência Populacional |
+| :--- | :--- | :--- | :---: | :---: | :---: |
+| **Lumivora** | Produtor Primário | Fotossíntese/quimiossíntese, base alimentar e refúgio | 1.000 | 280 | Queda crítica (-72%) |
+| **Virex** | Herbívoro (Consumidor 1º) | Herbivoria estrita de Lumivora | 420 | 95 | Queda severa (-77%) |
+| **Aerion** | Polinizador & Dispersor | Polinização cruzada e dispersão de sementes | 180 | 42 | Queda severa (-77%) |
+| **Drakon** | Carnívoro (Predador Topo) | Controle populacional de herbívoros | 65 | 21 | Queda acentuada (-68%) |
+| **Thalor** | Grande Herbívoro | Pastejo e reciclagem de biomassa | População monitorada | Sob estresse alimentar |
+| **Mycora** | Decompositor | Ciclagem de nutrientes e matéria morta | 300 | 470 | Aumento (+57%) |
+| **Nexovora rapidans** | Invasora Suspeita | Formação de biofilmes adesivos e toxinas inibidoras | 0 | 1.250 | Explosão populacional |
+| **Veyrathus** | Consumidor Especializado | Alimenta-se de propágulos de Nexovora em Veyra | — | — | Candidato a controle biológico |
 
 ---
 
-## 🔗 6. Modelo Causal a Investigar (As 6 Etapas Lógicas)
+## ⚖️ 4. As 7 Regras Científicas da AECP
+
+1. **Não confundir Espécie Exótica com Espécie Invasora:** Uma espécie exótica introduzida só é classificada como invasora quando estabelece populações férteis autossustentáveis e provoca impactos ecológicos, econômicos ou sanitários mensuráveis.
+2. **Correlação não comprova Causalidade:** A coincidência temporal entre o aumento de *Nexovora* e a redução de *Drakon* não significa predação direta; deve-se investigar a cadeia trófica mediada pela perda de presas.
+3. **Um experimento isolado de bancada não reproduz toda a complexidade ecológica:** Dados em placas de cultivo demonstram potencial biológico, mas no ecossistema aberto existem fatores bióticos e abióticos adicionais.
+4. **Baixa diversidade genética não é sinônimo de fraqueza adaptativa:** Populações fundadoras com poucos alelos podem prosperar intensamente caso encontrem nicho vago e ausência de inimigos naturais.
+5. **Predadores especializados em seu habitat de origem podem mudar de hábito:** Ao ser introduzido em um novo ecossistema, *Veyrathus* pode preferir espécies nativas menos adaptadas à sua predação.
+6. **Erradicar o invasor não restabelece o ecossistema automaticamente:** O solo empobrecido e a ausência de sementes requerem ações ativas de revegetação e reintrodução ecológica.
+7. **Diferencie Aclimação Fisiológica de Adaptação Evolutiva:** Mudanças fenotípicas momentâneas de um indivíduo frente à temperatura diferem da seleção de alelos vantajosos em uma população ao longo das gerações.
+
+---
+
+## 📅 5. Cronograma das 9 Aulas e os 12 Relatórios da Missão
+
+| Aula | Título da Sessão | Relatórios Analisados | Missão Investigativa da Equipe | Produto Esperado |
+| :---: | :--- | :---: | :--- | :--- |
+| **01** | Alerta ÉDEN: Emergência na Floresta | Relatórios 01 e 02 | Avaliar os primeiros biofilmes e os dados do censo populacional pré e pós-invasão. | Matriz de Hipóteses Iniciais |
+| **02** | A Rota da Bioinvasão | Relatórios 03 e 04 | Mapear o trajeto dos comboios de mineração e as estruturas de dispersão de *Nexovora*. | Mapa Logístico da Rota de Dispersão |
+| **03** | Disputa por Sobrevivência | Relatório 05 | Analisar o ensaio de bancada de competição interespecífica (*Lumivora* vs. *Nexovora*). | Curva de Exclusão Competitiva |
+| **04** | O Colapso da Rede Ecológica | Relatório 06 | Investigar os efeitos cascata na teia alimentar (produtor ➔ herbívoro ➔ carnívoro). | Diagrama de Teia Alimentar Alterada |
+| **05** | Sobrevivência em Condições Extremas | Relatório 07 | Analisar curvas de tolerância térmica (10°C a 40°C) e sobreposição de nicho. | Parecer de Fisiologia e Nicho Ecológico |
+| **06** | As Marcas da Evolução | Relatórios 08 e 09 | Interpretar os dados genéticos de heterozigosidade e alelos (efeito fundador). | Laudo Genético Populacional |
+| **07** | A Solução Pode Ser Outro Problema? | Relatórios 10 e 11 | Avaliar criticamente a introdução de *Veyrathus* e os riscos de predação não-alvo. | Matriz de Risco de Controle Biológico |
+| **08** | Projeto de Restauração de Nébula-7 | Relatório 12 | Sintetizar todas as evidências e desenhar o plano de manejo e contenção ecológica. | Plano Integrado de Restauração |
+| **09** | Conselho Científico da Operação ÉDEN | Síntese Relatórios 01 a 12 | Defender perante a diretoria da AECP as medidas aprovadas e rejeitadas. | Parecer Técnico Pericial Conclusivo |
+
+---
+
+## 🔗 6. Modelo Causal Integrador da Bioinvasão de Nébula-7
 
 ```
-[ 1. Entrada Excessiva de N e P ] ──► Esgoto urbano, fertilizantes agrícolas e dejetos
-               │
-               ▼
-      [ 2. Eutrofização ] ──────────► Enriquecimento artificial de nutrientes no lago
-               │
-               ▼
-       [ 3. Floração ] ─────────────► Explosão populacional de cianobactérias e microalgas
-               │
-               ▼
-[ 4. Variação Diária do Oxigênio ] ─► Dia: Fotossíntese intensa eleva o O₂ (supersaturação)
-               │                      Noite: Sem luz, respiração e decomposição consomem todo o O₂
-               ▼
-   [ 5. Hipóxia / Anóxia ] ─────────► O₂ cai abaixo de 1,5 mg/L na madrugada (0,8 mg/L às 06h)
-               │
-               ▼
- [ 6. Estresse e Mortandade ] ──────► Asfixia aguda dos peixes + toxicidade de cianotoxinas
+[1. Transporte Logístico Antrópico de Água e Minerais do Pântano de Veyra]
+                               │
+                               ▼
+[2. Dispersão de Propágulos Resistentes de Nexovora rapidans na Floresta Cristalina]
+                               │
+                               ▼
+[3. Formação Rápida de Biofilmes Aderentes + Ampla Tolerância Térmica (Euritérmica)]
+                               │
+                               ▼
+[4. Exclusão Competitiva de Lumivora por Espaço e Luz Solar (Queda de 72% na Biomassa)]
+                               │
+                               ▼
+[5. Efeito Cascata Trófico: Inanição de Virex (-77%), Aerion (-77%) e Drakon (-68%)]
+                               │
+                               ▼
+[6. Acúmulo de Biomassa Morta ➔ Aumento de Decompositores Mycora (+57%)]
+                               │
+                               ▼
+[7. Risco Crítico: Introdução de Veyrathus sem Quarentena ➔ Desastre Secundário Incalculável]
 ```
 
 ---
 
-## 📝 7. Produto Final dos Alunos: Parecer Técnico Pericial
+## 📋 7. Checklist da Equipe para a Apresentação no Conselho Científico
 
-A equipe deve redigir o **Parecer Técnico Pericial** e preparar a **Apresentação Oral (3 minutos)** cobrindo obrigatoriamente os seguintes itens:
-1. **Identificação dos organismos** e justificativa fundamentada nas evidências microscópicas e moleculares.
-2. **Explicação do processo de eutrofização** e das possíveis fontes de nutrientes na bacia hidrográfica.
-3. **Interpretação da variação diária do oxigênio dissolvido** (dia vs noite).
-4. **Análise do resultado de microcistina** (ensaio ELISA vs LC-MS/MS e limites regulatórios).
-5. **Distinção fisiológica entre hipóxia/anóxia e intoxicação aguda**.
-6. **Comparação entre florações límnicas de água doce e marés vermelhas marinhas**.
-7. **Proposta de plano de monitoramento e mitigação** ecológica para a bacia.
-8. **Indicação das limitações** e das informações científicas que ainda precisam ser investigadas.
-
-> **Questão Final a Responder no Parecer:**  
-> *"A mortandade de peixes no Lago Azul foi causada por uma toxina produzida pelas cianobactérias, pela redução noturna do oxigênio dissolvido ou pela combinação dos dois fenômenos? Que evidências sustentam a conclusão e o que ainda precisaria ser investigado?"*
+Antes de finalizar o Parecer Técnico na Aula 09, sua equipe deve validar os seguintes itens:
+- [ ] A rota logística de transporte foi identificada com precisão de coordenadas e histórico?
+- [ ] O mecanismo de exclusão competitiva entre *Nexovora* e *Lumivora* foi embasado nos dados numéricos do Laudo 05?
+- [ ] A queda de *Virex*, *Aerion* e *Drakon* foi explicada através do conceito biológico de cascata trófica?
+- [ ] O efeito fundador na população de *Nexovora* foi fundamentado na perda de alelos (de 12 para 4) e heterozigosidade (0,28)?
+- [ ] Foram apresentados argumentos científicos sólidos contra a liberação irresponsável de *Veyrathus*?
+- [ ] O plano de restauração inclui remoção mecânica/bioquímica seletiva, biossegurança nos transportes e reintrodução assistida de *Lumivora*?
 
 ---
-
-## 🎓 8. Orientações Científicas para o Docente
-
-1. **Não usar maré vermelha como sinônimo automático de floração de cianobactérias em água doce.** Maré vermelha é causada por dinoflagelados em ambiente marinho.
-2. **Nem toda floração é tóxica** e nem toda linhagem de uma espécie potencialmente produtora contém ou expressa genes de toxinas (*mcy*).
-3. **A presença de microcistina não prova, por si só, que a toxina causou a mortandade.** A asfixia por anóxia na madrugada é o fator agudo determinante.
-4. **Um valor alto de oxigênio durante a tarde não exclui hipóxia ou anóxia durante a madrugada.** O pico de 14,2 mg/L às 14h é seguido pelo colapso de 0,8 mg/L às 06h.
-5. **Separar evidências observacionais, resultados analíticos, interpretações e hipóteses causais.**
-6. **Manter os laudos 7 (Microcistina) e 8 (Oxigênio Horário) em aulas diferentes** para exigir revisão dialética das hipóteses pelas equipes.
-7. **Imagens ilustrativas não devem ser tratadas como fotografias reais das amostras** nem como identificação taxonômica definitiva.
+*BioLafa • Divisão de Investigação Científica Escolar • AECP 2189*

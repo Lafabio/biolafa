@@ -1,0 +1,423 @@
+{
+  "projeto": {
+    "id": "projeto-eden",
+    "titulo": "Projeto ÉDEN — A Bioinvasão de Nébula-7",
+    "subtitulo": "Uma investigação científica sobre desequilíbrio ecológico e restauração ambiental",
+    "versao": "1.0",
+    "ano": 2189,
+    "publico": "Ensino Médio",
+    "duracao": {
+      "aulas": 9,
+      "minutos_por_aula": 45,
+      "carga_horaria_minutos": 405
+    },
+    "agencia": "AECP — Agência Espacial de Controle Planetário",
+    "operacao": "ÉDEN",
+    "planeta": "Nébula-7",
+    "pergunta_central": "Como restaurar o equilíbrio ecológico de um planeta após uma bioinvasão provocada pela exploração humana, sem causar um segundo desastre ambiental?"
+  },
+  "narrativa": {
+    "contexto": "No ano de 2189, operações de mineração e exploração de recursos naturais em Nébula-7 provocaram alterações ambientais inesperadas. Durante o transporte de água e sedimentos entre diferentes regiões do planeta, organismos de uma área pantanosa foram introduzidos em um ecossistema florestal isolado.",
+    "evento": "Uma espécie desconhecida começou a se estabelecer na Floresta Cristalina, formando extensos biofilmes e alterando as relações ecológicas locais.",
+    "missao": "A equipe de pesquisadores da AECP foi convocada para investigar a origem da alteração ecológica, identificar os mecanismos envolvidos e elaborar um plano cientificamente fundamentado de restauração.",
+    "regra": "Nenhuma intervenção poderá ser recomendada sem evidências científicas e avaliação dos possíveis impactos secundários."
+  },
+  "ambientes": [
+    {
+      "id": "floresta-cristalina",
+      "nome": "Floresta Cristalina",
+      "descricao": "Ecossistema originalmente equilibrado, com organismos produtores, consumidores, polinizadores e decompositores.",
+      "condicao": "Alteração ecológica severa",
+      "problema": "Estabelecimento e expansão de Nexovora rapidans."
+    },
+    {
+      "id": "pantano-veyra",
+      "nome": "Pântano de Veyra",
+      "descricao": "Ambiente de origem da espécie invasora, com condições ambientais distintas e organismos adaptados à presença de Nexovora.",
+      "condicao": "Ecossistema de origem",
+      "problema": "Risco de transferência de organismos durante operações de transporte."
+    }
+  ],
+  "bioinvasora": {
+    "id": "nexovora",
+    "nome": "Nexovora rapidans",
+    "classificacao": "Organismo fictício",
+    "origem": "Pântano de Veyra",
+    "status": "Espécie exótica invasora suspeita",
+    "caracteristicas": [
+      "Forma biofilmes sobre superfícies",
+      "Reproduz-se rapidamente",
+      "Produz estruturas resistentes",
+      "Apresenta elevada capacidade de aderência a minerais",
+      "Possui ampla tolerância térmica e hídrica",
+      "Pode dispersar-se pela água, sedimentos e equipamentos",
+      "Pode liberar substâncias inibidoras"
+    ],
+    "hipoteses": [
+      "Competição por recursos com organismos nativos",
+      "Alteração da disponibilidade de espaço e luz",
+      "Interferência nas relações ecológicas",
+      "Redução de populações nativas",
+      "Alteração indireta das cadeias alimentares"
+    ],
+    "observacao_cientifica": "A presença de uma espécie exótica não comprova, isoladamente, que ela seja invasora. É necessário investigar seu estabelecimento, expansão e impacto ecológico."
+  },
+  "organismos": [
+    {
+      "id": "lumivora",
+      "nome": "Lumivora",
+      "grupo": "Produtor",
+      "funcao": "Produção de matéria orgânica e sustentação da cadeia alimentar",
+      "status": "População em declínio"
+    },
+    {
+      "id": "virex",
+      "nome": "Virex",
+      "grupo": "Herbívoro",
+      "funcao": "Consumo de organismos produtores",
+      "status": "População em declínio"
+    },
+    {
+      "id": "aerion",
+      "nome": "Aerion",
+      "grupo": "Polinizador e dispersor",
+      "funcao": "Polinização e dispersão de estruturas reprodutivas",
+      "status": "População em declínio"
+    },
+    {
+      "id": "drakon",
+      "nome": "Drakon",
+      "grupo": "Predador",
+      "funcao": "Regulação de populações de consumidores",
+      "status": "População em declínio"
+    },
+    {
+      "id": "thalor",
+      "nome": "Thalor",
+      "grupo": "Grande herbívoro",
+      "funcao": "Consumo de biomassa vegetal e movimentação de nutrientes",
+      "status": "População sob investigação"
+    },
+    {
+      "id": "mycora",
+      "nome": "Mycora",
+      "grupo": "Decompositor",
+      "funcao": "Decomposição e ciclagem da matéria",
+      "status": "População em aumento"
+    },
+    {
+      "id": "veyrathus",
+      "nome": "Veyrathus",
+      "grupo": "Consumidor especializado",
+      "origem": "Pântano de Veyra",
+      "funcao": "Consome estruturas reprodutivas de Nexovora em seu ambiente de origem",
+      "status": "Possível agente de controle biológico",
+      "risco": "Introdução pode provocar efeitos ecológicos imprevisíveis."
+    }
+  ],
+  "dados_populacionais": {
+    "unidade": "Índice populacional relativo",
+    "periodos": [
+      {
+        "periodo": "Antes da bioinvasão",
+        "dados": {
+          "Lumivora": 1000,
+          "Virex": 420,
+          "Aerion": 180,
+          "Drakon": 65,
+          "Mycora": 300,
+          "Nexovora": 0
+        }
+      },
+      {
+        "periodo": "Após a bioinvasão",
+        "dados": {
+          "Lumivora": 280,
+          "Virex": 95,
+          "Aerion": 42,
+          "Drakon": 21,
+          "Mycora": 470,
+          "Nexovora": 1250
+        }
+      }
+    ]
+  },
+  "relatorios": [
+    {
+      "id": 1,
+      "titulo": "Alerta de biofilme na Floresta Cristalina",
+      "tipo": "Relatório de emergência",
+      "evidencia": "Formação de estruturas superficiais desconhecidas sobre substratos minerais e vegetais.",
+      "questao": "Quais características permitem suspeitar de uma alteração ecológica?"
+    },
+    {
+      "id": 2,
+      "titulo": "Censo populacional dos organismos nativos",
+      "tipo": "Relatório populacional",
+      "evidencia": "Redução de Lumivora, Virex, Aerion e Drakon, acompanhada do aumento de Mycora e Nexovora.",
+      "questao": "Quais populações foram mais afetadas e quais relações ecológicas podem explicar os resultados?"
+    },
+    {
+      "id": 3,
+      "titulo": "Rastreamento logístico entre ecossistemas",
+      "tipo": "Relatório de transporte",
+      "evidencia": "Registros de movimentação de água e sedimentos entre o Pântano de Veyra e a Floresta Cristalina.",
+      "questao": "Qual rota pode explicar a introdução do organismo?"
+    },
+    {
+      "id": 4,
+      "titulo": "Caracterização morfológica preliminar",
+      "tipo": "Laudo biológico",
+      "evidencia": "Estruturas aderentes, biofilmes e formas reprodutivas resistentes.",
+      "questao": "Quais características podem favorecer a sobrevivência e a dispersão?"
+    },
+    {
+      "id": 5,
+      "titulo": "Ensaio experimental de competição",
+      "tipo": "Experimento controlado",
+      "dados": {
+        "Lumivora_isolada": 95,
+        "Nexovora_isolada": 120,
+        "Lumivora_em_competicao": 18,
+        "Nexovora_em_competicao": 105
+      },
+      "questao": "Os resultados são compatíveis com competição interespecífica? Quais são os limites dessa conclusão?"
+    },
+    {
+      "id": 6,
+      "titulo": "Alterações na rede alimentar",
+      "tipo": "Relatório ecológico",
+      "evidencia": "Mudanças na disponibilidade de produtores e nas relações entre consumidores.",
+      "questao": "Como a alteração de uma população pode repercutir em diferentes níveis tróficos?"
+    },
+    {
+      "id": 7,
+      "titulo": "Teste de tolerância térmica",
+      "tipo": "Experimento fisiológico",
+      "dados": {
+        "temperaturas_celsius": [10, 20, 30, 40],
+        "Lumivora": [15, 85, 70, 5],
+        "Nexovora": [78, 95, 98, 82]
+      },
+      "questao": "Como a amplitude de tolerância ambiental pode influenciar a distribuição das espécies?"
+    },
+    {
+      "id": 8,
+      "titulo": "Diversidade genética das populações",
+      "tipo": "Laudo genético",
+      "dados": {
+        "populacao_origem": {
+          "amostra": 120,
+          "alelos": 12,
+          "heterozigosidade": 0.72
+        },
+        "populacao_floresta": {
+          "amostra": 80,
+          "alelos": 4,
+          "heterozigosidade": 0.28
+        }
+      },
+      "questao": "Os resultados são compatíveis com efeito fundador? Quais outras explicações precisam ser consideradas?"
+    },
+    {
+      "id": 9,
+      "titulo": "Análise de convergência evolutiva",
+      "tipo": "Relatório evolutivo",
+      "evidencia": "Comparação de características funcionais entre organismos de diferentes linhagens.",
+      "questao": "Como características semelhantes podem surgir independentemente em linhagens distintas?"
+    },
+    {
+      "id": 10,
+      "titulo": "Proposta de controle biológico com Veyrathus",
+      "tipo": "Proposta de intervenção",
+      "evidencia": "Organismo do Pântano de Veyra capaz de consumir estruturas reprodutivas de Nexovora.",
+      "questao": "A introdução de um consumidor especializado seria uma solução segura?"
+    },
+    {
+      "id": 11,
+      "titulo": "Relatório de predação e equilíbrio ecológico",
+      "tipo": "Relatório complementar",
+      "evidencia": "Afirmação não comprovada de que todos os predadores naturais de Nexovora foram eliminados.",
+      "questao": "Quais evidências seriam necessárias para validar essa afirmação?"
+    },
+    {
+      "id": 12,
+      "titulo": "Laudo integrado de confirmação",
+      "tipo": "Relatório conclusivo",
+      "evidencia": "Identificação de linhagem compatível entre organismos do Pântano de Veyra e da Floresta Cristalina, registros da rota de transporte e resultados experimentais de competição.",
+      "questao": "Quais conclusões podem ser sustentadas e quais incertezas permanecem?"
+    }
+  ],
+  "conceitos_cientificos": [
+    {
+      "id": "bioinvasao",
+      "nome": "Bioinvasão",
+      "descricao": "Processo de introdução, estabelecimento, expansão e impacto de organismos fora de sua distribuição natural."
+    },
+    {
+      "id": "nicho",
+      "nome": "Nicho ecológico",
+      "descricao": "Conjunto de condições, recursos e interações que caracterizam o modo de vida de uma espécie."
+    },
+    {
+      "id": "competicao",
+      "nome": "Competição interespecífica",
+      "descricao": "Interação em que organismos de espécies diferentes disputam recursos limitados."
+    },
+    {
+      "id": "exclusao",
+      "nome": "Princípio da exclusão competitiva",
+      "descricao": "Espécies que exploram recursos limitantes de maneira muito semelhante podem não coexistir indefinidamente nas mesmas condições."
+    },
+    {
+      "id": "adaptacao",
+      "nome": "Adaptação evolutiva",
+      "descricao": "Característica hereditária que se torna mais frequente em uma população por processos evolutivos."
+    },
+    {
+      "id": "convergencia",
+      "nome": "Convergência evolutiva",
+      "descricao": "Evolução independente de características semelhantes em linhagens distintas."
+    },
+    {
+      "id": "efeito_fundador",
+      "nome": "Efeito fundador",
+      "descricao": "Alteração da diversidade genética quando uma nova população é estabelecida por um pequeno grupo de indivíduos."
+    },
+    {
+      "id": "controle_biologico",
+      "nome": "Controle biológico",
+      "descricao": "Uso de organismos para reduzir populações de outros organismos, exigindo avaliação de riscos ecológicos."
+    },
+    {
+      "id": "restauracao",
+      "nome": "Restauração ecológica",
+      "descricao": "Conjunto de ações destinadas à recuperação de processos, estruturas e funções de ecossistemas degradados."
+    }
+  ],
+  "aulas": [
+    {
+      "numero": 1,
+      "titulo": "Alerta ÉDEN: emergência na Floresta Cristalina",
+      "foco": "Apresentação da missão e formulação de hipóteses",
+      "relatorios": [1, 2],
+      "produto": "Registro inicial de hipóteses investigativas"
+    },
+    {
+      "numero": 2,
+      "titulo": "A rota da bioinvasão",
+      "foco": "Introdução de espécies e dispersão",
+      "relatorios": [3, 4],
+      "produto": "Mapa da possível rota de introdução"
+    },
+    {
+      "numero": 3,
+      "titulo": "Disputa por sobrevivência",
+      "foco": "Competição interespecífica e exclusão competitiva",
+      "relatorios": [5],
+      "produto": "Interpretação de dados experimentais"
+    },
+    {
+      "numero": 4,
+      "titulo": "O colapso da rede ecológica",
+      "foco": "Cadeias alimentares e relações ecológicas",
+      "relatorios": [6],
+      "produto": "Representação da rede alimentar alterada"
+    },
+    {
+      "numero": 5,
+      "titulo": "Sobrevivência em condições extremas",
+      "foco": "Nicho ecológico, tolerância e adaptações",
+      "relatorios": [7],
+      "produto": "Análise comparativa de tolerância ambiental"
+    },
+    {
+      "numero": 6,
+      "titulo": "As marcas da evolução",
+      "foco": "Diversidade genética, efeito fundador e convergência",
+      "relatorios": [8, 9],
+      "produto": "Interpretação de evidências evolutivas"
+    },
+    {
+      "numero": 7,
+      "titulo": "A solução pode ser outro problema?",
+      "foco": "Controle biológico e riscos de intervenção",
+      "relatorios": [10, 11],
+      "produto": "Parecer técnico sobre controle biológico"
+    },
+    {
+      "numero": 8,
+      "titulo": "Projeto de restauração de Nébula-7",
+      "foco": "Planejamento de intervenção ambiental",
+      "relatorios": [12],
+      "produto": "Plano ou protótipo de restauração ecológica"
+    },
+    {
+      "numero": 9,
+      "titulo": "Conselho científico da Operação ÉDEN",
+      "foco": "Comunicação científica e defesa de conclusões",
+      "relatorios": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "produto": "Apresentação final e defesa científica"
+    }
+  ],
+  "missao_final": {
+    "titulo": "Restaurar o equilíbrio ecológico de Nébula-7",
+    "desafio": "Desenvolver uma proposta de intervenção para conter a expansão de Nexovora rapidans e recuperar as funções ecológicas da Floresta Cristalina.",
+    "entregaveis": [
+      "Diagnóstico fundamentado nas evidências",
+      "Identificação da possível rota de introdução",
+      "Análise das relações ecológicas afetadas",
+      "Proposta de contenção ou controle",
+      "Avaliação dos riscos ambientais da intervenção",
+      "Plano de monitoramento da recuperação",
+      "Apresentação e defesa científica"
+    ],
+    "criterios": [
+      "Uso correto dos conceitos biológicos",
+      "Interpretação de dados e relatórios",
+      "Qualidade das evidências utilizadas",
+      "Coerência da proposta de intervenção",
+      "Reconhecimento de incertezas e limitações",
+      "Argumentação e comunicação científica"
+    ]
+  },
+  "regras_cientificas": [
+    "Não confundir espécie exótica com espécie invasora.",
+    "Não afirmar causalidade apenas com base em correlações.",
+    "Não considerar um experimento isolado como prova definitiva de um fenômeno ecológico.",
+    "Não interpretar baixa diversidade genética como prova de maior agressividade.",
+    "Não presumir que um predador especializado seja seguro para introdução em outro ecossistema.",
+    "Considerar que a redução da espécie invasora não garante a recuperação automática do ecossistema.",
+    "Diferenciar adaptação individual de adaptação evolutiva populacional."
+  ],
+  "interface_digital": {
+    "nome": "Central de Operações ÉDEN",
+    "estilo": "Futurista, científico e cinematográfico",
+    "paleta": {
+      "fundo": "#07131B",
+      "superficie": "#102630",
+      "verde": "#79C99E",
+      "azul": "#53B9D5",
+      "alerta": "#E6A34A",
+      "critico": "#D75B5B",
+      "texto": "#EAF3F2"
+    },
+    "recursos": [
+      "Painel de missão",
+      "Mapa interativo de Nébula-7",
+      "Relatórios investigativos desbloqueáveis",
+      "Ficha de identificação dos organismos",
+      "Gráficos populacionais",
+      "Laboratório de evidências",
+      "Diário de hipóteses",
+      "Progresso por aula",
+      "Conselho científico final"
+    ],
+    "progresso": {
+      "controlado_por_aula": true,
+      "desbloqueio_progressivo": true,
+      "registro_de_hipoteses": true,
+      "conclusao_da_missao": true
+    }
+  }
+}

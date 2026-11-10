@@ -40,8 +40,8 @@ class BioLabApp {
     this.initTeamsSystem();
     // Sistema Multi-Desafios e Controle Pedagógico Docente
     this.activeChallengeId = localStorage.getItem('biolafa_active_challenge_id') || 'desafio-1';
-    this.isChallenge04Unlocked = (localStorage.getItem('biolafa_challenge_04_unlocked') === 'true') || (localStorage.getItem('biolafa_challenge_02_unlocked') === 'true');
-    this.isChallenge02Unlocked = this.isChallenge04Unlocked;
+    this.isChallenge04Unlocked = (localStorage.getItem('biolafa_challenge_04_unlocked') === 'true');
+    this.isChallenge02Unlocked = (localStorage.getItem('biolafa_challenge_02_unlocked') !== 'false');
 
     // Se o Desafio 04/02 estiver ativo mas estiver bloqueado e o usuário não for professor, reverte para Desafio 01
     if ((this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2') && !this.isChallenge04Unlocked && !this.teacherAuth) {
@@ -188,7 +188,10 @@ class BioLabApp {
     if (!challengeId || challengeId === 'desafio-1') {
       return `biolafa_team_${teamId}_data`;
     }
-    if (challengeId === 'desafio-4' || challengeId === 'desafio-2') {
+    if (challengeId === 'desafio-2') {
+      return `biolafa_team_${teamId}_data_desafio-2`;
+    }
+    if (challengeId === 'desafio-4') {
       return `biolafa_team_${teamId}_data_desafio-4`;
     }
     return `biolafa_team_${teamId}_data_${challengeId}`;
@@ -199,7 +202,9 @@ class BioLabApp {
     if (!grid) return;
 
     const isCh1Active = (this.activeChallengeId === 'desafio-1');
-    const isCh4Active = (this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2');
+    const isCh2Active = (this.activeChallengeId === 'desafio-2');
+    const isCh2Unlocked = this.isChallenge02Unlocked;
+    const isCh4Active = (this.activeChallengeId === 'desafio-4');
     const isCh4Unlocked = this.isChallenge04Unlocked;
 
     grid.innerHTML = `
@@ -239,26 +244,57 @@ class BioLabApp {
         </div>
       </div>
 
-      <!-- Desafio 2 (Expansão Futura) -->
-      <div class="challenge-card challenge-card-locked flex flex-col justify-between opacity-80">
+      <!-- Desafio 2 (Projeto ÉDEN — A Bioinvasão de Nébula-7) -->
+      <div class="challenge-card ${isCh2Active ? 'challenge-card-active border-cyan-500/60 shadow-[0_0_25px_rgba(83,185,213,0.2)]' : (isCh2Unlocked ? 'border-cyan-700/50 bg-slate-900/80' : 'border-slate-700 bg-slate-900/50')} flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center mb-3">
-            <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">DESAFIO 02 • BLOQUEADO</span>
-            <span class="text-xs text-slate-500 font-mono">Em Breve</span>
+            ${isCh2Unlocked ? `
+              <span class="${isCh2Active ? 'badge-tag-cyan bg-cyan-950/80 text-cyan-300 border-cyan-500/50 font-bold' : 'px-2 py-0.5 rounded bg-cyan-950/60 text-cyan-300 text-[10px] font-mono border border-cyan-700/50'}">
+                ${isCh2Active ? '🪐 DESAFIO 02 • ATIVO' : '🪐 DESAFIO 02 • LIBERADO'}
+              </span>
+            ` : `
+              <span class="px-2 py-0.5 rounded bg-rose-950/70 text-rose-300 border border-rose-800/60 text-[10px] font-mono font-bold">
+                DESAFIO 02 • 🔒 BLOQUEADO
+              </span>
+            `}
+            <span class="text-xs ${isCh2Unlocked ? 'text-cyan-400' : 'text-slate-500'} font-mono font-bold">9 Aulas • AECP 2189</span>
           </div>
-          <h3 class="text-lg font-bold text-slate-300 mb-2">Biomagnificação Trófica & Dinâmica Ecológica</h3>
-          <p class="text-xs text-amber-400/90 font-semibold mb-3">Cadeias Alimentares e Fatores de Acumulação</p>
-          <p class="text-xs text-slate-400 leading-relaxed mb-4">
-            Investigação de bioacumulação em tecidos animais e transferência de compostos persistentes entre produtores, consumidores e predadores de topo.
+          <h3 class="text-lg font-bold ${isCh2Unlocked ? 'text-white' : 'text-slate-300'} mb-2">Projeto ÉDEN: A Bioinvasão de Nébula-7</h3>
+          <p class="text-xs ${isCh2Unlocked ? 'text-teal-300' : 'text-amber-400/90'} font-semibold mb-3">Desequilíbrio Ecológico, Exclusão de Gause e Restauração Planetária</p>
+          <p class="text-xs ${isCh2Unlocked ? 'text-slate-300' : 'text-slate-400'} leading-relaxed mb-4">
+            No ano de 2189, mineradoras introduziram acidentalmente Nexovora rapidans na Floresta Cristalina. Investigue a rota de dispersão, o colapso trófico (-72% Lumivora), o efeito fundador genético, os riscos de introduzir o predador Veyrathus e elabore o plano de restauração da AECP.
           </p>
           <div class="flex flex-wrap gap-2 mb-4 text-[11px] font-mono text-slate-400">
-            <span class="px-2 py-0.5 rounded bg-slate-800">Teias Tróficas</span>
-            <span class="px-2 py-0.5 rounded bg-slate-800">Bioquímica</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-cyan-800/40">12 Relatórios AECP</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-teal-300 border border-teal-800/40">Cascata Trófica</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-amber-300 border border-amber-800/40">Exclusão de Gause</span>
           </div>
         </div>
-        <button class="btn-secondary w-full justify-center opacity-50 cursor-not-allowed">
-          🔒 Desafio Reservado
-        </button>
+        <div class="mt-2 space-y-2">
+          ${isCh2Unlocked ? `
+            ${isCh2Active ? `
+              <button class="btn-primary w-full justify-center py-2.5 bg-cyan-600 hover:bg-cyan-500 border-cyan-400 text-white font-bold" onclick="window.app.switchTab('investigacao')">
+                🪐 Entrar na Missão do Desafio 02 →
+              </button>
+            ` : `
+              <button class="btn-primary w-full justify-center py-2.5 bg-cyan-600 hover:bg-cyan-500 border-cyan-400 text-white font-bold" onclick="window.app.selectChallenge('desafio-2')">
+                🪐 Entrar no Desafio 02 →
+              </button>
+            `}
+            ${this.teacherAuth ? `
+              <button class="btn-secondary w-full justify-center text-xs py-1.5 text-rose-300 border-rose-500/40 hover:bg-rose-950/40" onclick="window.app.toggleChallenge02Lock()">
+                🔒 Bloquear Desafio 02
+              </button>
+            ` : ''}
+            <a href="FICHA_DE_ORIENTACAO_DESAFIO_02.pdf" download="FICHA_DE_ORIENTACAO_DESAFIO_02.pdf" target="_blank" class="btn-secondary w-full justify-center text-xs py-1.5 text-cyan-300 border-cyan-500/40 hover:bg-cyan-950/40 flex items-center gap-1.5 font-semibold">
+              <span>📥</span> Baixar Ficha do Estudante Desafio 02 (PDF)
+            </a>
+          ` : `
+            <button class="btn-secondary w-full justify-center py-2.5 text-xs text-rose-300 border-rose-500/40 hover:bg-rose-950/40 font-bold cursor-pointer" onclick="window.app.alertChallengeLocked('desafio-2')">
+              🔒 Desafio 02 Bloqueado (Clique para Liberar)
+            </button>
+          `}
+        </div>
       </div>
 
       <!-- Desafio 3 (Expansão Futura) -->
@@ -349,7 +385,11 @@ class BioLabApp {
   }
 
   selectChallenge(challengeId) {
-    if ((challengeId === 'desafio-4' || challengeId === 'desafio-2') && !this.isChallenge04Unlocked && !this.teacherAuth) {
+    if (challengeId === 'desafio-2' && !this.isChallenge02Unlocked && !this.teacherAuth) {
+      this.alertChallengeLocked('desafio-2');
+      return;
+    }
+    if (challengeId === 'desafio-4' && !this.isChallenge04Unlocked && !this.teacherAuth) {
       this.alertChallengeLocked();
       return;
     }
@@ -546,20 +586,23 @@ class BioLabApp {
       }
     }
 
-    const studentGuideLink = document.getElementById('header-student-guide-link');
+        const studentGuideLink = document.getElementById('header-student-guide-link');
     if (studentGuideLink) {
-      const isDesafio4 = (this.activeChallengeId === 'desafio-4' || this.activeChallengeId === 'desafio-2');
-      if (isDesafio4) {
+      const guideText = document.getElementById('header-student-guide-text');
+      if (this.activeChallengeId === 'desafio-2') {
+        studentGuideLink.href = 'FICHA_DE_ORIENTACAO_DESAFIO_02.pdf';
+        studentGuideLink.setAttribute('download', 'FICHA_DE_ORIENTACAO_DESAFIO_02.pdf');
+        studentGuideLink.title = 'Baixar Ficha de Orientação do Aluno - Desafio 02 (Projeto ÉDEN: Nébula-7) em PDF';
+        if (guideText) guideText.textContent = 'Ficha Desafio 02 (PDF)';
+      } else if (this.activeChallengeId === 'desafio-4') {
         studentGuideLink.href = 'FICHA_DE_ORIENTACAO_DESAFIO_04.pdf';
         studentGuideLink.setAttribute('download', 'FICHA_DE_ORIENTACAO_DESAFIO_04.pdf');
         studentGuideLink.title = 'Baixar Ficha de Orientação do Aluno - Desafio 04 (Floração de Vale Verde) em PDF';
-        const guideText = document.getElementById('header-student-guide-text');
         if (guideText) guideText.textContent = 'Ficha Desafio 04 (PDF)';
       } else {
         studentGuideLink.href = 'FICHA_DE_ORIENTACAO_ALUNOS.pdf';
         studentGuideLink.setAttribute('download', 'FICHA_DE_ORIENTACAO_ALUNOS.pdf');
         studentGuideLink.title = 'Baixar Ficha de Orientação do Aluno - Desafio 01 (Microplásticos) em PDF';
-        const guideText = document.getElementById('header-student-guide-text');
         if (guideText) guideText.textContent = 'Ficha Desafio 01 (PDF)';
       }
     }

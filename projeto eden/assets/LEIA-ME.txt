@@ -1,0 +1,19 @@
+PROJETO ÉDEN — PACOTE VISUAL
+
+Conteúdo: 17 recortes visuais gerados a partir de uma prancha conceitual, mais a prancha completa de referência.
+
+Arquivos:
+01 planeta Nébula-7
+02 chegada da equipe e nave
+03 Floresta Cristalina nativa
+04 floresta com bioinvasão
+05 Pântano de Veyra
+06 laboratório AECP
+07–13 organismos (Lumivora, Virex, Aerion, Drakon, Thalor, Mycora e Veyrathus)
+14 mapa ecológico
+15 dossiê do Projeto ÉDEN
+16 painel de dados e evidências
+17 base científica
+00 prancha completa de referência
+
+Observação: são imagens conceituais. Os recortes de interface, mapas e documentos contêm elementos gráficos gerados e não devem ser tratados como dados científicos legíveis. Para uso final no site, recomenda-se gerar versões individuais em alta resolução para cada seção e revisar os nomes/elementos visuais.

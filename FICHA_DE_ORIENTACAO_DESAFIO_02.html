@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ficha de Orientação do Estudante Investigador • Desafio 02: Projeto ÉDEN</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+    :root {
+      --bg-dark: #07131B;
+      --surface: #102630;
+      --surface-border: #1B3C4D;
+      --teal-green: #79C99E;
+      --cyan-neon: #53B9D5;
+      --amber-alert: #E6A34A;
+      --rose-danger: #D75B5B;
+      --text-main: #EAF3F2;
+      --text-muted: #8FA7B3;
+      --card-bg: rgba(16, 38, 48, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      padding: 2.5rem 1.5rem;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(83, 185, 213, 0.1);
+    }
+
+    /* HEADER */
+    .header {
+      border-bottom: 2px solid var(--surface-border);
+      padding-bottom: 2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .header-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-cyan {
+      background: rgba(83, 185, 213, 0.15);
+      color: var(--cyan-neon);
+      border: 1px solid rgba(83, 185, 213, 0.4);
+    }
+
+    .badge-teal {
+      background: rgba(121, 201, 158, 0.15);
+      color: var(--teal-green);
+      border: 1px solid rgba(121, 201, 158, 0.4);
+    }
+
+    .badge-amber {
+      background: rgba(230, 163, 74, 0.15);
+      color: var(--amber-alert);
+      border: 1px solid rgba(230, 163, 74, 0.4);
+    }
+
+    .header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #FFFFFF;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 20px rgba(83, 185, 213, 0.3);
+    }
+
+    .header h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--teal-green);
+      margin-bottom: 1rem;
+    }
+
+    .header-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      background: rgba(7, 19, 27, 0.6);
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      border: 1px solid var(--surface-border);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-meta strong {
+      color: var(--text-main);
+    }
+
+    /* SECTIONS */
+    .section {
+      margin-bottom: 2.75rem;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--surface-border);
+      margin-bottom: 1.25rem;
+    }
+
+    .section-title span.icon {
+      font-size: 1.3rem;
+    }
+
+    .enigma-box {
+      background: linear-gradient(135deg, rgba(83, 185, 213, 0.08), rgba(121, 201, 158, 0.04));
+      border-left: 4px solid var(--cyan-neon);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 1.25rem;
+      font-size: 13.5px;
+      color: #E2EFF2;
+      line-height: 1.7;
+    }
+
+    .mission-box {
+      background: rgba(230, 163, 74, 0.08);
+      border: 1px solid rgba(230, 163, 74, 0.3);
+      padding: 1.25rem 1.5rem;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #F8F1E5;
+    }
+
+    .mission-box strong {
+      color: var(--amber-alert);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* QUESTIONS GRID */
+    .questions-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+
+    .question-card {
+      background: rgba(7, 19, 27, 0.6);
+      border: 1px solid var(--surface-border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: all 0.2s ease;
+    }
+
+    .question-card:hover {
+      border-color: var(--cyan-neon);
+      transform: translateY(-2px);
+    }
+
+    .q-num {
+      background: rgba(83, 185, 213, 0.15);
+      color: var(--cyan-neon);
+      font-family: 'Orbitron', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      border: 1px solid rgba(83, 185, 213, 0.3);
+      flex-shrink: 0;
+    }
+
+    .q-text {
+      font-size: 13px;
+      color: var(--text-main);
+      line-height: 1.55;
+    }
+
+    /* TABLES */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--surface-border);
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    th {
+      background: #0B1C26;
+      color: var(--cyan-neon);
+      padding: 0.85rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid var(--surface-border);
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(27, 60, 77, 0.4);
+      color: #D6E4E5;
+    }
+
+    tr:nth-child(even) td {
+      background: rgba(11, 28, 38, 0.4);
+    }
+
+    tr:hover td {
+      background: rgba(83, 185, 213, 0.06);
+    }
+
+    .status-down {
+      color: var(--rose-danger);
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .status-up {
+      color: var(--teal-green);
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .status-alert {
+      color: var(--amber-alert);
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* RULES GRID */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .rule-card {
+      background: rgba(7, 19, 27, 0.5);
+      border: 1px solid var(--surface-border);
+      border-top: 3px solid var(--amber-alert);
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 12px;
+    }
+
+    .rule-card strong {
+      color: var(--amber-alert);
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 12.5px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* CAUSAL DIAGRAM */
+    .causal-chain {
+      background: rgba(7, 19, 27, 0.7);
+      border: 1px solid var(--surface-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .chain-step {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(16, 38, 48, 0.6);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(83, 185, 213, 0.2);
+    }
+
+    .step-idx {
+      background: var(--cyan-neon);
+      color: var(--bg-dark);
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 12px;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .step-content {
+      font-size: 12.5px;
+      color: #E2EFF2;
+    }
+
+    .step-content strong {
+      color: var(--cyan-neon);
+    }
+
+    .chain-arrow {
+      text-align: center;
+      color: var(--teal-green);
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    /* CHECKLIST */
+    .checklist {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: rgba(7, 19, 27, 0.5);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--surface-border);
+      font-size: 12.5px;
+    }
+
+    .checklist-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--cyan-neon);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid var(--surface-border);
+      padding-top: 1.5rem;
+      margin-top: 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    @media print {
+      body {
+        background: #FFFFFF !important;
+        color: #1A1A1A !important;
+        padding: 0 !important;
+        font-size: 11pt;
+      }
+      .container {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        background: #FFFFFF !important;
+      }
+      .header h1 {
+        color: #07131B !important;
+        text-shadow: none !important;
+      }
+      .header h2 {
+        color: #0E6856 !important;
+      }
+      .badge, .q-num, .step-idx {
+        background: #EAEAEA !important;
+        color: #07131B !important;
+        border: 1px solid #999 !important;
+      }
+      th {
+        background: #F0F4F6 !important;
+        color: #07131B !important;
+        border-bottom: 2px solid #333 !important;
+      }
+      td, .question-card, .rule-card, .chain-step, .checklist-item, .enigma-box, .mission-box {
+        background: #FAFBFB !important;
+        color: #222 !important;
+        border: 1px solid #CCC !important;
+      }
+      .status-down { color: #A82020 !important; }
+      .status-up { color: #1E6B37 !important; }
+      .status-alert { color: #A05A00 !important; }
+      .step-content strong { color: #07131B !important; }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-badges">
+        <span class="badge badge-cyan">🪐 BioLafa • Desafio 02</span>
+        <span class="badge badge-teal">🚀 Operação ÉDEN</span>
+        <span class="badge badge-amber">📅 9 Aulas (45 min cada)</span>
+        <span class="badge badge-cyan">🧬 BNCC: EM13CNT101 • EM13CNT206 • EM13CNT301 • EM13CNT303 • EM13CNT306</span>
+      </div>
+      <h1>Projeto ÉDEN: A Bioinvasão de Nébula-7</h1>
+      <h2>Desequilíbrio Ecológico, Dinâmica de Populações e Restauração Planetária</h2>
+      <div class="header-meta">
+        <div><strong>Agência:</strong> AECP — Agência Espacial de Controle Planetário</div>
+        <div><strong>Planeta:</strong> Nébula-7 • Ano 2189</div>
+        <div><strong>Componente:</strong> Biologia & Ecologia Espacial (1ª Série EM)</div>
+        <div><strong>Plataforma:</strong> biolafa.vercel.app</div>
+      </div>
+    </header>
+
+    <!-- 1. ENIGMA & MISSÃO -->
+    <section class="section">
+      <h3 class="section-title"><span class="icon">🛰️</span> 1. Contexto & Enigma Pericial</h3>
+      <div class="enigma-box">
+        No ano de 2189, durante a intensificação das operações mineradoras em Nébula-7, o transporte de água e sedimentos interligou inadvertidamente o inóspito <strong>Pântano de Veyra</strong> à equilibrada e isolada <strong>Floresta Cristalina</strong>.<br><br>
+        Semanas após a instalação da rota logística, técnicos detectaram um biofilme espesso sufocando a base dos minerais luminescentes. O organismo invasor, batizado preliminarmente de <strong>Nexovora rapidans</strong>, desencadeou o colapso do produtor vegetal primário (<em>Lumivora</em>, -72%), provocando inanição de herbívoros (<em>Virex</em>, -77%) e de predadores de topo (<em>Drakon</em>, -68%), enquanto decompositores (<em>Mycora</em>) proliferam em +57%. Em meio ao pânico, a mineradora exige a soltura imediata do predador pantanoso <em>Veyrathus</em> como controle biológico milagroso.
+      </div>
+      <div class="mission-box">
+        <strong>MISSÃO OFICIAL DA SUA EQUIPE PERICIAL DA AECP:</strong><br>
+        Investigar cientificamente a rota de dispersão, comprovar o mecanismo de competição interespecífica (Gause), analisar a amplitude térmica e o efeito fundador genético, avaliar com rigor de biossegurança os riscos catastróficos de introduzir <em>Veyrathus</em> e projetar um plano consistente de restauração ecológica da Floresta Cristalina.
+      </div>
+    </section>
+
+    <!-- 2. QUESTÕES INVESTIGATIVAS -->
+    <section class="section">
+      <h3 class="section-title"><span class="icon">❓</span> 2. As 7 Questões Investigativas Centrais</h3>
+      <div class="questions-grid">
+        <div class="question-card">
+          <div class="q-num">Q1</div>
+          <div class="q-text"><strong>Evidência de Invasão:</strong> Quais características morfológicas e ecológicas diferenciam <em>Nexovora rapidans</em> de uma espécie exótica inofensiva?</div>
+        </div>
+        <div class="question-card">
+          <div class="q-num">Q2</div>
+          <div class="q-text"><strong>Rota de Dispersão:</strong> Qual trajeto logístico de água e sedimentos facilitou o transporte acidental do Pântano de Veyra para a Floresta Cristalina?</div>
+        </div>
+        <div class="question-card">
+          <div class="q-num">Q3</div>
+          <div class="q-text"><strong>Exclusão Competitiva:</strong> Os dados laboratoriais de co-cultivo (Laudo 05) comprovam que a queda de <em>Lumivora</em> decorre de sobreposição de nicho (Gause)?</div>
+        </div>
+        <div class="question-card">
+          <div class="q-num">Q4</div>
+          <div class="q-text"><strong>Cascata Trófica:</strong> Como o sufocamento do produtor primário repercute sucessivamente em herbívoros, polinizadores, predadores e decompositores?</div>
+        </div>
+        <div class="question-card">
+          <div class="q-num">Q5</div>
+          <div class="q-text"><strong>Tolerância e Nicho Ecológico:</strong> Por que a ampla amplitude térmica de <em>Nexovora</em> (10°C a 40°C) lhe confere superioridade frente a espécies estenotérmicas nativas?</div>
+        </div>
+        <div class="question-card">
+          <div class="q-num">Q6</div>
+          <div class="q-text"><strong>Efeito Fundador Genético:</strong> A perda de alelos (de 12 para 4) e queda de heterozigosidade (0,28) atestam o efeito fundador decorrente da mineração?</div>
+        </div>
+        <div class="question-card">
+          <div class="q-num">Q7</div>
+          <div class="q-text"><strong>Dilema do Controle Biológico:</strong> A soltura de <em>Veyrathus</em> resolverá o problema ou trará risco de predação não-alvo sobre espécies nativas indefesas?</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- 3. CATÁLOGO DOS ORGANISMOS -->
+    <section class="section">
+      <h3 class="section-title"><span class="icon">🧬</span> 3. Catálogo dos Organismos e Censo Populacional</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Organismo</th>
+              <th>Grupo / Nível Trófico</th>
+              <th>Função no Ecossistema</th>
+              <th>Pré-Invasão</th>
+              <th>Pós-Invasão</th>
+              <th>Status Pericial</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Lumivora</strong></td>
+              <td>Produtor Primário</td>
+              <td>Fotossíntese/quimiossíntese, base da cadeia trófica</td>
+              <td>1.000</td>
+              <td>280</td>
+              <td><span class="status-down">-72% (Colapso)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Virex</strong></td>
+              <td>Consumidor 1º (Herbívoro)</td>
+              <td>Herbivoria estrita de Lumivora</td>
+              <td>420</td>
+              <td>95</td>
+              <td><span class="status-down">-77% (Inanição)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Aerion</strong></td>
+              <td>Polinizador & Dispersor</td>
+              <td>Polinização e dispersão de estruturas reprodutivas</td>
+              <td>180</td>
+              <td>42</td>
+              <td><span class="status-down">-77% (Crítico)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Drakon</strong></td>
+              <td>Consumidor 3º (Predador Topo)</td>
+              <td>Regulação populacional de herbívoros nativos</td>
+              <td>65</td>
+              <td>21</td>
+              <td><span class="status-down">-68% (Ameaçado)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Thalor</strong></td>
+              <td>Grande Herbívoro</td>
+              <td>Pastejo de biomassa e movimentação de nutrientes</td>
+              <td>Estável</td>
+              <td>Sob Estresse</td>
+              <td><span class="status-alert">Monitoramento</span></td>
+            </tr>
+            <tr>
+              <td><strong>Mycora</strong></td>
+              <td>Decompositor</td>
+              <td>Ciclagem de matéria orgânica e minerais</td>
+              <td>300</td>
+              <td>470</td>
+              <td><span class="status-up">+57% (Expansão)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Nexovora rapidans</strong></td>
+              <td>Bioinvasora Exótica</td>
+              <td>Formação de biofilmes, alta adesão mineral e toxinas</td>
+              <td>0</td>
+              <td>1.250</td>
+              <td><span class="status-alert">SURTO EXPONENCIAL</span></td>
+            </tr>
+            <tr>
+              <td><strong>Veyrathus</strong></td>
+              <td>Consumidor Especializado</td>
+              <td>Consome propágulos de Nexovora no pântano de origem</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="status-alert">ALTO RISCO ECOLÓGICO</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. REGRAS DE OURO -->
+    <section class="section">
+      <h3 class="section-title"><span class="icon">⚖️</span> 4. As 7 Regras Científicas de Ouro da AECP</h3>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <strong>1. Exótica ≠ Invasora</strong>
+          A presença de uma espécie fora do seu habitat não prova que seja invasora. Exige estabelecimento, dispersão autônoma e dano ecológico mensurável.
+        </div>
+        <div class="rule-card">
+          <strong>2. Correlação ≠ Causalidade</strong>
+          A queda de Drakon ao mesmo tempo em que Nexovora aumentou não significa ataque direto, mas sim o colapso trófico dos herbívoros intermediários.
+        </div>
+        <div class="rule-card">
+          <strong>3. Placa de Bancada ≠ Ecossistema</strong>
+          Experimentos de laboratório simplificam variáveis; conclusões para o ecossistema aberto exigem validação de campo e mesocosmos.
+        </div>
+        <div class="rule-card">
+          <strong>4. Pouca Genética ≠ Fraqueza</strong>
+          Populações fundadoras com poucos alelos podem proliferar agressivamente caso encontrem nicho favorável e ausência de inimigos naturais.
+        </div>
+        <div class="rule-card">
+          <strong>5. Predador Especializado no Pântano ≠ Seguro na Floresta</strong>
+          Ao ser introduzido na floresta, Veyrathus pode predar espécies nativas menos ágeis (como larvas de Virex e Aerion), causando desastre secundário.
+        </div>
+        <div class="rule-card">
+          <strong>6. Eliminar o Invasor ≠ Restauração Automática</strong>
+          Mesmo se Nexovora for contida, o solo degradado e a escassez de sementes nativas exigem reintrodução assistida de Lumivora.
+        </div>
+        <div class="rule-card">
+          <strong>7. Aclimação Individual ≠ Adaptação Evolutiva</strong>
+          A resposta fisiológica momentânea de um organismo vivo frente à temperatura não se confunde com a seleção de frequências alélicas da população.
+        </div>
+      </div>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- 5. CRONOGRAMA DAS 9 AULAS -->
+    <section class="section">
+      <h3 class="section-title"><span class="icon">📅</span> 5. Cronograma das 9 Aulas e os 12 Relatórios Periciais</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Aula</th>
+              <th>Título da Sessão</th>
+              <th>Relatórios Analisados</th>
+              <th>Foco Investigativo & Produto da Equipe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>01</strong></td>
+              <td>Alerta ÉDEN: Emergência na Floresta</td>
+              <td>Relatórios 01 e 02</td>
+              <td>Mapeamento do biofilme e interpretação do censo de declínio. Matriz de hipóteses.</td>
+            </tr>
+            <tr>
+              <td><strong>02</strong></td>
+              <td>A Rota da Bioinvasão</td>
+              <td>Relatórios 03 e 04</td>
+              <td>Rastreamento logístico de água e sedimentos de mineração. Mapa de rotas.</td>
+            </tr>
+            <tr>
+              <td><strong>03</strong></td>
+              <td>Disputa por Sobrevivência</td>
+              <td>Relatório 05</td>
+              <td>Análise do ensaio de competição de Gause (Lumivora vs. Nexovora).</td>
+            </tr>
+            <tr>
+              <td><strong>04</strong></td>
+              <td>O Colapso da Rede Ecológica</td>
+              <td>Relatório 06</td>
+              <td>Construção da rede alimentar pré e pós-invasão demonstrando o efeito cascata.</td>
+            </tr>
+            <tr>
+              <td><strong>05</strong></td>
+              <td>Sobrevivência em Condições Extremas</td>
+              <td>Relatório 07</td>
+              <td>Curvas de tolerância térmica (10°C a 40°C) e sobreposição de nicho ecológico.</td>
+            </tr>
+            <tr>
+              <td><strong>06</strong></td>
+              <td>As Marcas da Evolução</td>
+              <td>Relatórios 08 e 09</td>
+              <td>Genética populacional: alelos (12 ➔ 4), heterozigosidade (0,72 ➔ 0,28) e convergência.</td>
+            </tr>
+            <tr>
+              <td><strong>07</strong></td>
+              <td>A Solução Pode Ser Outro Problema?</td>
+              <td>Relatórios 10 e 11</td>
+              <td>Avaliação crítica da proposta de Veyrathus e desmistificação do boato de predação.</td>
+            </tr>
+            <tr>
+              <td><strong>08</strong></td>
+              <td>Projeto de Restauração de Nébula-7</td>
+              <td>Relatório 12</td>
+              <td>Elaboração do plano integrado: contenção logística, remoção e reintrodução de Lumivora.</td>
+            </tr>
+            <tr>
+              <td><strong>09</strong></td>
+              <td>Conselho Científico da Operação ÉDEN</td>
+              <td>Síntese Geral</td>
+              <td>Defesa pública e entrega do Parecer Técnico Oficial para validação da AECP.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. MODELO CAUSAL -->
+    <section class="section">
+      <h3 class="section-title"><span class="icon">🔗</span> 6. Modelo Causal Integrador da Bioinvasão</h3>
+      <div class="causal-chain">
+        <div class="chain-step">
+          <div class="step-idx">ELO 1</div>
+          <div class="step-content"><strong>Atividade Antrópica de Mineração:</strong> Transporte de água e minerais sem barreira sanitária entre o Pântano de Veyra e a Floresta Cristalina.</div>
+        </div>
+        <div class="chain-arrow">▼</div>
+        <div class="chain-step">
+          <div class="step-idx">ELO 2</div>
+          <div class="step-content"><strong>Introdução de Propágulos Resistentes:</strong> Dispersão de esporos aderentes e resistentes de <em>Nexovora rapidans</em> na floresta isolada.</div>
+        </div>
+        <div class="chain-arrow">▼</div>
+        <div class="chain-step">
+          <div class="step-idx">ELO 3</div>
+          <div class="step-content"><strong>Ampla Amplitude Fisiológica (Euritérmica):</strong> <em>Nexovora</em> forma biofilmes agressivos em ampla faixa térmica (10°C a 40°C), ocupando o espaço mineral.</div>
+        </div>
+        <div class="chain-arrow">▼</div>
+        <div class="chain-step">
+          <div class="step-idx">ELO 4</div>
+          <div class="step-content"><strong>Exclusão Competitiva de Lumivora:</strong> Bloqueio de luz e substrato sufoca o produtor nativo, cuja biomassa despenca em 72% (Gause).</div>
+        </div>
+        <div class="chain-arrow">▼</div>
+        <div class="chain-step">
+          <div class="step-idx">ELO 5</div>
+          <div class="step-content"><strong>Cascata Trófica de Inanição:</strong> Declínio sucessivo de herbívoros (<em>Virex</em>, -77%), polinizadores (<em>Aerion</em>, -77%) e predadores de topo (<em>Drakon</em>, -68%).</div>
+        </div>
+        <div class="chain-arrow">▼</div>
+        <div class="chain-step">
+          <div class="step-idx">ELO 6</div>
+          <div class="step-content"><strong>Explosão de Decompositores & Alerta de Biossegurança:</strong> Aumento de <em>Mycora</em> (+57%) e risco de desastre secundário caso <em>Veyrathus</em> seja introduzido.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. CHECKLIST -->
+    <section class="section">
+      <h3 class="section-title"><span class="icon">📋</span> 7. Checklist da Equipe para a Aula 09 (Conselho AECP)</h3>
+      <ul class="checklist">
+        <li class="checklist-item">
+          <div class="checklist-box"></div>
+          <div>Identificamos com precisão a rota de transporte e o vetor de dispersão mecânica dos caminhões de mineração.</div>
+        </li>
+        <li class="checklist-item">
+          <div class="checklist-box"></div>
+          <div>Comprovamos matematicamente a exclusão competitiva de <em>Lumivora</em> utilizando os dados do Laudo 05 (queda de 95 para 18).</div>
+        </li>
+        <li class="checklist-item">
+          <div class="checklist-box"></div>
+          <div>Explicamos que a morte dos predadores (<em>Drakon</em>) é fruto de cascata trófica por inanição e não por ataque direto de biofilme.</div>
+        </li>
+        <li class="checklist-item">
+          <div class="checklist-box"></div>
+          <div>Correlacionamos a baixa heterozigosidade (0,28) e poucos alelos (4) ao conceito biológico de Efeito Fundador.</div>
+        </li>
+        <li class="checklist-item">
+          <div class="checklist-box"></div>
+          <div>Rejeitamos ou condicionamos rigorosamente o uso de <em>Veyrathus</em> com base em protocolos de biossegurança contra predação não-alvo.</div>
+        </li>
+        <li class="checklist-item">
+          <div class="checklist-box"></div>
+          <div>Elaboramos um plano em 3 etapas de restauração ecológica com contenção física, aspiração de biofilmes e reintrodução assistida de mudas nativas.</div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div>AECP • AGÊNCIA ESPACIAL DE CONTROLE PLANETÁRIO • OPERAÇÃO ÉDEN 2189</div>
+      <div>BIOLAFA: ESTAÇÃO DE INVESTIGAÇÃO CIENTÍFICA ESCOLAR</div>
+    </footer>
+
+  </div>
+
+</body>
+</html>
